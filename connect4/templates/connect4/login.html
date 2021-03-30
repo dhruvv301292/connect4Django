@@ -1,0 +1,21 @@
+{% extends "connect4/base.html" %}
+{% block title %} Login {% endblock %}
+{% block user-info %}
+<div>
+	<a href="{% url 'register' %}">
+		<button id='id_register_link'>Register</button>
+	</a>
+</div>
+{% endblock %}
+{% block page-name %}
+	<span id="id_page_name">Login</span>
+{% endblock %}
+{% block content %}
+<form method="post" action="{% url 'login' %}">
+	<table>
+		{{form}}
+	</table>
+	{% csrf_token %}
+	<button type="submit" id='id_login_button'>Submit</button>
+</form>
+{% endblock %}

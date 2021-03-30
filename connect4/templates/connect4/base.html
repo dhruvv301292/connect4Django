@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+	    {% load static %}
+		<link href="{% static 'connect4/base.css' %}" rel="stylesheet" type="text/css">
+		<title> {% block title %}{% endblock %} </title>
+	</head>
+
+	<body>
+		<div class="big-heading">
+			Connect4
+		</div>
+
+	    <div class="user-info">
+			{% block user-info %}
+			{% endblock %}
+	    </div>
+		<div class="page-name">
+			{% block page-name %}
+			{% endblock %}
+		</div>
+	    <div class="content">
+		    {% block content %}
+		    {% endblock %}
+		</div>
+	</body>
+</html>
