@@ -21,7 +21,9 @@ class GameObject(models.Model):
     # whoever starts the game will be player1
     player1 = models.ForeignKey(Profile, on_delete=models.PROTECT, related_name="player1")
     player2 = models.ForeignKey(Profile, on_delete=models.PROTECT, null=True, related_name="player2")
-    # Colors will be a color value selected from javascript
+    # Colors will be a color value
+    # https://stackoverflow.com/questions/8863810/python-find-similar-colors-best-way
+    # will need to find if colors are too similar
     player1_color = models.CharField(max_length=7)
     player2_color = models.CharField(max_length=7)
     turn = models.ForeignKey(Profile, on_delete=models.PROTECT, related_name="turn")
