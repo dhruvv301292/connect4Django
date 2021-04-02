@@ -1,6 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "connect4/base_with_nav.html" %}
+{% block title %} Play Game {% endblock %}
 
+{% block page-name %}
+<span class='id_page_name' id="id_page_name">Play Game Page for {{user.get_full_name}}</span>
+{% endblock %}
+
+{% block game %}
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,6 +18,7 @@
 </head>
 
 <body>
+    {% csrf_token %}
     <div class="container-fluid">
         <div class="row h-100" id="main_container_row">
 
@@ -60,4 +66,4 @@
     </div>
 </body>
 
-</html>
+{% endblock %}
