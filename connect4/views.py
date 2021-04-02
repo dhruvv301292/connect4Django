@@ -134,3 +134,9 @@ def register_action(request):
     profile.save()
     login(request, new_user)
     return redirect(reverse('home'))
+
+
+@login_required
+def playgame_action(request):
+    context = {}
+    return render(request, 'connect4/game.html', context)

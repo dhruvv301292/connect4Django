@@ -24,4 +24,5 @@ urlpatterns = [
     path('profile', views.profile_action, name='profile'),
     path('photo/<int:id>', views.get_photo, name='get_photo'),
     path('update_profile', views.update_profile, name='update_profile'),
+    path('playgame', views.playgame_action, name='playgame'),
 ]

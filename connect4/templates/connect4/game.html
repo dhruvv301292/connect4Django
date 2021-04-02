@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="custom.css">
+    {% load static %}
+	<link href="{% static 'connect4/custom.css' %}" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -39,7 +40,8 @@
                 </div>
                 <div class="row h-80 d-flex flex-wrap align-items-center" id="board_div">
                     <div class="col-10">
-                        <img src="board.png" class="mx-auto d-block" alt="board" width="600" height="536">
+                        {% load static %}
+                        <img src="{% static 'connect4/images/board.png' %}" class="mx-auto d-block" alt="board" width="600" height="536">
                     </div>
                 </div>
                 <div class="row h-10 align-items-end">
