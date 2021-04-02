@@ -8,9 +8,11 @@ from django.forms.widgets import TextInput
 
 MAX_UPLOAD_SIZE = 2500000
 
+
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=20, label='Username')
-    password = forms.CharField(max_length=200, label='Password', widget=forms.PasswordInput())
+    password = forms.CharField(
+        max_length=200, label='Password', widget=forms.PasswordInput())
 
     # Customizes form validation for properties that apply to more
     # than one field.  Overrides the forms.Form.clean function.
@@ -33,21 +35,22 @@ class LoginForm(forms.Form):
 class RegisterForm(forms.Form):
     username = forms.CharField(max_length=20, label='Username')
     password = forms.CharField(max_length=200,
-                                label='Password',
-                                widget=forms.PasswordInput())
+                               label='Password',
+                               widget=forms.PasswordInput())
     confirm_password = forms.CharField(max_length=200,
-                                label='Confirm',
-                                widget=forms.PasswordInput())
+                                       label='Confirm',
+                                       widget=forms.PasswordInput())
     email = forms.CharField(max_length=50, label='E-mail',
                             widget=forms.EmailInput())
     first_name = forms.CharField(max_length=20, label='First Name')
     last_name = forms.CharField(max_length=20, label='Last Name')
     primary_color = forms.CharField(label='primary_hex_color', max_length=7,
-                                widget=forms.TextInput(attrs={'type': 'color'}))
-    secondary_color = forms.CharField(label='secondary_hex_color', max_length=7,
                                     widget=forms.TextInput(attrs={'type': 'color'}))
+    secondary_color = forms.CharField(label='secondary_hex_color', max_length=7,
+                                      widget=forms.TextInput(attrs={'type': 'color'}))
     # Customizes form validation for properties that apply to more
     # than one field.  Overrides the forms.Form.clean function.
+
     def clean(self):
         # Calls our parent (forms.Form) .clean function, gets a dictionary
         # of cleaned data as a result
@@ -74,6 +77,7 @@ class RegisterForm(forms.Form):
         # dictionary
         return username
 
+
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
@@ -92,5 +96,6 @@ class ProfileForm(forms.ModelForm):
         if not image.content_type or not image.content_type.startswith('image'):
             raise forms.ValidationError('File type is not image')
         if image.size > MAX_UPLOAD_SIZE:
-            raise forms.ValidationError('File too big (max size is {0} bytes)'.format(MAX_UPLOAD_SIZE))
+            raise forms.ValidationError(
+                'File too big (max size is {0} bytes)'.format(MAX_UPLOAD_SIZE))
         return image

@@ -15,9 +15,13 @@ from json import JSONEncoder
 from django.views.decorators.csrf import ensure_csrf_cookie
 # Create your views here.
 # Create your views here.
+
+
 @login_required
 def home(request):
     return render(request, 'connect4/base_with_nav.html', {})
+
+
 @login_required
 def profile_action(request):
     context = {}
@@ -28,6 +32,8 @@ def profile_action(request):
     context['form'] = form
     context['profile'] = profile
     return render(request, 'connect4/profile.html', context)
+
+
 @login_required
 def update_profile(request):
     context = {}
@@ -46,11 +52,13 @@ def update_profile(request):
         context['profile'] = profile
     return render(request, 'connect4/profile.html', context)
 
+
 @login_required
 def get_photo(request, id):
     item = get_object_or_404(Profile, id=id)
     print("Fetched item")
-    print('Picture #{} fetched from db: {} (type={})'.format(id, item.image, type(item.image)))
+    print('Picture #{} fetched from db: {} (type={})'.format(
+        id, item.image, type(item.image)))
 
     # Maybe we don't need this check as form validation requires a picture be uploaded.
     # But someone could have delete the picture leaving the DB with a bad references.
@@ -59,10 +67,12 @@ def get_photo(request, id):
 
     return HttpResponse(item.image, content_type=item.content_type)
 
+
 def _my_json_error_response(message, status=200):
     # You can create your JSON by constructing the string representation yourself (or just use json.dumps)
     response_json = '{ "error": "' + message + '" }'
     return HttpResponse(response_json, content_type='application/json', status=status)
+
 
 def login_action(request):
     context = {}
@@ -87,9 +97,11 @@ def login_action(request):
     login(request, new_user)
     return redirect(reverse('home'))
 
+
 def logout_action(request):
     logout(request)
     return redirect(reverse('login'))
+
 
 def register_action(request):
     context = {}
@@ -117,7 +129,8 @@ def register_action(request):
 
     new_user = authenticate(username=form.cleaned_data['username'],
                             password=form.cleaned_data['password'])
-    profile = Profile(user=new_user, content_type='image/jpeg', primary_color=form.cleaned_data['primary_color'], secondary_color=form.cleaned_data['secondary_color'])
+    profile = Profile(user=new_user, content_type='image/jpeg',
+                      primary_color=form.cleaned_data['primary_color'], secondary_color=form.cleaned_data['secondary_color'])
     profile.save()
     login(request, new_user)
     return redirect(reverse('home'))

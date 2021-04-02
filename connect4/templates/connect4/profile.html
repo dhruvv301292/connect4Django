@@ -2,31 +2,33 @@
 {% block title %} My Profile {% endblock %}
 
 {% block page-name %}
-	<span class ='id_page_name' id="id_page_name">Profile Page for {{user.get_full_name}}</span>
+<span class='id_page_name' id="id_page_name">Profile Page for {{user.get_full_name}}</span>
 {% endblock %}
 
-{% block content %}	
-	{% load static %}
-	{% if profile.image %}
-		<img src="{% url 'get_photo' profile.id %}" id="id_user_picture" alt="user profile pic" width="200px">
-		<br>
-	{% endif %}
+{% block content %}
+{% load static %}
+{% if profile.image %}
+<img src="{% url 'get_photo' profile.id %}" id="id_user_picture" alt="user profile pic" width="200px">
+<br>
+{% endif %}
 
-	<form enctype="multipart/form-data" action="{% url 'update_profile' %}" method="post" class="update_profile">
-		<table>
-			{% for field in form.visible_fields %}
-				<tr>
-					<td>{{field.label_tag}}</td>
-					<td>{{field}}</td>
-					<td class="error">
-						{% for error in field.errors %} {{error}} {% endfor %}
-					</td>
-				</tr>
-			{% endfor %}
-			<tr><td colspan="3"><input type="submit" id="id_update_profile_button" value="Submit"></td></tr>
-		</table>
-	    {% csrf_token %}
+<form enctype="multipart/form-data" action="{% url 'update_profile' %}" method="post" class="update_profile">
+	<table>
+		{% for field in form.visible_fields %}
+		<tr>
+			<td>{{field.label_tag}}</td>
+			<td>{{field}}</td>
+			<td class="error">
+				{% for error in field.errors %} {{error}} {% endfor %}
+			</td>
+		</tr>
+		{% endfor %}
+		<tr>
+			<td colspan="3"><input type="submit" id="id_update_profile_button" value="Submit"></td>
+		</tr>
+	</table>
+	{% csrf_token %}
 
-	</form>
+</form>
 
 {% endblock %}
