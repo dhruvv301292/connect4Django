@@ -4,4 +4,6 @@ db.sqlite3
 venv
 my_env
 .idea
-images
+migrations
+.idea
+.vscode
