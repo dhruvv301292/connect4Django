@@ -2,16 +2,17 @@
 {% block title %} Play Game {% endblock %}
 
 {% block page-name %}
-<span class='id_page_name' id="id_page_name">Play Game Page for {{user.get_full_name}}</span>
+<span class='id_page_name' id="id_page_name">{{user.get_full_name}}'s Connect4 game!</span>
 {% endblock %}
 
 {% block game %}
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     {% load static %}
-	<link href="{% static 'connect4/custom.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'connect4/custom.css' %}" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -44,10 +45,183 @@
                         <div class="row"></div>
                     </div>
                 </div>
-                <div class="row h-80 d-flex flex-wrap align-items-center" id="board_div">
+                {% load static %}
+                <div class="row h-80" id="board_div">
                     <div class="col-10">
-                        {% load static %}
-                        <img src="{% static 'connect4/images/board.png' %}" class="mx-auto d-block" alt="board" width="600" height="536">
+                        <form>
+                            <div class="board">
+                                <div class="field">
+                                    <div class="grid column">
+                                        <input type="radio" name="slot11" tabindex="-1" required>
+                                        <input type="radio" name="slot11" tabindex="-1" required>
+                                        <div class="disc"></div>
+                                        <input type="radio" name="slot12" tabindex="-1" required>
+                                        <input type="radio" name="slot12" tabindex="-1" required>
+                                        <div class="disc"></div>
+                                        <input type="radio" name="slot13" tabindex="-1" required>
+                                        <input type="radio" name="slot13" tabindex="-1" required>
+                                        <div class="disc"></div>
+                                        <input type="radio" name="slot14" tabindex="-1" required>
+                                        <input type="radio" name="slot14" tabindex="-1" required>
+                                        <div class="disc"></div>
+                                        <input type="radio" name="slot15" tabindex="-1" required>
+                                        <input type="radio" name="slot15" tabindex="-1" required>
+                                        <div class="disc"></div>
+                                        <input type="radio" name="slot16" tabindex="-1" required>
+                                        <input type="radio" name="slot16" tabindex="-1" required>
+                                        <div class="disc"></div>
+
+                                        <!--Column 1 after-->
+                                        <div class="column">
+                                            <input type="radio" name="slot21" tabindex="-1" required>
+                                            <input type="radio" name="slot21" tabindex="-1" required>
+                                            <div class="disc"></div>
+                                            <input type="radio" name="slot22" tabindex="-1" required>
+                                            <input type="radio" name="slot22" tabindex="-1" required>
+                                            <div class="disc"></div>
+                                            <input type="radio" name="slot23" tabindex="-1" required>
+                                            <input type="radio" name="slot23" tabindex="-1" required>
+                                            <div class="disc"></div>
+                                            <input type="radio" name="slot24" tabindex="-1" required>
+                                            <input type="radio" name="slot24" tabindex="-1" required>
+                                            <div class="disc"></div>
+                                            <input type="radio" name="slot25" tabindex="-1" required>
+                                            <input type="radio" name="slot25" tabindex="-1" required>
+                                            <div class="disc"></div>
+                                            <input type="radio" name="slot26" tabindex="-1" required>
+                                            <input type="radio" name="slot26" tabindex="-1" required>
+                                            <div class="disc"></div>
+
+                                            <!--Column 2 after-->
+                                            <div class="column">
+                                                <input type="radio" name="slot31" tabindex="-1" required>
+                                                <input type="radio" name="slot31" tabindex="-1" required>
+                                                <div class="disc"></div>
+                                                <input type="radio" name="slot32" tabindex="-1" required>
+                                                <input type="radio" name="slot32" tabindex="-1" required>
+                                                <div class="disc"></div>
+                                                <input type="radio" name="slot33" tabindex="-1" required>
+                                                <input type="radio" name="slot33" tabindex="-1" required>
+                                                <div class="disc"></div>
+                                                <input type="radio" name="slot34" tabindex="-1" required>
+                                                <input type="radio" name="slot34" tabindex="-1" required>
+                                                <div class="disc"></div>
+                                                <input type="radio" name="slot35" tabindex="-1" required>
+                                                <input type="radio" name="slot35" tabindex="-1" required>
+                                                <div class="disc"></div>
+                                                <input type="radio" name="slot36" tabindex="-1" required>
+                                                <input type="radio" name="slot36" tabindex="-1" required>
+                                                <div class="disc"></div>
+
+                                                <!--Column 3 after-->
+                                                <div class="column">
+                                                    <input type="radio" name="slot41" tabindex="-1" required>
+                                                    <input type="radio" name="slot41" tabindex="-1" required>
+                                                    <div class="disc"></div>
+                                                    <input type="radio" name="slot42" tabindex="-1" required>
+                                                    <input type="radio" name="slot42" tabindex="-1" required>
+                                                    <div class="disc"></div>
+                                                    <input type="radio" name="slot43" tabindex="-1" required>
+                                                    <input type="radio" name="slot43" tabindex="-1" required>
+                                                    <div class="disc"></div>
+                                                    <input type="radio" name="slot44" tabindex="-1" required>
+                                                    <input type="radio" name="slot44" tabindex="-1" required>
+                                                    <div class="disc"></div>
+                                                    <input type="radio" name="slot45" tabindex="-1" required>
+                                                    <input type="radio" name="slot45" tabindex="-1" required>
+                                                    <div class="disc"></div>
+                                                    <input type="radio" name="slot46" tabindex="-1" required>
+                                                    <input type="radio" name="slot46" tabindex="-1" required>
+                                                    <div class="disc"></div>
+
+                                                    <!--Column 4 after-->
+                                                    <div class="column">
+                                                        <input type="radio" name="slot51" tabindex="-1" required>
+                                                        <input type="radio" name="slot51" tabindex="-1" required>
+                                                        <div class="disc"></div>
+                                                        <input type="radio" name="slot52" tabindex="-1" required>
+                                                        <input type="radio" name="slot52" tabindex="-1" required>
+                                                        <div class="disc"></div>
+                                                        <input type="radio" name="slot53" tabindex="-1" required>
+                                                        <input type="radio" name="slot53" tabindex="-1" required>
+                                                        <div class="disc"></div>
+                                                        <input type="radio" name="slot54" tabindex="-1" required>
+                                                        <input type="radio" name="slot54" tabindex="-1" required>
+                                                        <div class="disc"></div>
+                                                        <input type="radio" name="slot55" tabindex="-1" required>
+                                                        <input type="radio" name="slot55" tabindex="-1" required>
+                                                        <div class="disc"></div>
+                                                        <input type="radio" name="slot56" tabindex="-1" required>
+                                                        <input type="radio" name="slot56" tabindex="-1" required>
+                                                        <div class="disc"></div>
+
+                                                        <!--Column 5 after-->
+                                                        <div class="column">
+                                                            <input type="radio" name="slot61" tabindex="-1" required>
+                                                            <input type="radio" name="slot61" tabindex="-1" required>
+                                                            <div class="disc"></div>
+                                                            <input type="radio" name="slot62" tabindex="-1" required>
+                                                            <input type="radio" name="slot62" tabindex="-1" required>
+                                                            <div class="disc"></div>
+                                                            <input type="radio" name="slot63" tabindex="-1" required>
+                                                            <input type="radio" name="slot63" tabindex="-1" required>
+                                                            <div class="disc"></div>
+                                                            <input type="radio" name="slot64" tabindex="-1" required>
+                                                            <input type="radio" name="slot64" tabindex="-1" required>
+                                                            <div class="disc"></div>
+                                                            <input type="radio" name="slot65" tabindex="-1" required>
+                                                            <input type="radio" name="slot65" tabindex="-1" required>
+                                                            <div class="disc"></div>
+                                                            <input type="radio" name="slot66" tabindex="-1" required>
+                                                            <input type="radio" name="slot66" tabindex="-1" required>
+                                                            <div class="disc"></div>
+
+                                                            <!--Column 6 after-->
+                                                            <div class="column">
+                                                                <input type="radio" name="slot71" tabindex="-1"
+                                                                    required>
+                                                                <input type="radio" name="slot71" tabindex="-1"
+                                                                    required>
+                                                                <div class="disc"></div>
+                                                                <input type="radio" name="slot72" tabindex="-1"
+                                                                    required>
+                                                                <input type="radio" name="slot72" tabindex="-1"
+                                                                    required>
+                                                                <div class="disc"></div>
+                                                                <input type="radio" name="slot73" tabindex="-1"
+                                                                    required>
+                                                                <input type="radio" name="slot73" tabindex="-1"
+                                                                    required>
+                                                                <div class="disc"></div>
+                                                                <input type="radio" name="slot74" tabindex="-1"
+                                                                    required>
+                                                                <input type="radio" name="slot74" tabindex="-1"
+                                                                    required>
+                                                                <div class="disc"></div>
+                                                                <input type="radio" name="slot75" tabindex="-1"
+                                                                    required>
+                                                                <input type="radio" name="slot75" tabindex="-1"
+                                                                    required>
+                                                                <div class="disc"></div>
+                                                                <input type="radio" name="slot76" tabindex="-1"
+                                                                    required>
+                                                                <input type="radio" name="slot76" tabindex="-1"
+                                                                    required>
+                                                                <div class="disc"></div>
+
+                                                                <!--Column 7 after-->
+                                                                <div class="column"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="front"></div>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <div class="row h-10 align-items-end">
