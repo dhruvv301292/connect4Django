@@ -11,11 +11,11 @@
 <span id="id_page_name">Login</span>
 {% endblock %}
 {% block content %}
-<form method="post" action="{% url 'login' %}">
-	<table>
-		{{form}}
-	</table>
-	{% csrf_token %}
-	<button type="submit" id='id_login_button'>Submit</button>
-</form>
+	<form method="post" action="{% url 'login' %}">		
+		<table>
+			{{form}}
+		</table>
+		{% csrf_token %}
+		<button type="submit" id='id_login_button'>Submit</button>
+	</form>
 {% endblock %}
