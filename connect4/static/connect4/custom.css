@@ -3,6 +3,8 @@
     overflow: auto;
 }
 
+
+
 .border-p1 {
     border-width: 5px !important;
     border-color: #FF1E4E !important;
@@ -33,6 +35,10 @@
 
 .h-30 {
     height: 30%;
+}
+
+.h-20 {
+    height: 20%;
 }
 
 .name {

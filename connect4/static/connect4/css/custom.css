@@ -52,6 +52,14 @@ h1 {font-size:1rem;}
     border-top-right-radius: 0% !important;    
 }
 
+.border-profile {
+    border-width: 0.5em !important;
+    border-color: #FF1E4E !important;
+    border-radius: 2em !important;
+    border-top-left-radius: 0% !important;
+    border-bottom-left-radius: 0% !important;    
+}
+
 .border-p2 {
     border-width: 5px !important;
     border-color: #00B0F0 !important;
@@ -60,8 +68,8 @@ h1 {font-size:1rem;}
     border-bottom-right-radius: 0% !important;
 }
 
-.h-80 {
-    height: 80%;
+.h-8 {
+    height: 11.5%;
 }
 
 .h-10 {
@@ -72,10 +80,6 @@ h1 {font-size:1rem;}
     height: 11%;
 }
 
-.h-8 {
-    height: 11.5%;
-}
-
 .h-35 {
     height: 35%;
 }
@@ -83,6 +87,70 @@ h1 {font-size:1rem;}
 .h-30 {
     height: 30%;
 }
+
+.h-40 {
+    height: 40%;
+}
+
+.h-60 {
+    height: 60%;
+}
+
+.h-70 {
+    height: 70%;
+}
+
+.h-80 {
+    height: 80%;
+}
+
+.profile-size {
+    height: 28vh;
+    width: 14vw;
+    overflow: hidden;
+}
+
+.color-button {
+    border-width: 0.4vh;
+    border-color: black;
+    font-size: 2.8vh;
+    border-radius: 4vh;
+    width: 15vw;
+    height: 8vh;    
+}
+
+.color-button:hover {    
+    border: none;
+    font-size: 2.8vh; 
+    color: white;    
+    border-radius: 4vh;
+    width: 14vw;
+    height: 8vh;   
+    background: #FF1E4E;  
+}
+
+.reset-button {
+    border-width: 0.4vh;
+    border-color: black;
+    font-size: 2.2vh;
+    color: white;
+    background: #C00000;
+    border-radius: 4vh;
+    width: 6vw;
+    height: 6vh;     
+}
+
+.reset-button:hover {
+    border-width: 0.6vh;
+    border-color: black;
+    font-size: 2.3vh;    
+    color: black;
+    background: #C00000;
+    border-radius: 4vh;
+    width: 6vw;
+    height: 6vh;     
+}
+
 
 .name {
     font-size: calc(100% + 0.8vw + 0.8vh) !important;
