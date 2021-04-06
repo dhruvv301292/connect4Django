@@ -45,9 +45,9 @@ h1 {font-size:1rem;}
 }
 
 .border-p1 {
-    border-width: 5px !important;
+    border-width: 0.7vh !important;
     border-color: #FF1E4E !important;
-    border-radius: 15px !important;
+    border-radius: 2vh !important;
     border-top-left-radius: 0% !important;
     border-top-right-radius: 0% !important;    
 }
@@ -61,11 +61,16 @@ h1 {font-size:1rem;}
 }
 
 .border-p2 {
-    border-width: 5px !important;
+    border-width: 0.7vh !important;
     border-color: #00B0F0 !important;
-    border-radius: 15px !important;
+    border-radius: 2vh !important;
     border-bottom-left-radius: 0% !important;
     border-bottom-right-radius: 0% !important;
+}
+
+.game-image {
+    height: 25.1vh;
+    width: 16.7vw;
 }
 
 .h-8 {
@@ -293,7 +298,7 @@ input {
 }
 
 .top-disc {
-    size: calc(100% + 0.8vw + 0.8vh);
+    size: calc(100% + 30vw + 30vh);
     color: white !important;
 }
 
