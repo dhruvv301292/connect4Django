@@ -13,6 +13,8 @@ import datetime
 import json
 from json import JSONEncoder
 from django.views.decorators.csrf import ensure_csrf_cookie
+
+
 # Create your views here.
 # Create your views here.
 
@@ -130,7 +132,8 @@ def register_action(request):
     new_user = authenticate(username=form.cleaned_data['username'],
                             password=form.cleaned_data['password'])
     profile = Profile(user=new_user, content_type='image/jpeg',
-                      primary_color=form.cleaned_data['primary_color'], secondary_color=form.cleaned_data['secondary_color'])
+                      primary_color=form.cleaned_data['primary_color'],
+                      secondary_color=form.cleaned_data['secondary_color'])
     profile.save()
     login(request, new_user)
     return redirect(reverse('home'))
@@ -140,3 +143,82 @@ def register_action(request):
 def playgame_action(request):
     context = {}
     return render(request, 'connect4/game.html', context)
+
+"""
+@login_required
+def new_game(request):
+    if not request.user.id:
+        return _my_json_error_response("You must be logged in to do this operation", status=403)
+    if request.method != 'POST':
+        return _my_json_error_response("You must use a POST request for this operation", status=404)
+    context = {}
+    # create new game object.
+    # for meantime, simply create new board locally.
+    board = [[0 for i in range(6)] for j in range(7)]
+    # loop starting from bottom to top
+    total_board = []
+    for i in range(len(board), -1, -1):
+        row_object = {
+            'row_' + str(i): json.dumps(board[0])
+        }
+        total_board.append(row_object)
+    response_json = json.dumps(total_board)
+
+    game = GameObject(board=response_json, player1=request.user, player2=None, player1_color="#000000", player2_color="#ff0000",
+                      turn=None, outcome=None, game_over=None, moves_player=0)
+    game.save()
+    context['gameID'] = game.id
+    context['opponent'] = None
+    return render(request, 'connect4/game_room.html', context)
+
+@login_required
+def get_game(request, gameId):
+    item = get_object_or_404(GameObject, id=gameId)
+    if not item.board:
+        raise Http404
+    if item.player2 is None:
+        player2Name = None
+    else:
+        player2Name = item.player2.user.username
+    other_info = {
+        'gameId': item.id,
+        'player1Name': item.player1.user.username,
+        'player2Name': player2Name,
+        'turn': item.turn,
+        'outcome': item.outcome,
+        'gameOver': item.game_over,
+        'moves_player': item.moves_played,
+    }
+    other_info_str = json.loads(json.dumps(other_info))
+    game_board_str = json.loads(json.dumps(item.board))
+    c = dict(other_info_str.items() + game_board_str.items())
+    response_json = json.dumps(c)
+    response = HttpResponse(response_json, content_type='application/json')
+    return response
+
+@login_required
+def join_game(request, gameId):
+    item = get_object_or_404(GameObject, id=gameId)
+    if not item.board:
+        raise Http404
+    if item.player2 is not None:
+        #error occurs trying to join game that is full
+        # TODO: implement spectator redirect here
+        raise Http404
+    else:
+        if not request.user.id:
+            return _my_json_error_response("You must be logged in to do this operation", status=403)
+        if request.method != 'POST':
+            return _my_json_error_response("You must use a POST request for this operation", status=404)
+        if request.user == item.player1:
+            return _my_json_error_response("You must use a POST request for this operation", status=405)
+        else:
+            # set second player, set turn to player2
+            item.player2 = request.user
+            item.turn = request.user
+            item.save()
+    # Render the game
+    return redirect('play_game', id=gameId)
+"""
+
+
