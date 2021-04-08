@@ -335,4 +335,14 @@ input {
     border-bottom-left-radius: 1.5rem;
 }
 
+@font-face {
+    font-family: 'FuturaExtraBold';
+    src: local('FuturaExtraBold'),
+         url('../fonts/Futura-CondensedExtraBold-05.ttf') format("truetype");
+}
 
+@font-face {
+    font-family: 'FuturaItalic';
+    src: local('FuturaItalic'),
+         url('../fonts/Futura-MediumItalic-02.ttf') format("truetype");
+}

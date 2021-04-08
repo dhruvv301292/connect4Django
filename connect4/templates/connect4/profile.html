@@ -35,10 +35,10 @@
 					</div>
 					<div class="col-10 pad-0">
 						<div id="id_container_user_first_name" class="row h-50 pad-0">
-							<span class='pad-0 mx-0' id="id_user_first_name" style="font-family: Futura-CondensedExtraBold; text-transform:uppercase; font-size: 22vh; line-height: 22vh;">{{user.first_name}}</span>
+							<span class='pad-0 mx-0' id="id_user_first_name" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 22vh; line-height: 22vh;">{{user.first_name}}</span>
 						</div>	
 						<div id="id_container_user_username" class="row h-30 pad-0">
-							<span id='id_user_username' class="pad-0" style="font-family: Futura-CondensedExtraBold; font-size: 4vh; line-height: 12vh; color: darkgray;"><i>@{{user.username}}</i></span>
+							<span id='id_user_username' class="pad-0" style="font-family: FuturaItalic; font-size: 4vh; line-height: 12vh; color: darkgray;"><i>@{{user.username}}</i></span>
 						</div>					
 					</div>					
 				</div>
@@ -54,13 +54,13 @@
 						<div class="row h-100 pad-0-col">
 							<div class="col-12 pad-0">
 								<div class="row h-30 pt-5">
-									<span class='pad-0 mx-0' style="font-family: Futura-CondensedExtraBold; text-transform:uppercase; font-size: 6vh; line-height: 6vh;">EDIT</span>
+									<span class='pad-0 mx-0' style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 6vh; line-height: 6vh;">EDIT</span>
 								</div>
 								<div id="id_edit_profile" class="row h-70 pad-0">
 									<form method="POST" action="#" enctype="multipart/form-data">
 										<input type="hidden" name="id_profile_user" value="{{profile.user.username}}">
-										<div class="row h-20 pad-0">
-											<label for="id_profile_picture">Select a file:</label>
+										<div class="row h-20">
+											<label class="btn color-button" for="id_profile_picture">Select a file</label>
 											<input type="file" id="id_profile_picture" name="profile_pic">
 										</div>
 										<div class="row h-20">
@@ -80,23 +80,23 @@
 							<div class="col-12 pad-0">
 								<div class="row h-30 pt-5">	
 									<div class="col-2 pad-0">
-										<span class='pad-0 mx-0' style="font-family: Futura-CondensedExtraBold; text-transform:uppercase; font-size: 6vh; line-height: 6vh;">STATS</span>
+										<span class='pad-0 mx-0' style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 6vh; line-height: 6vh;">STATS</span>
 									</div>	
 									<div class="col-3 pad-0">
 										<button class="btn reset-button" id="id_reset_button" type="button" >RESET</button>
 									</div>																
 								</div>
 								<div class="row h-10 pad-0">
-									<span class='pad-0 mx-0' style="font-family: Futura; text-transform:uppercase; font-size: 4vh; line-height: 4vh;">PLAYED: <span class='pad-0 mx-0' style="font-family: Futura-CondensedExtraBold; text-transform:uppercase; color: crimson; font-size: 4vh; line-height: 6vh;">20</span></span>
+									<span class='pad-0 mx-0' style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh;">PLAYED: <span class='pad-0 mx-0' style="font-family: FuturaExtraBold; text-transform:uppercase; color: crimson; font-size: 4vh; line-height: 6vh;">20</span></span>
 								</div>
 								<div class="row h-10 pad-0">
-									<span class='pad-0 mx-0' style="font-family: Futura; text-transform:uppercase; font-size: 4vh; line-height: 4vh;">WON: <span class='pad-0 mx-0' style="font-family: Futura-CondensedExtraBold; text-transform:uppercase; color: crimson; font-size: 4vh; line-height: 6vh;">11</span></span>
+									<span class='pad-0 mx-0' style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh;">WON: <span class='pad-0 mx-0' style="font-family: FuturaExtraBold; text-transform:uppercase; color: crimson; font-size: 4vh; line-height: 6vh;">11</span></span>
 								</div>
 								<div class="row h-10 pad-0">
-									<span class='pad-0 mx-0' style="font-family: Futura; text-transform:uppercase; font-size: 4vh; line-height: 4vh;">LOST: <span class='pad-0 mx-0' style="font-family: Futura-CondensedExtraBold; text-transform:uppercase; color: crimson; font-size: 4vh; line-height: 6vh;">7</span></span>
+									<span class='pad-0 mx-0' style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh;">LOST: <span class='pad-0 mx-0' style="font-family: FuturaExtraBold; text-transform:uppercase; color: crimson; font-size: 4vh; line-height: 6vh;">7</span></span>
 								</div>
 								<div class="row h-10 pad-0">
-									<span class='pad-0 mx-0' style="font-family: Futura-CondensedExtraBold; text-transform:uppercase; font-size: 4.5vh; line-height: 6vh;">LAST 10 GAMES</span>
+									<span class='pad-0 mx-0' style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 4.5vh; line-height: 6vh;">LAST 10 GAMES</span>
 								</div>
 							</div>
 						</div>
