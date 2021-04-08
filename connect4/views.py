@@ -157,18 +157,14 @@ def new_game(request):
     board = [[0 for i in range(6)] for j in range(7)]
     # loop starting from bottom to top
     total_board = []
-    for i in range(len(board), -1, -1):
-        row_object = {
-            'row_' + str(i): json.dumps(board[0])
-        }
-        total_board.append(row_object)
+    for i in range(len(board)-1, -1, -1):
+        total_board['row_'+str(i)]= board[i]
     response_json = json.dumps(total_board)
 
     game = GameObject(board=response_json, player1=request.user, player2=None, player1_color="#000000", player2_color="#ff0000",
                       turn=None, outcome=None, game_over=None, moves_player=0)
     game.save()
     context['gameID'] = game.id
-    context['opponent'] = None
     return render(request, 'connect4/game_room.html', context)
 
 @login_required
@@ -191,7 +187,7 @@ def get_game(request, gameId):
     }
     other_info_str = json.loads(json.dumps(other_info))
     game_board_str = json.loads(json.dumps(item.board))
-    c = dict(other_info_str.items() + game_board_str.items())
+    c = other_info.update(game_board_str)
     response_json = json.dumps(c)
     response = HttpResponse(response_json, content_type='application/json')
     return response
@@ -218,7 +214,27 @@ def join_game(request, gameId):
             item.turn = request.user
             item.save()
     # Render the game
-    return redirect('play_game', id=gameId)
+    return redirect('playgame_action', id=gameId)
+
+# Allows either player 
+@login_required
+def start_game(request, gameId):
+    item = get_object_or_404(GameObject, id=gameId)
+    if not item.board:
+        raise Http404
+    if item.player2 is not None:
+        #error occurs trying to join game that is full
+        # TODO: implement spectator redirect here
+        raise Http404
+    else:
+        if not request.user.id:
+            return _my_json_error_response("You must be logged in to do this operation", status=403)
+        if request.method != 'POST':
+            return _my_json_error_response("You must use a POST request for this operation", status=404)
+        # only allow to play the game if a particpant in the game
+        if request.user==item.player1 or request.user==item.player2:
+            return redirect('playgame_action', id=gameId)
+    return redirect('view_game', id=gameId)            
 """
 
 
