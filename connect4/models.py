@@ -19,7 +19,7 @@ class Profile(models.Model):
 
 class GameObject(models.Model):
     # Board should be a JSON field which is a 2d list
-    board = models.JSONField()
+    board = models.JSONField(null=True)
     # whoever starts the game will be player1
     player1 = models.ForeignKey(
         Profile, on_delete=models.PROTECT, related_name="player1")
@@ -33,7 +33,7 @@ class GameObject(models.Model):
     turn = models.ForeignKey(
         Profile, on_delete=models.PROTECT, related_name="turn")
     outcome = models.ForeignKey(
-        Profile, on_delete=models.PROTECT, related_name="outcome")
+        Profile, on_delete=models.PROTECT, null=True, related_name="outcome")
     # Null when not started, False when in progress, True when over
     game_over = models.BooleanField(null=True)
     moves_played = models.IntegerField(default=0)

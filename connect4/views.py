@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
 from django.utils import timezone
-from connect4.models import *
+from connect4.models import GameObject, Profile
 from connect4.forms import LoginForm, RegisterForm, ProfileForm
 from django.shortcuts import render, get_object_or_404, Http404, HttpResponse
 import datetime
@@ -19,7 +19,15 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 
 @login_required
 def home(request):
-    return render(request, 'connect4/base_with_nav.html', {})
+    return render(request, 'connect4/arena.html', {})
+
+@login_required
+def add_game(request):
+    context = {'games': GameObject.objects.all()}     
+    Player1 = Profile.objects.get(user_id=request.user.id)
+    new_game = GameObject(player1=Player1, player1_color='#FF1E4E', player2_color='#00B0F0', turn=Player1)
+    new_game.save()
+    return redirect('home')
 
 
 @login_required
@@ -140,3 +148,97 @@ def register_action(request):
 def playgame_action(request):
     context = {}
     return render(request, 'connect4/game.html', context)
+
+def get_games(request):
+    Games = [] 
+    for game in GameObject.objects.all():        
+        game_i = {}
+        game_i['id'] = game.id
+        game_i['p1_username'] = game.player1.user.username
+        if game.player2:
+            game_i['p2_username'] = game.player2.user.username
+        else:
+            game_i['p2_username'] = None
+        game_i['player1_color'] = game.player1_color
+        game_i['player2_color'] = game.player2_color
+        game_i['turn'] = game.turn.user.username
+        game_i['outcome'] = game.outcome
+        game_i['game_over'] = game.game_over
+        game_i['moves_played'] = game.moves_played        
+        Games.append(game_i)
+    response_json = {'Games': Games}    
+    return HttpResponse(json.dumps(response_json), content_type='application/json')
+
+@login_required
+def add_player(request):        
+    if request.method != 'POST':
+        return _my_json_error_response("You must use a POST request for this operation", status=404)
+
+    if not 'username' in request.POST or not request.POST['username']:
+        return _my_json_error_response("You must have a valid username")
+    
+    if not 'game_id' in request.POST or not request.POST['game_id'] or not isInt(request.POST['game_id']):        
+        return _my_json_error_response("This game does not exist, man!")
+
+    game = GameObject.objects.get(id = request.POST['game_id'])
+    if not game:
+        return _my_json_error_response("This game does not exist, man!")
+
+    player2_profile = Profile.objects.get(user__username = request.POST['username'])
+    game.player2 = player2_profile
+    game.save()               
+    return get_games(request)
+
+@login_required
+def del_game(request):        
+    if request.method != 'POST':
+        return _my_json_error_response("You must use a POST request for this operation", status=404)
+
+    if not 'username' in request.POST or not request.POST['username']:
+        return _my_json_error_response("You must have a valid username")
+    
+    if not 'game_id' in request.POST or not request.POST['game_id'] or not isInt(request.POST['game_id']):        
+        return _my_json_error_response("This game does not exist, man!")
+
+    game = GameObject.objects.get(id = request.POST['game_id'])
+    if not game:
+        return _my_json_error_response("This game does not exist, man!")
+    
+    if request.user.username == game.player1.user.username:
+        GameObject.objects.filter(id=request.POST['game_id']).delete()   
+    if request.user.username == game.player2.user.username:
+        player2_profile = game.player2
+        if player2_profile.user.username != request.user.username:
+            return _my_json_error_response("You are not part of this game")
+        game.player2 = None
+        game.save()                   
+    return get_games(request)
+
+def isInt(value):
+  try:
+    int(value)
+    return True
+  except ValueError:
+    return False
+
+@login_required
+def leave_game(request):        
+    if request.method != 'POST':
+        return _my_json_error_response("You must use a POST request for this operation. The current method is {}".format(request.method), status=404)
+
+    if not 'username' in request.POST or not request.POST['username']:
+        return _my_json_error_response("You must have a valid username")
+    
+    if not 'game_id' in request.POST or not request.POST['game_id'] or not isInt(request.POST['game_id']):        
+        return _my_json_error_response("This game does not exist, man!")
+
+    game = GameObject.objects.get(id = request.POST['game_id'])
+    if not game:
+        return _my_json_error_response("This game does not exist, man!")
+
+    player2_profile = game.player2
+    if player2_profile.user.username != request.user.username:
+        return _my_json_error_response("You are not part of this game")
+    game.player2 = None
+    game.save()               
+    return get_games(request)

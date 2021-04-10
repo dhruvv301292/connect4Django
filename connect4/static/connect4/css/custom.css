@@ -121,7 +121,8 @@ h1 {font-size:1rem;}
     font-size: 2.8vh;
     border-radius: 4vh;
     width: 15vw;
-    height: 8vh;    
+    height: 8vh;
+    background: white;
 }
 
 .color-button:hover {    
@@ -131,6 +132,44 @@ h1 {font-size:1rem;}
     border-radius: 4vh;
     width: 14vw;
     height: 8vh;   
+    background: #FF1E4E;  
+}
+
+.red-color-button {
+    border: none;
+    font-size: 2.8vh;
+    border-radius: 4vh;
+    width: 14vw;
+    height: 8vh;   
+    background: #FF1E4E;
+    color: white; 
+}
+
+.red-color-button:hover {    
+    border: none;
+    font-size: 2.8vh; 
+    color: white;    
+    border-radius: 4vh;
+    width: 14vw;
+    height: 8vh;   
+    background: black;  
+}
+
+.start-button {    
+    border: none;    
+    font-size: 2.8vh;
+    border-radius: 4vh;
+    width: 10vw;
+    height: 6vh;    
+}
+
+.start-button:hover {    
+    border: none;
+    font-size: 2.8vh; 
+    color: white;    
+    border-radius: 4vh;
+    width: 10vw;
+    height: 6vh;   
     background: #FF1E4E;  
 }
 
@@ -345,4 +384,12 @@ input {
     font-family: 'FuturaItalic';
     src: local('FuturaItalic'),
          url('../fonts/Futura-MediumItalic-02.ttf') format("truetype");
+}
+
+.cross-button {
+    color: white;
+}
+
+.cross-button:hover {
+    color:#FF1E4E;
 }
