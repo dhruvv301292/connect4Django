@@ -143,8 +143,14 @@ def register_action(request):
 def playgame_action(request):
     context = {}
     return render(request, 'connect4/game.html', context)
-
 """
+@login_required
+def game_room_action(request):
+    context = {}
+    games = GameObject.objects.all().order_by('created_time')
+    context['games'] = games
+    return render(request, 'connect4/game_room.html', context)
+
 @login_required
 def new_game(request):
     if not request.user.id:
@@ -156,16 +162,15 @@ def new_game(request):
     # for meantime, simply create new board locally.
     board = [[0 for i in range(6)] for j in range(7)]
     # loop starting from bottom to top
-    total_board = []
+    total_board = {}
     for i in range(len(board)-1, -1, -1):
-        total_board['row_'+str(i)]= board[i]
+        total_board[str('row_'+str(i))] = board[i]
     response_json = json.dumps(total_board)
 
     game = GameObject(board=response_json, player1=request.user, player2=None, player1_color="#000000", player2_color="#ff0000",
-                      turn=None, outcome=None, game_over=None, moves_player=0)
+                      turn=None, outcome=None, game_over=None, moves_player=0, created_time=datetime.datetime.now())
     game.save()
-    context['gameID'] = game.id
-    return render(request, 'connect4/game_room.html', context)
+    return redirect('game_room_action')
 
 @login_required
 def get_game(request, gameId):
@@ -185,7 +190,6 @@ def get_game(request, gameId):
         'gameOver': item.game_over,
         'moves_player': item.moves_played,
     }
-    other_info_str = json.loads(json.dumps(other_info))
     game_board_str = json.loads(json.dumps(item.board))
     c = other_info.update(game_board_str)
     response_json = json.dumps(c)
@@ -234,7 +238,18 @@ def start_game(request, gameId):
         # only allow to play the game if a particpant in the game
         if request.user==item.player1 or request.user==item.player2:
             return redirect('playgame_action', id=gameId)
-    return redirect('view_game', id=gameId)            
-"""
+    return redirect('get_game', id=gameId)
 
+
+@login_required
+def add_column(request, gameId, columnId):
+    item = get_object_or_404(GameObject, id=gameId)
+    # game has actually started and not over
+    if not item:
+        raise Http404
+    addColumn(gameId, columnId)
+    item = get_object_or_404(GameObject, id=gameId)
+    return redirect('get_game', id=gameId)
+
+"""
 
