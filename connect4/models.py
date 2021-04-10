@@ -28,10 +28,10 @@ class GameObject(models.Model):
     # Colors will be a color value
     # https://stackoverflow.com/questions/8863810/python-find-similar-colors-best-way
     # will need to find if colors are too similar
-    player1_color = models.CharField(max_length=7)
-    player2_color = models.CharField(max_length=7)
+    player1_color = models.CharField(max_length=7, null=True)
+    player2_color = models.CharField(max_length=7, null=True)
     turn = models.ForeignKey(
-        Profile, on_delete=models.PROTECT, related_name="turn")
+        Profile, on_delete=models.PROTECT, related_name="turn", null=True)
     outcome = models.ForeignKey(
         Profile, on_delete=models.PROTECT, null=True, related_name="outcome")
     # Null when not started, False when in progress, True when over

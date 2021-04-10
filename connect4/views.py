@@ -13,6 +13,8 @@ import datetime
 import json
 from json import JSONEncoder
 from django.views.decorators.csrf import ensure_csrf_cookie
+
+
 # Create your views here.
 # Create your views here.
 
@@ -138,7 +140,8 @@ def register_action(request):
     new_user = authenticate(username=form.cleaned_data['username'],
                             password=form.cleaned_data['password'])
     profile = Profile(user=new_user, content_type='image/jpeg',
-                      primary_color=form.cleaned_data['primary_color'], secondary_color=form.cleaned_data['secondary_color'])
+                      primary_color=form.cleaned_data['primary_color'],
+                      secondary_color=form.cleaned_data['secondary_color'])
     profile.save()
     login(request, new_user)
     return redirect(reverse('home'))
