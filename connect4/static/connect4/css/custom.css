@@ -116,18 +116,20 @@ h1 {font-size:1rem;}
 }
 
 .color-button {
+    font-family: Futura;
     border-width: 0.4vh;
     border-color: black;
     font-size: 2.8vh;
     border-radius: 4vh;
-    width: 15vw;
+    width: 14vw;
     height: 8vh;
     background: white;
 }
 
-.color-button:hover {    
+.color-button:hover {  
+    font-family: Futura;  
     border: none;
-    font-size: 2.8vh; 
+    font-size: 3.2vh; 
     color: white;    
     border-radius: 4vh;
     width: 14vw;
@@ -136,8 +138,9 @@ h1 {font-size:1rem;}
 }
 
 .red-color-button {
+    font-family: Futura;
     border: none;
-    font-size: 2.8vh;
+    font-size: 3vh;
     border-radius: 4vh;
     width: 14vw;
     height: 8vh;   
@@ -146,8 +149,9 @@ h1 {font-size:1rem;}
 }
 
 .red-color-button:hover {    
+    font-family: Futura;
     border: none;
-    font-size: 2.8vh; 
+    font-size: 3.4vh; 
     color: white;    
     border-radius: 4vh;
     width: 14vw;
@@ -156,24 +160,27 @@ h1 {font-size:1rem;}
 }
 
 .start-button {    
+    font-family: Futura;
     border: none;    
-    font-size: 2.8vh;
+    font-size: 2.5vh;
     border-radius: 4vh;
-    width: 10vw;
+    width: 8vw;
     height: 6vh;    
 }
 
 .start-button:hover {    
+    font-family: Futura;
     border: none;
     font-size: 2.8vh; 
     color: white;    
     border-radius: 4vh;
-    width: 10vw;
+    width: 8vw;
     height: 6vh;   
     background: #FF1E4E;  
 }
 
 .reset-button {
+    font-family: Futura;
     border-width: 0.4vh;
     border-color: black;
     font-size: 2.2vh;
@@ -185,6 +192,7 @@ h1 {font-size:1rem;}
 }
 
 .reset-button:hover {
+    font-family: Futura;
     border-width: 0.6vh;
     border-color: black;
     font-size: 2.3vh;    
@@ -384,6 +392,12 @@ input {
     font-family: 'FuturaItalic';
     src: local('FuturaItalic'),
          url('../fonts/Futura-MediumItalic-02.ttf') format("truetype");
+}
+
+@font-face {
+    font-family: 'Futura';
+    src: local('Futura'),
+         url('../fonts/Futura-Medium-01.ttf') format("truetype");
 }
 
 .cross-button {
