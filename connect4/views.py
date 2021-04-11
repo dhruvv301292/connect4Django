@@ -168,7 +168,7 @@ def playgame_action(request):
 @login_required
 def get_games(request):
     Games = []
-    for game in GameObject.objects.all().order_by('created_time'):
+    for game in GameObject.objects.all():
         game_i = {}
         game_i['id'] = game.id
         game_i['p1_username'] = game.player1.user.username
@@ -212,7 +212,7 @@ def get_game(request, gameId):
 def add_column(request, gameId, column):
     #add_column(gameId, column)
     # return redirect('playgame_action', gameId=gameId)
-    return redirect('playgrame_action')
+    return redirect('playgame_action')
 @login_required
 def add_player(request):
     if request.method != 'POST':

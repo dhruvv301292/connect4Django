@@ -37,4 +37,4 @@ class GameObject(models.Model):
     # Null when not started, False when in progress, True when over
     game_over = models.BooleanField(null=True)
     moves_played = models.IntegerField(default=0)
-    created_time = models.DateTimeField()
+    created_time = models.DateTimeField(auto_now=True)
