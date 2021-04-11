@@ -43,11 +43,20 @@ function updateGamesList(games) {
         }
         count += 1
     })
+    $("form").each(function() {        
+        let inputElem = document.createElement('input');
+        inputElem.type = 'hidden';
+        inputElem.name = 'csrfmiddlewaretoken';
+        inputElem.value = getCSRFToken();
+        this.appendChild(inputElem);
+     });
 }
 
 function getButton(game) {
-    if (game.p2_username != null && myUserName == game.p1_username) {
-        return '<div class="col-3" id="id_game_'+ game.id +'_start"><form method="POST" action="#"><button class="start-button mx-auto" id="id_game_' + game.id + '_start_button" type="submit">Start</button></form></div><div class="col-1 d-flex flex-wrap align-items-center" id="id_game_'
+    if (game.p2_username != null && myUserName == game.p1_username) {  
+        let playgame = '/connect4/playgame/' + game.id;
+        console.log(playgame);
+        return '<div class="col-3" id="id_game_'+ game.id +'_start"><form id="id_game_'+game.id+'_start_form" method="POST" action="'+playgame+'"><button class="start-button mx-auto" id="id_game_' + game.id + '_start_button" type="submit">Start</button></form></div><div class="col-1 d-flex flex-wrap align-items-center" id="id_game_'
         + game.id +'_delete"><button onclick="deleteGame('+game.id+')" class="btn px-0 py-0 float-right"><span class="fa fa-times-circle fa-3x cross-button"></span></button></div></div></li>'
     } else if (game.p2_username == null && myUserName == game.p1_username) {
         return '<div class="col-3 d-flex flex-wrap align-items-center" id="id_game_'+ game.id +'_start"><span class="pad-0 mx-auto" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh; color:#F9C10B">WAITING</span></div><div class="col-1 d-flex flex-wrap align-items-center" id="id_game_'
@@ -56,7 +65,7 @@ function getButton(game) {
         return '<div class="col-3 d-flex flex-wrap align-items-center" id="id_game_'+ game.id +'_start"><button class="start-button mx-auto" id="id_join_button_'+ game.id + '" onClick="addPlayer(' + game.id + ')">Join</button></div></div></li>'
     } else if (game.p2_username == myUserName) {
         return '<div class="col-3 d-flex flex-wrap align-items-center" id="id_game_'+ game.id +'_start"><span class="pad-0 mx-auto" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh; color:white">READY</span></div><div class="col-1 d-flex flex-wrap align-items-center" id="id_game_'
-        + game.id +'_leave"><button onclick="deleteGame('+game.id+')" class="btn px-0 py-0 float-right"><span class="fa fa-sign-out-alt fa-flip-horizontal fa-3x cross-button"></span></button></div></div></li>'
+        + game.id +'_leave"><button onclick="leaveGame('+game.id+')" class="btn px-0 py-0 float-right"><span class="fa fa-sign-out-alt fa-flip-horizontal fa-3x cross-button"></span></button></div></div></li>'
     } else if (game.p1_username != myUserName && game.p2_username != myUserName) {
         return '<div class="col-3 d-flex flex-wrap align-items-center" id="id_game_'+ game.id +'_start"><button class="start-button mx-auto" id="id_spectate_button_'+ game.id + '">Spectate</button></div></div></li>'
     }
@@ -65,7 +74,7 @@ function getButton(game) {
 function addPlayer(gameID) {    
     displayError('');
     $.ajax({
-        url: "add-player",
+        url: "connect4/add-player",
         type: "POST",
         data: "username="+myUserName+"&game_id="+gameID+"&csrfmiddlewaretoken="+getCSRFToken(),
         dataType : "json",
@@ -77,8 +86,8 @@ function addPlayer(gameID) {
 function leaveGame(gameID) { 
     displayError('');
     $.ajax({
-        url: "leave-game",
-        tyoe: "POST",
+        url: "connect4/leave-game",
+        type: "POST",
         data: "username="+myUserName+"&game_id="+gameID+"&csrfmiddlewaretoken="+getCSRFToken(),
         dataType : "json",
         success: updateArena,
@@ -89,7 +98,7 @@ function leaveGame(gameID) {
 function deleteGame(gameID) {    
     displayError('');
     $.ajax({
-        url: "delete-game",
+        url: "connect4/delete-game",
         type: "POST",
         data: "username="+myUserName+"&game_id="+gameID+"&csrfmiddlewaretoken="+getCSRFToken(),
         dataType : "json",

@@ -23,6 +23,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 def home(request):
     return render(request, 'connect4/arena.html', {})
 
+# create new game in arena
 @login_required
 def add_game(request):
     context = {'games': GameObject.objects.all()}     
@@ -148,10 +149,21 @@ def register_action(request):
 
 
 @login_required
-def playgame_action(request):
+def playgame_action(request, game_id):
     context = {}
+    game = GameObject.objects.get(id = int(game_id))
+    if not game:
+        return _my_json_error_response("This game does not exist, man!")
+    if request.user.username == game.player1.user.username:
+        context['selfplayer'] = game.player1
+        context['opponent'] = game.player2
+    elif request.user.username == game.player2.user.username:
+        context['selfplayer'] = game.player2
+        context['opponent'] = game.player1
+    # other game elements are yet to be encoded
     return render(request, 'connect4/game.html', context)
 
+# for updating arena view using ajax
 def get_games(request):
     Games = [] 
     for game in GameObject.objects.all():        
@@ -172,6 +184,7 @@ def get_games(request):
     response_json = {'Games': Games}    
     return HttpResponse(json.dumps(response_json), content_type='application/json')
 
+# add yourself as second player to existing game
 @login_required
 def add_player(request):        
     if request.method != 'POST':
@@ -192,6 +205,7 @@ def add_player(request):
     game.save()               
     return get_games(request)
 
+# delete game that you created
 @login_required
 def del_game(request):        
     if request.method != 'POST':
@@ -209,12 +223,12 @@ def del_game(request):
     
     if request.user.username == game.player1.user.username:
         GameObject.objects.filter(id=request.POST['game_id']).delete()   
-    if request.user.username == game.player2.user.username:
-        player2_profile = game.player2
-        if player2_profile.user.username != request.user.username:
-            return _my_json_error_response("You are not part of this game")
-        game.player2 = None
-        game.save()                   
+    # if request.user.username == game.player2.user.username:
+    #     player2_profile = game.player2
+    #     if player2_profile.user.username != request.user.username:
+    #         return _my_json_error_response("You are not part of this game")
+    #     game.player2 = None
+    #     game.save()                   
     return get_games(request)
 
 def isInt(value):
@@ -224,6 +238,7 @@ def isInt(value):
   except ValueError:
     return False
 
+# remove yourself from game you joined as second playerasz
 @login_required
 def leave_game(request):        
     if request.method != 'POST':
