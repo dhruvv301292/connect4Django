@@ -161,11 +161,14 @@ def register_action(request):
 
 
 @login_required
-def playgame_action(request, game_id):
+def start_enter_game(request, game_id):
     context = {}
-    game = GameObject.objects.get(id = int(game_id))
+    game = GameObject.objects.get(id = int(game_id))    
     if not game:
         return _my_json_error_response("This game does not exist, man!")
+    if game.game_over == None:
+        game.game_over = False
+        game.save()
     if request.user.username == game.player1.user.username:
         context['selfplayer'] = game.player1
         context['opponent'] = game.player2
@@ -176,7 +179,6 @@ def playgame_action(request, game_id):
     return render(request, 'connect4/game.html', context)
 
 # for updating arena view using ajax
-
 @login_required
 def get_games(request):
     Games = []
@@ -296,5 +298,6 @@ def leave_game(request):
     if player2_profile.user.username != request.user.username:
         return _my_json_error_response("You are not part of this game")
     game.player2 = None
+    game.game_over = None
     game.save()
     return get_games(request)

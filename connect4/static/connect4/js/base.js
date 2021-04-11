@@ -53,19 +53,29 @@ function updateGamesList(games) {
 }
 
 function getButton(game) {
-    if (game.p2_username != null && myUserName == game.p1_username) {  
-        let playgame = '/connect4/playgame/' + game.id;
-        console.log(playgame);
-        return '<div class="col-3" id="id_game_'+ game.id +'_start"><form id="id_game_'+game.id+'_start_form" method="POST" action="'+playgame+'"><button class="start-button mx-auto" id="id_game_' + game.id + '_start_button" type="submit">Start</button></form></div><div class="col-1 d-flex flex-wrap align-items-center" id="id_game_'
-        + game.id +'_delete"><button onclick="deleteGame('+game.id+')" class="btn px-0 py-0 float-right"><span class="fa fa-times-circle fa-3x cross-button"></span></button></div></div></li>'
+    if (game.p2_username != null && myUserName == game.p1_username) {
+        if (game.game_over == null) {
+            let startgame = '/connect4/startentergame/' + game.id;        
+            return '<div class="col-3" id="id_game_'+ game.id +'_start"><form id="id_game_'+game.id+'_start_form" method="POST" action="'+startgame+'"><button class="start-button mx-auto" id="id_game_' + game.id + '_start_button" type="submit">Start</button></form></div><div class="col-1 d-flex flex-wrap align-items-center" id="id_game_'
+            + game.id +'_delete"><button onclick="deleteGame('+game.id+')" class="btn px-0 py-0 float-right"><span class="fa fa-times-circle fa-3x cross-button"></span></button></div></div></li>'
+        } else if (game.game_over == false) {
+            let entergame = '/connect4/startentergame/' + game.id;
+            return '<div class="col-3" id="id_game_'+ game.id +'_start"><form id="id_game_'+game.id+'_enter_form" method="POST" action="'+entergame+'"><button class="start-button mx-auto" id="id_game_' + game.id + '_start_button" type="submit">Enter</button></form></div></div></li>'
+        }       
     } else if (game.p2_username == null && myUserName == game.p1_username) {
         return '<div class="col-3 d-flex flex-wrap align-items-center" id="id_game_'+ game.id +'_start"><span class="pad-0 mx-auto" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh; color:#F9C10B">WAITING</span></div><div class="col-1 d-flex flex-wrap align-items-center" id="id_game_'
         + game.id +'_delete"><button onclick="deleteGame('+game.id+')" class="btn px-0 py-0 float-right"><span class="fa fa-times-circle fa-3x cross-button"></span></button></div></div></li>'
     } else if (game.p2_username == null && myUserName != game.p1_username) {
         return '<div class="col-3 d-flex flex-wrap align-items-center" id="id_game_'+ game.id +'_start"><button class="start-button mx-auto" id="id_join_button_'+ game.id + '" onClick="addPlayer(' + game.id + ')">Join</button></div></div></li>'
     } else if (game.p2_username == myUserName) {
-        return '<div class="col-3 d-flex flex-wrap align-items-center" id="id_game_'+ game.id +'_start"><span class="pad-0 mx-auto" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh; color:white">READY</span></div><div class="col-1 d-flex flex-wrap align-items-center" id="id_game_'
-        + game.id +'_leave"><button onclick="leaveGame('+game.id+')" class="btn px-0 py-0 float-right"><span class="fa fa-sign-out-alt fa-flip-horizontal fa-3x cross-button"></span></button></div></div></li>'
+        if (game.game_over == null) {
+            return '<div class="col-3 d-flex flex-wrap align-items-center" id="id_game_'+ game.id +'_start"><span class="pad-0 mx-auto" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh; color:white">READY</span></div><div class="col-1 d-flex flex-wrap align-items-center" id="id_game_'
+            + game.id +'_leave"><button onclick="leaveGame('+game.id+')" class="btn px-0 py-0 float-right"><span class="fa fa-sign-out-alt fa-flip-horizontal fa-3x cross-button"></span></button></div></div></li>'
+        } else if (game.game_over == false) {
+            let entergame = '/connect4/startentergame/' + game.id;
+            return '<div class="col-3" id="id_game_'+ game.id +'_start"><form id="id_game_'+game.id+'_enter_form" method="POST" action="'+entergame+'"><button class="start-button mx-auto" id="id_game_' + game.id + '_start_button" type="submit">Enter</button></form></div><div class="col-1 d-flex flex-wrap align-items-center" id="id_game_'
+            + game.id +'_leave"><button onclick="leaveGame('+game.id+')" class="btn px-0 py-0 float-right"><span class="fa fa-sign-out-alt fa-flip-horizontal fa-3x cross-button"></span></button></div></div></li>'
+        }      
     } else if (game.p1_username != myUserName && game.p2_username != myUserName) {
         return '<div class="col-3 d-flex flex-wrap align-items-center" id="id_game_'+ game.id +'_start"><button class="start-button mx-auto" id="id_spectate_button_'+ game.id + '">Spectate</button></div></div></li>'
     }

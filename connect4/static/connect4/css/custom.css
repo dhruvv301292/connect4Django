@@ -165,7 +165,8 @@ h1 {font-size:1rem;}
     font-size: 2.5vh;
     border-radius: 4vh;
     width: 8vw;
-    height: 6vh;    
+    height: 6vh;   
+    background: white; 
 }
 
 .start-button:hover {    
