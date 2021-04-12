@@ -21,9 +21,9 @@ class GameObject(models.Model):
     # Board should be a JSON field which is a 2d list
     board = models.JSONField(null=True)
     # whoever starts the game will be player1
-    player1 = models.ForeignKey(
+    player1: Profile = models.ForeignKey(
         Profile, on_delete=models.PROTECT, related_name="player1")
-    player2 = models.ForeignKey(
+    player2: Profile = models.ForeignKey(
         Profile, on_delete=models.PROTECT, null=True, related_name="player2")
     # Colors will be a color value
     # https://stackoverflow.com/questions/8863810/python-find-similar-colors-best-way
