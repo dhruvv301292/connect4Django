@@ -13,10 +13,7 @@ class GameState(enum.Enum):
 
 class Connect4Game:
     def __init__(self, game_model):
-        if type(game_model.board) == list:
-            self.board = game_model.board
-        elif type(game_model.board) == str:
-            self.board = json.loads(game_model.board)
+        self.board = game_model.board
         self.player1 = str(game_model.player1.user.id)
         self.player2 = str(game_model.player2.user.id)
         self.whose_turn = str(game_model.turn.user.id)
@@ -83,6 +80,10 @@ class Connect4Game:
         pass
 
     def _validate_state(self):
+        # TODO check board state
+        # List[List[int]
+        # Num columns and rows
+        # Difference of 1 disk only bw players
         pass
 
 

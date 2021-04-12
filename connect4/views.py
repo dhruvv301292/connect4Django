@@ -37,10 +37,10 @@ def add_game(request):
     # total_board = {}
     # for i in range(len(board) - 1, -1, -1):
     #     total_board[str('row_' + str(i))] = board[i]
-    response_json = json.dumps(board)
+    # response_json: str = json.dumps(board)
 
     Player1 = Profile.objects.get(user_id=request.user.id)
-    new_game = GameObject(board=response_json, player1=Player1, player2=None, player1_color='#FF1E4E',
+    new_game = GameObject(board=board, player1=Player1, player2=None, player1_color='#FF1E4E',
                           player2_color='#00B0F0', turn=Player1, outcome=None, game_over=None, moves_played=0,
                           created_time=datetime.datetime.now())
     new_game.save()

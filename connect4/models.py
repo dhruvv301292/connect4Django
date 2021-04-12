@@ -19,6 +19,8 @@ class Profile(models.Model):
 
 class GameObject(models.Model):
     # Board should be a JSON field which is a 2d list
+    # This is a List[List[int]]
+    # where 1 is player1, 2 is player2, and 0 is unset
     board = models.JSONField(null=True)
     # whoever starts the game will be player1
     player1: Profile = models.ForeignKey(
