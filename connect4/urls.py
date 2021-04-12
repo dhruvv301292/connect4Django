@@ -35,5 +35,8 @@ urlpatterns = [
     path('leave-game', views.leave_game, name='leave-game'),
     path('connect4/leave-game', views.leave_game, name='leave-game'),
     path('get-game/<int:gameId>', views.get_game, name='get-game'),
-    path('add-column/<int:gameId>/<int:column>', views.add_column, name='add-column'),
+    path('play-turn', views.play_turn, name='play-turn'),
+    path('connect4/play-turn', views.play_turn, name='play-turn'),
+    path('poll-game', views.poll_game, name='poll-game'),
+    path('connect4/poll-game', views.poll_game, name='poll-game'),
 ]

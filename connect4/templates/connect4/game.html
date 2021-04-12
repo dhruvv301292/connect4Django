@@ -15,6 +15,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="/static/connect4/js/base.js"></script>
     </head>
 
     <body>
@@ -136,18 +137,23 @@
                 <div class="col-3 card bg-transparent card-body" id="chat_div">
                     <div class="row"></div>
                 </div>
-
             </div>
         </div>
     </body>
     <script>
+        let myUserName = "{{ request.user.username }}"
+        let playerId = "{{ request.user.id }}"
+        let gameId = "{{ game_id }}";
         let filled = [-1,-1,-1,-1, -1, -1, -1]
         function add_disc(col) {
             if (filled[col] < 5) {
-                filled[col] += 1                                    
+                filled[col] += 1
                 document.getElementById("disc_"+filled[col].toString()+col.toString()).className = "fas fa-circle fa-4x mx-auto filled-disc pad-0";                                 
-            }            
+            }
+            playTurn(gameId, playerId, col);
         }
+        
+        window.setInterval(pollGame, 10000, gameId);
     </script>
 
 {% endblock %}

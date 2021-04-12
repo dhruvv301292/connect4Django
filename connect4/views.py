@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 
 from django.utils import timezone
 from connect4.models import GameObject, Profile
+from connect4.game import Connect4Game, Connect4GameError
 from connect4.forms import LoginForm, RegisterForm, ProfileForm
 from django.shortcuts import render, get_object_or_404, Http404, HttpResponse
 import datetime
@@ -33,10 +34,10 @@ def add_game(request):
     context = {'games': GameObject.objects.all()}
     board = [[0 for i in range(6)] for j in range(7)]
     # loop starting from bottom to top
-    total_board = {}
-    for i in range(len(board) - 1, -1, -1):
-        total_board[str('row_' + str(i))] = board[i]
-    response_json = json.dumps(total_board)
+    # total_board = {}
+    # for i in range(len(board) - 1, -1, -1):
+    #     total_board[str('row_' + str(i))] = board[i]
+    response_json = json.dumps(board)
 
     Player1 = Profile.objects.get(user_id=request.user.id)
     new_game = GameObject(board=response_json, player1=Player1, player2=None, player1_color='#FF1E4E',
@@ -162,7 +163,7 @@ def register_action(request):
 
 @login_required
 def start_enter_game(request, game_id):
-    context = {}
+    context = {'game_id': game_id}
     game = GameObject.objects.get(id = int(game_id))    
     if not game:
         return _my_json_error_response("This game does not exist, man!")
@@ -200,12 +201,33 @@ def get_games(request):
     response_json = {'Games': Games}
     return HttpResponse(json.dumps(response_json), content_type='application/json')
 
-# add yourself as second player to existing game
+# TODO: Rename method and/or update comment
 @login_required
-def get_game(request, gameId):
-    game = get_object_or_404(GameObject, id=gameId)
+def get_game(request, game_id):
+    game = get_object_or_404(GameObject, id=game_id)
     if not game:
         raise Http404
+    
+    response_json = _game_to_dict(game)
+    return HttpResponse(json.dumps(response_json), content_type='application/json')
+
+
+@login_required
+def poll_game(request):
+    game_id = request.GET['game_id']
+
+    game_model: GameObject = get_object_or_404(GameObject, id=game_id)
+    print(f"Got game: {game_model}")
+    if not game_model:
+        raise Http404
+    
+    # TODO: check if playerId is the logged in user, else throw an error
+
+    response_json = _game_to_dict(game_model)
+    return HttpResponse(json.dumps(response_json), content_type='application/json')
+
+
+def _game_to_dict(game: GameObject):
     game_i = {}
     game_i['id'] = game.id
     game_i['p1_username'] = game.player1.user.username
@@ -219,15 +241,48 @@ def get_game(request, gameId):
     game_i['outcome'] = game.outcome
     game_i['game_over'] = game.game_over
     game_i['moves_played'] = game.moves_played
+    game_i['board'] = game.board
+    return game_i
 
-    response_json = game_i
-    return HttpResponse(json.dumps(response_json), content_type='application/json')
 
 @login_required
-def add_column(request, gameId, column):
+def play_turn(request):
+    game_id = request.POST['game_id']
+    player_id = request.POST['player_id']
+    column = request.POST['column']
+
+    print(f"[play_turn] Playing turn for game_id={game_id}, player_id={player_id} in column={column}")
     #add_column(gameId, column)
     # return redirect('playgame_action', gameId=gameId)
-    return redirect('playgame_action')
+
+    # get the GameObject for gameId
+    game_model: GameObject = get_object_or_404(GameObject, id=game_id)
+    if not game_model:
+        raise Http404
+
+    # TODO: check if playerId is the logged in user, else throw an error
+
+    game: Connect4Game = Connect4Game.from_game_object(game_model)
+
+    # TODO call methods to play this turn
+    try:
+        game.drop_disk(player_id, column)
+    except Connect4GameError as e:
+        print(e.message)
+        # raise an appropriate user error with information to show the user about why this move is invalid
+
+    updated_game_model: GameObject = game.to_game_object()
+
+    # TODO: Save this new model
+    updated_game_model.save()
+    game_dict = _game_to_dict(updated_game_model)
+
+    # TODO check if someone has won, if so then redirect to game win page
+
+    # else
+    return HttpResponse(json.dumps(game_dict), content_type='application/json')
+
+
 @login_required
 def add_player(request):
     if request.method != 'POST':

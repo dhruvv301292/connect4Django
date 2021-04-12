@@ -93,6 +93,34 @@ function addPlayer(gameID) {
     });    
 }
 
+function playTurn(gameId, playerId, column) {
+    displayError('');
+    $.ajax({
+        url: "/connect4/play-turn",
+        type: "POST",
+        data: "player_id="+playerId+"&game_id="+gameId+"&column=" +column+ "&csrfmiddlewaretoken="+getCSRFToken(),
+        dataType : "json",
+        success: updateGameView,
+        error: updateError
+    });
+}
+
+function pollGame(gameId) {
+    console.log("Polling game for " + gameId);
+    $.ajax({
+        url: "/connect4/poll-game",
+        type: "GET",
+        data: "username="+myUserName+"&game_id="+gameId+"&csrfmiddlewaretoken="+getCSRFToken(),
+        dataType : "json",
+        success: updateGameView,
+        error: updateError
+    }); 
+}
+
+function updateGameView(response) {
+    console.log(response);
+}
+
 function leaveGame(gameID) { 
     displayError('');
     $.ajax({
