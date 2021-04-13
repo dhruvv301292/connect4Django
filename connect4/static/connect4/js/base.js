@@ -128,7 +128,7 @@ function updateGameView(response) {
                 discClass = "filled-red-disc";
             }
             else if (discValue === 2) {
-                discClass = "filled-yellow-disc";
+                discClass = "filled-blue-disc";
             }
             document.getElementById('disc_' + row.toString() + col.toString()).className = "fas fa-circle fa-4x mx-auto " + discClass+ " pad-0";
         }
