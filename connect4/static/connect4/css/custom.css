@@ -345,7 +345,12 @@ input {
     color:#FF1E4E
 }
 
-.top-disc {
+.top-disc-p1 {
+    size: calc(100% + 30vw + 30vh);
+    color: white !important;
+}
+
+.top-disc-p2 {
     size: calc(100% + 30vw + 30vh);
     color: white !important;
 }
@@ -362,19 +367,31 @@ input {
 
 .filled-yellow-disc {
     size: calc(100% + 0.8vw + 0.8vh);
-    color: #ffee00 !important;
+    color: #00B0F0 !important;
 }
 
-.top-disc:hover {
+.top-disc-p1:hover {
     color: #FF1E4E !important;
 }
 
-.board-disc {
+.top-disc-p2:hover {
+    color: #00B0F0 !important;
+}
+
+.board-disc-p1 {
     color:white !important;
 }
 
-.board-disc:hover {
+.board-disc-p1:hover {
     color: #FF1E4E !important;
+}
+
+.board-disc-p2 {
+    color:white !important;
+}
+
+.board-disc-p2:hover {
+    color: #00B0F0 !important;
 }
 
 .round-top-left {

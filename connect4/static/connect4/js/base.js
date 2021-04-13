@@ -118,8 +118,12 @@ function pollGame(gameId) {
 }
 
 function updateGameView(response) {
-    console.log(response);
-
+    console.log(response);    
+    if (myUserName === player1) {
+        $( "i[id^='topdisc']" ).removeClass('top-disc-p2', 'top-disc-p1').addClass('top-disc-p1');
+    } else {
+        $( "i[id^='topdisc']" ).removeClass('top-disc-p2', 'top-disc-p1').addClass('top-disc-p2');
+    } 
     for (let col = 0; col < 7; col++) {
         for (let row = 0; row < 6; row++) {
             let discValue = response.board[col][row];
@@ -129,8 +133,14 @@ function updateGameView(response) {
             }
             else if (discValue === 2) {
                 discClass = "filled-yellow-disc";
+            } else {
+                if (myUserName === player1) {
+                    discClass = "board-disc-p1";
+                } else {
+                    discClass = "board-disc-p2";
+                }
             }
-            document.getElementById('disc_' + row.toString() + col.toString()).className = "fas fa-circle fa-4x mx-auto " + discClass+ " pad-0";
+            document.getElementById('disc_' + row.toString() + col.toString()).className = "fas fa-circle fa-4x mx-auto " + discClass+ " pad-0";            
         }
     }
 }

@@ -176,6 +176,8 @@ def start_enter_game(request, game_id):
     elif request.user.username == game.player2.user.username:
         context['selfplayer'] = game.player2
         context['opponent'] = game.player1
+    context['player1'] = game.player1.user.username
+    context['player2'] = game.player2.user.username
     # other game elements are yet to be encoded
     return render(request, 'connect4/game.html', context)
 
