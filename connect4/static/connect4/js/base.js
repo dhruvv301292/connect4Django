@@ -25,8 +25,8 @@ function updateError(xhr, status, error) {
     displayError('Status=' + xhr.status + ' (' + error + ')')
 }
 
-function displayError(message) {
-    $("#error").html(message);
+function displayError(message) {    
+    $('#id_turn_div').css("color", "white").removeClass(['bg-success', 'bg-timer']).addClass('bg-danger').addClass(['animated', 'tada']);
 }
 
 function updateGamesList(games) {
@@ -122,18 +122,18 @@ function updateGameView(response) {
     if (myUserName === player1) {
         if (myUserName === response.turn) {
             $( "i[id^='topdisc']" ).removeClass(['top-disc-p2', 'top-disc-p1', 'disc-disabled']).addClass('top-disc-p1');
-            $('#id_turn_div').empty().text("Your turn").css("color", "white").css("font-size", "3.3vh").css("text-transform", "uppercase").removeClass(['bg-success', 'bg-timer']).addClass('bg-success');
+            $('#id_turn_div').empty().text("Your turn").css("color", "white").css("font-size", "3.3vh").css("text-transform", "uppercase").removeClass(['bg-success', 'bg-timer', 'bg-danger', 'animated', 'tada']).addClass('bg-success');
         } else {
             $( "i[id^='topdisc']" ).removeClass(['top-disc-p2', 'top-disc-p1', 'disc-disabled']).addClass('disc-disabled');
-            $('#id_turn_div').empty().text("Opponent's turn").css("color", "black").css("font-size", "3.0vh").css("text-transform", "capitalize").removeClass(['bg-success', 'bg-timer']).addClass('bg-timer');            
+            $('#id_turn_div').empty().text("Opponent's turn").css("color", "black").css("font-size", "3.0vh").css("text-transform", "capitalize").removeClass(['bg-success', 'bg-timer', 'bg-danger', 'animated', 'tada']).addClass('bg-timer');            
         }       
     } else {
         if (myUserName === response.turn) {
             $( "i[id^='topdisc']" ).removeClass(['top-disc-p2', 'top-disc-p1', 'disc-disabled']).addClass('top-disc-p2');
-            $('#id_turn_div').empty().text("Your turn").css("color", "white").css("font-size", "3.3vh").css("text-transform", "uppercase").removeClass(['bg-success', 'bg-timer']).addClass('bg-success');            
+            $('#id_turn_div').empty().text("Your turn").css("color", "white").css("font-size", "3.3vh").css("text-transform", "uppercase").removeClass(['bg-success', 'bg-timer', 'bg-danger', 'animated', 'tada']).addClass('bg-success');            
         } else {
             $( "i[id^='topdisc']" ).removeClass(['top-disc-p2', 'top-disc-p1', 'disc-disabled']).addClass('disc-disabled');
-            $('#id_turn_div').empty().text("Opponent's turn").css("color", "black").css("font-size", "3.0vh").css("text-transform", "capitalize").removeClass(['bg-success', 'bg-timer']).addClass('bg-timer');                        
+            $('#id_turn_div').empty().text("Opponent's turn").css("color", "black").css("font-size", "3.0vh").css("text-transform", "capitalize").removeClass(['bg-success', 'bg-timer', 'bg-danger', 'animated', 'tada']).addClass('bg-timer');                        
         }
     }
     for (let col = 0; col < 7; col++) {
