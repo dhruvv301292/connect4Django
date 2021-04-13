@@ -13,6 +13,19 @@ Migrate
 Run the server
 - python manage.py runserver
 
+## Debugging
+- Run server in background and append output to log file
+`python manage.py runserver > logs/server_log_$(date +"%Y%m%d-%H%M").log 2>&1 &`
+
+- Tail the log file to see updates and grep any keyword if you want specific logs. For example:
+`tail -f logs/server_log_20210412-1712.log | grep play-turn`
+
+- Check for any running processes
+`ps wwaux | grep manage.py | grep -v grep`
+
+- Kill the process running the server (Be careful and as specific as possible)
+`pkill -f manage.py`
+
 
 ### Flow for Sprint #2
 
