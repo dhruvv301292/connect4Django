@@ -228,6 +228,7 @@ def poll_game(request):
     if game_over(game, game_model):
         # TODO: redirect to new page
         print("Redirecting")
+    print("Board in json: ", response_json)
     return HttpResponse(json.dumps(response_json), content_type='application/json')
 
 
@@ -302,7 +303,7 @@ def play_turn(request):
 
 def game_over(game, updated_game_model):
     # player 1 won
-
+    print(game.end_game_state)
     if game.end_game_state == GameState.PLAYER_1_WON:
         updated_game_model.outcome = updated_game_model.player1
         updated_game_model.game_over = True

@@ -97,7 +97,6 @@ class Connect4Game:
         return game
 
     def drop_disc(self, player_id, column) -> None:
-        print(self.board)
         player_id = str(player_id)
         column = int(column)
 
@@ -185,18 +184,18 @@ class Connect4Game:
 
     def four_connected(self, playerType):
         # horizontal check
-        for j in range(self.BOARD_HEIGHT - 4):
-            for i in range(self.BOARD_WIDTH):
+        for i in range(self.BOARD_WIDTH):
+            for j in range(self.BOARD_HEIGHT-3):
                 if (self.board[i][j] == playerType and self.board[i][j+1] == playerType and self.board[i][j+2] == playerType and self.board[i][j+3] == playerType):
                     return True
         # vertical check
-        for i in range(self.BOARD_WIDTH - 4):
-            for j in range(self.BOARD_HEIGHT):
-                if (self.board[i][j] == playerType and self.board[i+1][j] == playerType and self.board[i+2][j] == playerType and self.board[i+3][j] == playerType):
+        for i in range(self.BOARD_HEIGHT):
+            for j in range(self.BOARD_WIDTH-3):
+                if (self.board[j][i] == playerType and self.board[j+1][i] == playerType and self.board[j+2][i] == playerType and self.board[j+3][i] == playerType):
                     return True
         # diagonal ascending
         for i in range(3, self.BOARD_WIDTH):
-            for j in range(self.BOARD_HEIGHT-4):
+            for j in range(self.BOARD_HEIGHT-3):
                 if (self.board[i][j] == playerType and self.board[i-1][j+1] == playerType and self.board[i-2][j+2] == playerType and self.board[i-3][j+3] == playerType):
                     return True
         # diagonal descending
