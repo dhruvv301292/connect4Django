@@ -103,7 +103,7 @@ class Connect4Game:
 
         # check if game has ended
         if self.outcome != GameState.NOT_ENDED:
-            raise Connect4GameError("Game has ended, no more moves allowed.")
+            raise Connect4GameError("Game over!")
 
         # validate if correct player is playing
         if player_id != self.whose_turn:

@@ -448,8 +448,7 @@ input {
 }
 
 .turn-text {
-    font-size: 3.3vh;
-    text-transform: uppercase;
+    font-size: 3.3vh;    
     line-height: 10vh;
     font-family: 'Futura';        
 }
