@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 
 from django.utils import timezone
 from connect4.models import GameObject, Profile
-from connect4.game import Connect4Game, Connect4GameError
+from connect4.game import Connect4Game, Connect4GameError, GameState
 from connect4.forms import LoginForm, RegisterForm, ProfileForm
 from django.shortcuts import render, get_object_or_404, Http404, HttpResponse
 import datetime
@@ -187,7 +187,14 @@ def get_games(request):
         game_i['player1_color'] = game.player1_color
         game_i['player2_color'] = game.player2_color
         game_i['turn'] = game.turn.user.username
-        game_i['outcome'] = game.outcome
+        if game.outcome == game.player1:
+            game_i['outcome'] = 1
+        elif game.outcome == game.player2:
+            game_i['outcome'] = 2
+        elif game.game_over and game.outcome is None:
+            game_i['outcome'] = 3
+        else:
+            game_i['outcome'] = 4
         game_i['game_over'] = game.game_over
         game_i['moves_played'] = game.moves_played
         Games.append(game_i)
@@ -217,6 +224,10 @@ def poll_game(request):
     # TODO: check if playerId is the logged in user, else throw an error
 
     response_json = _game_to_dict(game_model)
+    game: Connect4Game = Connect4Game.from_game_object(game_model)
+    if game_over(game, game_model):
+        # TODO: redirect to new page
+        print("Redirecting")
     return HttpResponse(json.dumps(response_json), content_type='application/json')
 
 
@@ -231,7 +242,14 @@ def _game_to_dict(game: GameObject):
     game_i['player1_color'] = game.player1_color
     game_i['player2_color'] = game.player2_color
     game_i['turn'] = game.turn.user.username
-    game_i['outcome'] = game.outcome
+    if game.outcome == game.player1:
+        game_i['outcome'] = 1
+    elif game.outcome == game.player2:
+        game_i['outcome'] = 2
+    elif game.game_over and game.outcome is None:
+        game_i['outcome'] = 3
+    else:
+        game_i['outcome'] = 4
     game_i['game_over'] = game.game_over
     game_i['moves_played'] = game.moves_played
     game_i['board'] = game.board
@@ -276,9 +294,36 @@ def play_turn(request):
 
     # TODO check if someone has won, if so then redirect to game win page
 
+    if game_over(game, updated_game_model):
+        # TODO: redirect to new page
+        print("Redirecting")
     # else
     return HttpResponse(json.dumps(game_dict), content_type='application/json')
 
+def game_over(game, updated_game_model):
+    # player 1 won
+
+    if game.end_game_state == GameState.PLAYER_1_WON:
+        updated_game_model.outcome = updated_game_model.player1
+        updated_game_model.game_over = True
+        updated_game_model.save()
+        print("Player 1 won the game")
+        return True
+    # player 2 won
+    elif game.end_game_state == GameState.PLAYER_2_WON:
+        updated_game_model.outcome = updated_game_model.player2
+        updated_game_model.game_over = True
+        updated_game_model.save()
+        print("Player 2 won the game")
+        return True
+    # draw
+    elif game.end_game_state == GameState.DRAW:
+        updated_game_model.outcome = None
+        updated_game_model.game_over = True
+        updated_game_model.save()
+        print("A draw occurred")
+        return True
+    return False
 
 @login_required
 def add_player(request):

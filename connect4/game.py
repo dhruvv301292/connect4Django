@@ -152,7 +152,10 @@ class Connect4Game:
     @property
     def end_game_state(self) -> GameState:
         # TODO Check if the board has reached an end state with a winner
-
+        if self.four_connected(SlotType.PLAYER1_DISC):
+            return GameState.PLAYER_1_WON
+        if self.four_connected(SlotType.PLAYER2_DISC):
+            return GameState.PLAYER_2_WON
         if self.moves_played == Connect4Game.MAX_MOVES:
             return GameState.DRAW
 
@@ -180,8 +183,28 @@ class Connect4Game:
         if abs(self.player1_num_moves - self.player2_num_moves) > 1:
             raise Connect4GameError(f"Difference between player move count greater than 1!\nPlayer1 made {self.player1_num_moves} moves, while Player2 made {self.player2_num_moves}", show_user_error=False)
 
-
-
+    def four_connected(self, playerType):
+        # horizontal check
+        for j in range(self.BOARD_HEIGHT - 4):
+            for i in range(self.BOARD_WIDTH):
+                if (self.board[i][j] == playerType and self.board[i][j+1] == playerType and self.board[i][j+2] == playerType and self.board[i][j+3] == playerType):
+                    return True
+        # vertical check
+        for i in range(self.BOARD_WIDTH - 4):
+            for j in range(self.BOARD_HEIGHT):
+                if (self.board[i][j] == playerType and self.board[i+1][j] == playerType and self.board[i+2][j] == playerType and self.board[i+3][j] == playerType):
+                    return True
+        # diagonal ascending
+        for i in range(3, self.BOARD_WIDTH):
+            for j in range(self.BOARD_HEIGHT-4):
+                if (self.board[i][j] == playerType and self.board[i-1][j+1] == playerType and self.board[i-2][j+2] == playerType and self.board[i-3][j+3] == playerType):
+                    return True
+        # diagonal descending
+        for i in range(3, self.BOARD_WIDTH):
+            for j in range(3, self.BOARD_HEIGHT):
+                if (self.board[i][j] == playerType and self.board[i-1][j-1] == playerType and self.board[i-2][j-2] == playerType and self.board[i-3][j-3] == playerType):
+                    return True
+        return False
 class Connect4GameError(Exception):
     def __init__(self, message, show_user_error=True):
         self.message = message
