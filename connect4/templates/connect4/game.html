@@ -149,17 +149,17 @@
 
         <!-- Modal -->
         <div class="modal fade" id="id_result_modal" role="dialog">
-            <div class="modal-dialog">            
+            <div class="modal-dialog modal-dialog-centered">            
                 <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">                    
-                        <h4 class="modal-title">Game Over!</h4>
+                <div class="modal-content result-modal">
+                    <div class="modal-header pad-0-col">                    
+                        <div class="modal-title turn-text">Game Over</div>
                     </div>
-                    <div class="modal-body">
-                        <p id="id_modal_text"></p>
+                    <div class="modal-body pad-0">
+                        <p class="modal-result-text mx-auto d-block rounded text-center pad-0" id="id_modal_text"></p>
                     </div>
                     <div class="modal-footer">
-                        <a id="id_close_modal" class="btn btn-default" href={% url 'home' %}>Close</a>                        
+                        <a id="id_close_modal" class="btn px-0 py-0" href={% url 'home' %}><span class="fa fa-times-circle fa-5x cross-button-black"></span></a>
                     </div>
                 </div>
             </div>

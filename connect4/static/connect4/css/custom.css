@@ -443,13 +443,26 @@ input {
     color: white;
 }
 
+.cross-button -black{
+    color: black;
+}
+
 .cross-button:hover {
+    color:#FF1E4E;
+}
+
+.cross-button-black:hover {
     color:#FF1E4E;
 }
 
 .turn-text {
     font-size: 3.3vh;    
     line-height: 10vh;
+    font-family: 'Futura';        
+}
+
+.modal-result-text {
+    font-size: 5.5vh;        
     font-family: 'Futura';        
 }
 
@@ -489,4 +502,9 @@ input {
  .tada {
     -webkit-animation-name: tada;
     animation-name: tada;
+ }
+
+ .result-modal {
+     height: 30vh;
+     width: 40vw;
  }
