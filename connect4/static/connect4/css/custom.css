@@ -85,6 +85,10 @@ h1 {font-size:1rem;}
     height: 11%;
 }
 
+.h-15 {
+    height: 15%;
+}
+
 .h-35 {
     height: 35%;
 }
@@ -341,11 +345,12 @@ input {
     transition: opacity 0.2s, top 0s 0.2s, color 0s 0.2s;
 }
 
-.fa:hover {
-    color:#FF1E4E
+.top-disc-p1 {
+    size: calc(100% + 30vw + 30vh);
+    color: white !important;
 }
 
-.top-disc-p1 {
+.disc-disabled {
     size: calc(100% + 30vw + 30vh);
     color: white !important;
 }
@@ -428,6 +433,12 @@ input {
          url('../fonts/Futura-Medium-01.ttf') format("truetype");
 }
 
+@font-face {
+    font-family: 'FuturaBoldItalic';
+    src: local('FuturaBoldItalic'),
+         url('../fonts/Futura Bold Italic.otf') format("truetype");
+}
+
 .cross-button {
     color: white;
 }
@@ -435,3 +446,47 @@ input {
 .cross-button:hover {
     color:#FF1E4E;
 }
+
+.turn-text {
+    font-size: 3.3vh;    
+    line-height: 10vh;
+    font-family: 'Futura';        
+}
+
+.timer-text {
+    font-size: 7vh;
+    line-height: 10vh;
+    font-family: 'FuturaItalic';        
+}
+
+.bg-timer {
+    background: #F2F2F2;
+}
+
+@keyframes tada {
+    0% {transform: scale(1);} 
+    10%, 20% {transform: scale(0.9) rotate(-3deg);} 
+    30%, 50%, 70%, 90% {transform: scale(1.1) rotate(3deg);} 
+    40%, 60%, 80% {transform: scale(1.1) rotate(-3deg);} 
+    100% {transform: scale(1) rotate(0);} 
+ }
+
+ @-webkit-keyframes tada {
+    0% {-webkit-transform: scale(1);}
+    10%, 20% {-webkit-transform: scale(0.9) rotate(-3deg);}
+    30%, 50%, 70%, 90% {-webkit-transform: scale(1.1) rotate(3deg);}
+    40%, 60%, 80% {-webkit-transform: scale(1.1) rotate(-3deg);}
+    100% {-webkit-transform: scale(1) rotate(0);}
+ }
+
+ .animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+   -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+ }
+
+ .tada {
+    -webkit-animation-name: tada;
+    animation-name: tada;
+ }
