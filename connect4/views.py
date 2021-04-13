@@ -16,10 +16,6 @@ from json import JSONEncoder
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 
-# Create your views here.
-# Create your views here.
-
-
 @login_required
 def home(request):
     return render(request, 'connect4/arena.html', {})
@@ -33,12 +29,7 @@ def add_game(request):
         return _my_json_error_response("You must use a POST request for this operation", status=404)
     context = {'games': GameObject.objects.all()}
     board = [[0 for i in range(6)] for j in range(7)]
-    # loop starting from bottom to top
-    # total_board = {}
-    # for i in range(len(board) - 1, -1, -1):
-    #     total_board[str('row_' + str(i))] = board[i]
-    # response_json: str = json.dumps(board)
-
+   
     Player1 = Profile.objects.get(user_id=request.user.id)
     new_game = GameObject(board=board, player1=Player1, player2=None, player1_color='#FF1E4E',
                           player2_color='#00B0F0', turn=Player1, outcome=None, game_over=None, moves_played=0,
@@ -249,14 +240,13 @@ def _game_to_dict(game: GameObject):
 
 @login_required
 def play_turn(request):
+    context = {}
     game_id = request.POST['game_id']
     player_id = request.POST['player_id']
     column = request.POST['column']
 
     print(f"[play_turn] Playing turn for game_id={game_id}, player_id={player_id} in column={column}")
-    #add_column(gameId, column)
-    # return redirect('playgame_action', gameId=gameId)
-
+    
     # get the GameObject for gameId
     game_model: GameObject = get_object_or_404(GameObject, id=game_id)
     if not game_model:
@@ -266,16 +256,21 @@ def play_turn(request):
 
     game: Connect4Game = Connect4Game.from_game_object(game_model)
 
-    # TODO call methods to play this turn
     try:
-        game.drop_disk(player_id, column)
+        game.drop_disc(player_id, column)
     except Connect4GameError as e:
         print(e.message)
-        # raise an appropriate user error with information to show the user about why this move is invalid
-
+        if e.show_user_error:
+            # raise client error to inform the user about why this turn could not be played
+            return HttpResponse(reason=e.message, status=406)
+        else:
+            # raise server error to log the error that led to invalid state
+            return HttpResponse(reason=e.message, status=500)
+        
+    # get the updated state after a successful disc drop
     updated_game_model: GameObject = game.to_game_object()
 
-    # TODO: Save this new model
+    # save this updated model to the db
     updated_game_model.save()
     game_dict = _game_to_dict(updated_game_model)
 

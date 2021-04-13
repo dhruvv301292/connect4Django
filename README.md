@@ -37,7 +37,7 @@ User Experience:
 - Once 2 users have joined, First user sees a button to start the game - AJAX
 - Bpth users are then redirected to the Game page as Players
 - Players see initial empty board
-- Players take turn to drop colored disks
+- Players take turn to drop colored discs
 - Game Progresses
 - Any relevant messages are shown to handle edge cases
 - Game Ends
