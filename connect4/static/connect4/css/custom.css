@@ -443,7 +443,7 @@ input {
     color: white;
 }
 
-.cross-button -black{
+.cross-button-black{
     color: black;
 }
 
@@ -462,7 +462,7 @@ input {
 }
 
 .modal-result-text {
-    font-size: 5.5vh;        
+    font-size: 8vh;        
     font-family: 'Futura';        
 }
 
@@ -505,6 +505,6 @@ input {
  }
 
  .result-modal {
-     height: 30vh;
+     height: 35vh;
      width: 40vw;
  }
