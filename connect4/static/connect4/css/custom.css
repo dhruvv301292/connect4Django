@@ -85,6 +85,10 @@ h1 {font-size:1rem;}
     height: 11%;
 }
 
+.h-15 {
+    height: 15%;
+}
+
 .h-35 {
     height: 35%;
 }
@@ -341,11 +345,12 @@ input {
     transition: opacity 0.2s, top 0s 0.2s, color 0s 0.2s;
 }
 
-.fa:hover {
-    color:#FF1E4E
+.top-disc-p1 {
+    size: calc(100% + 30vw + 30vh);
+    color: white !important;
 }
 
-.top-disc-p1 {
+.disc-disabled {
     size: calc(100% + 30vw + 30vh);
     color: white !important;
 }
@@ -428,10 +433,32 @@ input {
          url('../fonts/Futura-Medium-01.ttf') format("truetype");
 }
 
+@font-face {
+    font-family: 'FuturaBoldItalic';
+    src: local('FuturaBoldItalic'),
+         url('../fonts/Futura Bold Italic.otf') format("truetype");
+}
+
 .cross-button {
     color: white;
 }
 
 .cross-button:hover {
     color:#FF1E4E;
+}
+
+.turn-text {
+    font-size: 3.2vh;
+    line-height: 10vh;
+    font-family: 'Futura';        
+}
+
+.timer-text {
+    font-size: 7vh;
+    line-height: 10vh;
+    font-family: 'FuturaItalic';        
+}
+
+.bg-timer {
+    background: #F2F2F2;
 }

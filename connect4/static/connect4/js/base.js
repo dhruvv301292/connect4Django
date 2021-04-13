@@ -120,10 +120,30 @@ function pollGame(gameId) {
 function updateGameView(response) {
     console.log(response);    
     if (myUserName === player1) {
-        $( "i[id^='topdisc']" ).removeClass('top-disc-p2', 'top-disc-p1').addClass('top-disc-p1');
+        if (myUserName === response.turn) {
+            $( "i[id^='topdisc']" ).removeClass(['top-disc-p2', 'top-disc-p1', 'disc-disabled']).addClass('top-disc-p1');
+            $('#id_turn_div').empty();
+            $('#id_turn_div').text("Your turn");
+            $( "#id_turn_div" ).removeClass(['bg-success', 'bg-timer']).addClass('bg-success');
+        } else {
+            $( "i[id^='topdisc']" ).removeClass(['top-disc-p2', 'top-disc-p1', 'disc-disabled']).addClass('disc-disabled');
+            $('#id_turn_div').empty();
+            $('#id_turn_div').text("Opponent's turn");
+            $( "#id_turn_div" ).removeClass(['bg-success', 'bg-timer']).addClass('bg-timer');
+        }       
     } else {
-        $( "i[id^='topdisc']" ).removeClass('top-disc-p2', 'top-disc-p1').addClass('top-disc-p2');
-    } 
+        if (myUserName === response.turn) {
+            $( "i[id^='topdisc']" ).removeClass(['top-disc-p2', 'top-disc-p1', 'disc-disabled']).addClass('top-disc-p2');
+            $('#id_turn_div').empty();
+            $('#id_turn_div').text("Your turn");
+            $( "#id_turn_div" ).removeClass(['bg-success', 'bg-timer']).addClass('bg-success');
+        } else {
+            $( "i[id^='topdisc']" ).removeClass(['top-disc-p2', 'top-disc-p1', 'disc-disabled']).addClass('disc-disabled');
+            $('#id_turn_div').empty();
+            $('#id_turn_div').text("Opponent's turn");
+            $( "#id_turn_div" ).removeClass(['bg-success', 'bg-timer']).addClass('bg-timer');
+        }
+    }
     for (let col = 0; col < 7; col++) {
         for (let row = 0; row < 6; row++) {
             let discValue = response.board[col][row];
@@ -132,12 +152,14 @@ function updateGameView(response) {
                 discClass = "filled-red-disc";
             }
             else if (discValue === 2) {
-                discClass = "filled-yellow-disc";
+                discClass = "filled-blue-disc";
             } else {
-                if (myUserName === player1) {
+                if (myUserName === player1 && myUserName === response.turn) {
                     discClass = "board-disc-p1";
-                } else {
+                } else if (myUserName === player2 && myUserName === response.turn) {
                     discClass = "board-disc-p2";
+                } else {
+                    discClass = "disc-disabled";
                 }
             }
             document.getElementById('disc_' + row.toString() + col.toString()).className = "fas fa-circle fa-4x mx-auto " + discClass+ " pad-0";            

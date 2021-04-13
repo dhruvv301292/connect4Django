@@ -29,8 +29,15 @@
                             <img src="{% url 'get_photo' opponent.id %}" class="game-image border border-p1" alt="opponent">
                         </div>
                     </div>
-                    <div class="row h-30 d-flex flex-wrap align-items-center" id="timer_div">
-                        <div class="alert alert-info h-30 w-100 mx-auto d-block">Timer</div>
+                    <div class="row h-15 d-flex flex-wrap align-items-center">   
+                        <div class="col w-100 pad-0-col">
+                            <div id="id_turn_div" class="h-100 w-100 mx-auto d-block rounded text-center turn-text"></div>
+                        </div>                                             
+                    </div>
+                    <div class="row h-15 d-flex flex-wrap align-items-center">   
+                        <div class="col w-100 pad-0-col">
+                            <div id="id_timer_div" class="bg-timer h-100 w-100 mx-auto d-block rounded text-center timer-text">00:00</div>
+                        </div>                                             
                     </div>
                     <div class="row h-35 align-items-end pad-0" id="player_div">
                         <div class="col-12 pad-0-col">
