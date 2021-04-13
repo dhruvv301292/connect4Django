@@ -11,82 +11,158 @@ class GameState(enum.Enum):
     NOT_ENDED = 4
 
 
+class SlotType(enum.IntEnum):
+    EMPTY = 0
+    PLAYER1_DISC = 1
+    PLAYER2_DISC = 2
+
+
 class Connect4Game:
-    def __init__(self, game_model):
-        self.board = game_model.board
+    BOARD_HEIGHT = 6
+    BOARD_WIDTH = 7
+    NUM_PLAYERS = 2
+    MAX_MOVES = BOARD_HEIGHT * BOARD_WIDTH
+
+    def __init__(self, game_model: GameObject):
+        self._game_obj = game_model
+        self.moves_played = int(game_model.moves_played)
         self.player1 = str(game_model.player1.user.id)
         self.player2 = str(game_model.player2.user.id)
         self.whose_turn = str(game_model.turn.user.id)
-        self._game_obj = game_model
+        self.outcome = bool(game_model.outcome)
+        self.board = game_model.board
+        self.player1_num_moves, self.player2_num_moves = count_player_moves(self.board)
 
+    @staticmethod
+    def count_player_moves(board):
+        player1_num_moves = 0
+        player2_num_moves = 0
+        for col in range(BOARD_WIDTH):
+            for row in range(BOARD_HEIGHT):
+                if board[col][row] == SlotType.PLAYER1_DISC:
+                    player1_num_moves += 1
+                elif board[col][row] == SlotType.PLAYER2_DISC:
+                    player2_num_moves += 1
+        return player1_num_moves, player2_num_moves
 
     @staticmethod
     def from_game_object(game_model: GameObject):
-        # TODO: Construct an appropriate instance here
+        # Construct an instance of Connect4Game from the game_model object
         game = Connect4Game(game_model)
+
+        # Check that the game state is valid
         game._validate_state()
+
+         # return a valid instance of Connect4Game
         return game
 
     def to_game_object(self) -> GameObject:
+        # fetch the game object state that we got from db
         game = self._game_obj
-        game.board = self.board
-        game.game_over = self.is_game_over
-        game.moves_played += 1
 
-        if self.whose_turn == self.player1:
-            game.turn = game.player2
-        else:
-            game.turn = game.player1
+        # update the game object state
+        game.board = self.board
+        game.turn = self.whose_turn
+        game.moves_played = self.moves_played
         
-        end_game_state = self.end_game_state
-        if end_game_state == GameState.PLAYER_1_WON:
+        if self.outcome != GameState.NOT_ENDED:
+            game.game_over = True
+        
+        if self.outcome == GameState.PLAYER_1_WON:
             game.outcome = game.player1
-        if end_game_state == GameState.PLAYER_2_WON:
+        if self.outcome == GameState.PLAYER_2_WON:
             game.outcome = game.player2
-        if end_game_state == GameState.DRAW:
+        if self.outcome == GameState.DRAW:
             game.outcome = None
 
+        # return the updated game object state
         return game
-        
-
-    @property
-    def is_game_over(self) -> bool:
-        pass
 
     def drop_disk(self, player_id, column) -> None:
         print(self.board)
         player_id = str(player_id)
         column = int(column)
+
+        # check if game has ended
+        if self.outcome != GameState.NOT_ENDED:
+            raise Connect4GameError("Game has ended, no more moves allowed.")
+
         # validate if correct player is playing
         if player_id != self.whose_turn:
-            raise Connect4GameError(f"It is player_id={self.whose_turn} turn to play, but player_id={player_id} tried to play instead")
-        # validate if column can have disk dropped in it
-
+            raise Connect4GameError(f"It is player_id={self.whose_turn}'s turn to play, but player_id={player_id} tried to play instead", show_user_error=False)
         
-        if player_id == self.player1:
-            token_no = 1
-        elif player_id == self.player2:
-            token_no = 2
+        # validate if column in a valid range
+        if column < 0 or column >= Connect4Game.BOARD_WIDTH:
+            raise Connect4GameError("Invalid column for dropping a disc")
 
-        for i in range(7):
-            if self.board[column][i] == 0:
-                self.board[column][i] = token_no
+        # validate if column can have disk dropped in it
+        if int(self.board[column][Connect4Game.BOARD_HEIGHT]) != SlotType.EMPTY:
+            raise Connect4GameError(f"Column {column} is full")
+        
+        # determine which players disc is being dropped
+        if player_id == self.player1:
+            disc = SlotType.PLAYER1_DISC
+        elif player_id == self.player2:
+            disc = SlotType.PLAYER2_DISC
+
+        # drop player's disk in the column
+        for i in range(Connect4Game.BOARD_HEIGHT + 1):
+            if self.board[column][i] == SlotType.EMPTY:
+                self.board[column][i] = disc
                 break
         else:
             raise Connect4GameError(f"Column {column} is already full")
 
+        
+    def update_game_on_drop_disk(self):
+        # update total number of moves
+        self.moves_played += 1
+
+        # update move count for player and toggle player
+        if self.whose_turn == self.player1:
+            self.player1NumMoves += 1
+            self.whose_turn = self.player2
+        else:
+            self.player2NumMoves += 1
+            self.whose_turn = self.player1
+        
+        # update outcome
+        self.outcome = end_game_state
+
     @property
     def end_game_state(self) -> GameState:
-        pass
+        # TODO Check if the board has reached an end state with a winner
+
+        if self.moves_played == Connect4Game.MAX_MOVES:
+            return GameState.DRAW
+
+        return GameState.NOT_ENDED
 
     def _validate_state(self):
-        # TODO check board state
-        # List[List[int]
-        # Num columns and rows
-        # Difference of 1 disk only bw players
-        pass
+        # Board type should be List[List[int]
+        if type(self.board) != list:
+            raise Connect4GameError(f"Columns are not of type list", show_user_error=False)
+        for column in self.board:
+            if type(column) != list:
+                raise Connect4GameError(f"Rows are not of type list", show_user_error=False)
+            for row in column:
+                if type(row) != int:
+                    raise Connect4GameError(f"Board has non integer type value", show_user_error=False)
+
+        # Check board has valid number of columns and rows
+        if len(self.board) != Connect4Game.BOARD_WIDTH:
+            raise Connect4GameError(f"Invalid number of columns in board, expected {Connect4Game.BOARD_WIDTH} got {len(self.board)}", show_user_error=False)
+        for i, column in enumerate(self.board):
+            if len(column) != Connect4Game.BOARD_HEIGHT:
+                raise Connect4GameError(f"Invalid number of rows in column {i}, expected {Connect4Game.BOARD_HEIGHT} got {len(column)}", show_user_error=False)
+       
+        # Difference of moves between players should not exceed 1
+        if abs(self.player1_num_moves - self.player2_num_moves) > 1:
+            raise Connect4GameError(f"Difference between player move count greater than 1!\nPlayer1 made {self.player1_num_moves} moves, while Player2 made {self.player2_num_moves}", show_user_error=False)
+
 
 
 class Connect4GameError(Exception):
-    def __init__(self, message):
+    def __init__(self, message, show_user_error=True):
         self.message = message
+        self.show_user_error = show_user_error
