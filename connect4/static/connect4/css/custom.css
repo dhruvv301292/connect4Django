@@ -355,6 +355,16 @@ input {
     color: #FF1E4E !important;
 }
 
+.filled-red-disc {
+    size: calc(100% + 0.8vw + 0.8vh);
+    color: #FF1E4E !important;
+}
+
+.filled-yellow-disc {
+    size: calc(100% + 0.8vw + 0.8vh);
+    color: #ffee00 !important;
+}
+
 .top-disc:hover {
     color: #FF1E4E !important;
 }

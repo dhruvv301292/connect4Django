@@ -119,6 +119,20 @@ function pollGame(gameId) {
 
 function updateGameView(response) {
     console.log(response);
+
+    for (let col = 0; col < 7; col++) {
+        for (let row = 0; row < 6; row++) {
+            let discValue = response.board[col][row];
+            let discClass = "board-disc";
+            if (discValue === 1) {
+                discClass = "filled-red-disc";
+            }
+            else if (discValue === 2) {
+                discClass = "filled-yellow-disc";
+            }
+            document.getElementById('disc_' + row.toString() + col.toString()).className = "fas fa-circle fa-4x mx-auto " + discClass+ " pad-0";
+        }
+    }
 }
 
 function leaveGame(gameID) { 

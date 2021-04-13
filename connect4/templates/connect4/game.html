@@ -143,16 +143,11 @@
         let myUserName = "{{ request.user.username }}"
         let playerId = "{{ request.user.id }}"
         let gameId = "{{ game_id }}";
-        let filled = [-1,-1,-1,-1, -1, -1, -1]
         function add_disc(col) {
-            if (filled[col] < 5) {
-                filled[col] += 1
-                document.getElementById("disc_"+filled[col].toString()+col.toString()).className = "fas fa-circle fa-4x mx-auto filled-disc pad-0";                                 
-            }
             playTurn(gameId, playerId, col);
         }
-        
-        window.setInterval(pollGame, 10000, gameId);
+        window.onload = () => pollGame(gameId)
+        window.setInterval(pollGame, 5000, gameId);
     </script>
 
 {% endblock %}
