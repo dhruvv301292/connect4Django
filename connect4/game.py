@@ -29,16 +29,27 @@ class Connect4Game:
         self.player1 = str(game_model.player1.user.id)
         self.player2 = str(game_model.player2.user.id)
         self.whose_turn = str(game_model.turn.user.id)
-        self.outcome = bool(game_model.outcome)
+        self.outcome: GameState = None
+        if not game_model.game_over:
+            self.outcome = GameState.NOT_ENDED
+        else:
+            if game_model.outcome is None:
+                self.outcome = GameState.DRAW
+            elif game_model.outcome == game_model.player1:
+                self.outcome = GameState.PLAYER_1_WON
+            elif game_model.outcome == game_model.player2:
+                self.outcome = GameState.PLAYER_2_WON
+            else:
+                raise Connect4GameError(f"Invalid outcome value in game_model: {game_model.outcome}", show_user_error=False)
         self.board = game_model.board
-        self.player1_num_moves, self.player2_num_moves = count_player_moves(self.board)
+        self.player1_num_moves, self.player2_num_moves = Connect4Game.count_player_moves(self.board)
 
     @staticmethod
     def count_player_moves(board):
         player1_num_moves = 0
         player2_num_moves = 0
-        for col in range(BOARD_WIDTH):
-            for row in range(BOARD_HEIGHT):
+        for col in range(Connect4Game.BOARD_WIDTH):
+            for row in range(Connect4Game.BOARD_HEIGHT):
                 if board[col][row] == SlotType.PLAYER1_DISC:
                     player1_num_moves += 1
                 elif board[col][row] == SlotType.PLAYER2_DISC:
@@ -62,7 +73,14 @@ class Connect4Game:
 
         # update the game object state
         game.board = self.board
-        game.turn = self.whose_turn
+
+        if self.whose_turn == self.player1:
+            game.turn = game.player1
+        elif self.whose_turn == self.player2:
+            game.turn = game.player2
+        else:
+            raise Connect4GameError("Unexpected player {self.whose_turn} for taking turn, must be one of {self.player1} or {self.player2}", show_user_error=False)
+
         game.moves_played = self.moves_played
         
         if self.outcome != GameState.NOT_ENDED:
@@ -78,7 +96,7 @@ class Connect4Game:
         # return the updated game object state
         return game
 
-    def drop_disk(self, player_id, column) -> None:
+    def drop_disc(self, player_id, column) -> None:
         print(self.board)
         player_id = str(player_id)
         column = int(column)
@@ -89,14 +107,14 @@ class Connect4Game:
 
         # validate if correct player is playing
         if player_id != self.whose_turn:
-            raise Connect4GameError(f"It is player_id={self.whose_turn}'s turn to play, but player_id={player_id} tried to play instead", show_user_error=False)
+            raise Connect4GameError(f"It is player_id={self.whose_turn}'s turn to play, but player_id={player_id} tried to play instead")
         
         # validate if column in a valid range
         if column < 0 or column >= Connect4Game.BOARD_WIDTH:
             raise Connect4GameError("Invalid column for dropping a disc")
 
-        # validate if column can have disk dropped in it
-        if int(self.board[column][Connect4Game.BOARD_HEIGHT]) != SlotType.EMPTY:
+        # validate if column can have disc dropped in it
+        if int(self.board[column][-1]) != SlotType.EMPTY:
             raise Connect4GameError(f"Column {column} is full")
         
         # determine which players disc is being dropped
@@ -105,29 +123,31 @@ class Connect4Game:
         elif player_id == self.player2:
             disc = SlotType.PLAYER2_DISC
 
-        # drop player's disk in the column
-        for i in range(Connect4Game.BOARD_HEIGHT + 1):
+        # drop player's disc in the column
+        for i in range(Connect4Game.BOARD_HEIGHT):
             if self.board[column][i] == SlotType.EMPTY:
                 self.board[column][i] = disc
                 break
         else:
             raise Connect4GameError(f"Column {column} is already full")
 
+        self.update_game_on_drop_disc()
+
         
-    def update_game_on_drop_disk(self):
+    def update_game_on_drop_disc(self):
         # update total number of moves
         self.moves_played += 1
 
         # update move count for player and toggle player
         if self.whose_turn == self.player1:
-            self.player1NumMoves += 1
+            self.player1_num_moves += 1
             self.whose_turn = self.player2
         else:
-            self.player2NumMoves += 1
+            self.player2_num_moves += 1
             self.whose_turn = self.player1
         
         # update outcome
-        self.outcome = end_game_state
+        self.outcome = self.end_game_state
 
     @property
     def end_game_state(self) -> GameState:
