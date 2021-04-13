@@ -146,6 +146,25 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="id_result_modal" role="dialog">
+            <div class="modal-dialog">            
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">                    
+                        <h4 class="modal-title">Game Over!</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="id_modal_text"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <a id="id_close_modal" class="btn btn-default" href={% url 'home' %}>Close</a>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </body>
     <script>
         let myUserName = "{{ request.user.username }}"

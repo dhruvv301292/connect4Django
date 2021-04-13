@@ -205,6 +205,7 @@ class Connect4Game:
                 if (self.board[i][j] == playerType and self.board[i-1][j-1] == playerType and self.board[i-2][j-2] == playerType and self.board[i-3][j-3] == playerType):
                     return True
         return False
+
 class Connect4GameError(Exception):
     def __init__(self, message, show_user_error=True):
         self.message = message

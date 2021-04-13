@@ -67,7 +67,13 @@ function getButton(game) {
             let entergame = '/connect4/startentergame/' + game.id;
             return '<div class="col-3" id="id_game_'+ game.id +'_start"><form id="id_game_'+game.id+'_enter_form" method="POST" action="'+entergame+'"><button class="start-button mx-auto" id="id_game_' + game.id + '_start_button" type="submit">Enter</button></form></div></div></li>'
         } else {
-            return '<div class="col-3 d-flex flex-wrap align-items-center" id="id_game_'+ game.id +'_start"><span class="pad-0 mx-auto" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh; color:#F9C10B">GAME OVER</span></div><div class="col-1 d-flex flex-wrap align-items-center" id="id_game_'
+            let result = "No Result";
+            if (game.outcome == 1) {
+                result = game.p1_username + " won!";
+            } else if (game.outcome == 2) {
+                result = game.p2_username + " won!";
+            }
+            return '<div class="col-3 d-flex flex-wrap align-items-center" id="id_game_'+ game.id +'_start"><span class="pad-0 mx-auto" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh; color:#F9C10B">' + result + '</span></div><div class="col-1 d-flex flex-wrap align-items-center" id="id_game_'
             + game.id +'_delete"><button onclick="deleteGame('+game.id+')" class="btn px-0 py-0 float-right"><span class="fa fa-times-circle fa-3x cross-button"></span></button></div></div></li>'            
         }       
     } else if (game.p2_username == null && myUserName == game.p1_username) {
@@ -84,7 +90,13 @@ function getButton(game) {
             return '<div class="col-3" id="id_game_'+ game.id +'_start"><form id="id_game_'+game.id+'_enter_form" method="POST" action="'+entergame+'"><button class="start-button mx-auto" id="id_game_' + game.id + '_start_button" type="submit">Enter</button></form></div><div class="col-1 d-flex flex-wrap align-items-center" id="id_game_'
             + game.id +'_leave"><button onclick="leaveGame('+game.id+')" class="btn px-0 py-0 float-right"><span class="fa fa-sign-out-alt fa-flip-horizontal fa-3x cross-button"></span></button></div></div></li>'
         } else {
-            return '<div class="col-3 d-flex flex-wrap align-items-center" id="id_game_'+ game.id +'_start"><span class="pad-0 mx-auto" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh; color:#F9C10B">GAME OVER</span></div><div class="col-1 d-flex flex-wrap align-items-center" id="id_game_'
+            let result = "No Result";
+            if (game.outcome == 1) {
+                result = game.p1_username + " won!";
+            } else if (game.outcome == 2) {
+                result = game.p2_username + " won!";
+            }
+            return '<div class="col-3 d-flex flex-wrap align-items-center" id="id_game_'+ game.id +'_start"><span class="pad-0 mx-auto" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh; color:#F9C10B">' + result + '</span></div><div class="col-1 d-flex flex-wrap align-items-center" id="id_game_'
             + game.id +'_delete"><button onclick="deleteGame('+game.id+')" class="btn px-0 py-0 float-right"><span class="fa fa-times-circle fa-3x cross-button"></span></button></div></div></li>'
         }    
     } else if (game.p1_username != myUserName && game.p2_username != myUserName) {
@@ -129,7 +141,20 @@ function pollGame(gameId) {
 }
 
 function updateGameView(response) {
-    console.log(response);    
+    console.log(response);  
+    if (response.outcome == 1) {
+        let outcome_string = player1 + " wins!";
+        $('#id_modal_text').text(outcome_string);
+        $("#id_result_modal").modal();
+    } else if (response.outcome == 2) {
+        let outcome_string = player2 + " wins!";
+        $('#id_modal_text').text(outcome_string);
+        $("#id_result_modal").modal();
+    } else if (response.outcome == 3) {
+        let outcome_string = "It's a tie!";
+        $('#id_modal_text').text(outcome_string);
+        $("#id_result_modal").modal();
+    }
     if (myUserName === player1) {
         if (myUserName === response.turn) {
             $( "i[id^='topdisc']" ).removeClass(['top-disc-p2', 'top-disc-p1', 'disc-disabled']).addClass('top-disc-p1');
