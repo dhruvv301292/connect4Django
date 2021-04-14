@@ -26,7 +26,7 @@
                 <div class="col-2 pad-0" id="players_div">
                     <div class="row h-35 pad-0" id="opponent_div">
                         <div class="col-12 pad-0-col">
-                            <img src="{% url 'get_photo' opponent.id %}" class="game-image border border-p1" alt="opponent">
+                            <img src="{% url 'get_photo' opponent.id %}" id="id_opponent_image" class="game-image border border-p1 border-top" alt="opponent">
                         </div>
                     </div>
                     <div class="row h-15 d-flex flex-wrap align-items-center">   
@@ -41,7 +41,7 @@
                     </div>
                     <div class="row h-35 align-items-end pad-0" id="player_div">
                         <div class="col-12 pad-0-col">
-                            <img src="{% url 'get_photo' selfplayer.id %}" class="game-image border border-p2" alt="player">
+                            <img src="{% url 'get_photo' selfplayer.id %}" id="id_player_image" class="game-image border border-p2 border-bottom" alt="player">
                         </div>
                     </div>
                 </div>
@@ -49,8 +49,8 @@
                 <div class="col-7 pad-0-col" id="players_board_div">
                     <div class="row h-10 pad-0">
                         <div class="col-12 pad-0-col">
-                            <div class="row name p1bg pad-0-col"><i>{{opponent.user.username}}</i></div>
-                            <div class="row info p1bg pad-0-col">{{opponent.user.get_full_name}}</div>
+                            <div id="id_opponent_username" class="row name p1bg pad-0-col"><i>{{opponent.user.username}}</i></div>
+                            <div id="id_opponent_name" class="row info p1bg pad-0-col">{{opponent.user.get_full_name}}</div>
                             <div class="row"></div>
                         </div>
                     </div>
@@ -135,8 +135,8 @@
                     </div>
                     <div class="row h-10 align-items-end pad-0">
                         <div class="col-12 pad-0-col">
-                            <div class="row name p2bg pad-0-col"><i>{{selfplayer.user.username}}</i></div>
-                            <div class="row p2bg info pad-0-col">{{selfplayer.user.get_full_name}}</div>
+                            <div id="id_player_username" class="row name p2bg pad-0-col"><i>{{selfplayer.user.username}}</i></div>
+                            <div id="id_player_name" class="row p2bg info pad-0-col">{{selfplayer.user.get_full_name}}</div>
                         </div>
                     </div>
                 </div>

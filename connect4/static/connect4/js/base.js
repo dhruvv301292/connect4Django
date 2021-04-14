@@ -156,15 +156,27 @@ function updateGameView(response) {
         $("#id_result_modal").modal();
     }
     if (myUserName === player1) {
+        $('#id_player_image').removeClass(['border-p2', 'border-p1']).addClass('border-p1')
+        $('#id_opponent_image').removeClass(['border-p2', 'border-p1']).addClass('border-p2')
+        $('#id_player_username').removeClass(['p1bg', 'p2bg']).addClass('p1bg')
+        $('#id_player_name').removeClass(['p1bg', 'p2bg']).addClass('p1bg')
+        $('#id_opponent_username').removeClass(['p1bg', 'p2bg']).addClass('p2bg')
+        $('#id_opponent_name').removeClass(['p1bg', 'p2bg']).addClass('p2bg')
         if (myUserName === response.turn) {
             $( "i[id^='topdisc']" ).removeClass(['top-disc-p2', 'top-disc-p1', 'disc-disabled']).addClass('top-disc-p1');
             $('#id_turn_div').empty().text("Your turn").css("color", "white").css("font-size", "3.3vh").css("text-transform", "uppercase").removeClass(['bg-success', 'bg-timer', 'bg-danger', 'animated', 'tada']).addClass('bg-success');
         } else {
             $( "i[id^='topdisc']" ).removeClass(['top-disc-p2', 'top-disc-p1', 'disc-disabled']).addClass('disc-disabled');
             let turn_string = response.turn + "'s Turn";
-            $('#id_turn_div').empty().text(turn_string).css("color", "black").css("font-size", "3.0vh").removeClass(['bg-success', 'bg-timer', 'bg-danger', 'animated', 'tada']).addClass('bg-timer');            
+            $('#id_turn_div').empty().text(turn_string).css("color", "black").css("font-size", "3.0vh").css("text-transform", "uppercase").removeClass(['bg-success', 'bg-timer', 'bg-danger', 'animated', 'tada']).addClass('bg-timer');            
         }       
     } else {
+        $('#id_player_image').removeClass(['border-p2', 'border-p1']).addClass('border-p2')
+        $('#id_opponent_image').removeClass(['border-p2', 'border-p1']).addClass('border-p1')
+        $('#id_player_username').removeClass(['p1bg', 'p2bg']).addClass('p2bg')
+        $('#id_player_name').removeClass(['p1bg', 'p2bg']).addClass('p2bg')
+        $('#id_opponent_username').removeClass(['p1bg', 'p2bg']).addClass('p1bg')
+        $('#id_opponent_name').removeClass(['p1bg', 'p2bg']).addClass('p1bg')
         if (myUserName === response.turn) {
             $( "i[id^='topdisc']" ).removeClass(['top-disc-p2', 'top-disc-p1', 'disc-disabled']).addClass('top-disc-p2');
             $('#id_turn_div').empty().text("Your turn").css("color", "white").css("font-size", "3.3vh").css("text-transform", "uppercase").removeClass(['bg-success', 'bg-timer', 'bg-danger', 'animated', 'tada']).addClass('bg-success');            

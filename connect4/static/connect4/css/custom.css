@@ -47,9 +47,23 @@ h1 {font-size:1rem;}
 .border-p1 {
     border-width: 0.7vh !important;
     border-color: #FF1E4E !important;
-    border-radius: 2vh !important;
-    border-top-left-radius: 0% !important;
-    border-top-right-radius: 0% !important;    
+    border-radius: 2vh !important;  
+}
+
+.border-p2 {
+    border-width: 0.7vh !important;
+    border-color: #00B0F0 !important;
+    border-radius: 2vh !important;    
+}
+
+.border-bottom {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;   
+}
+
+.border-top {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
 }
 
 .border-profile {
@@ -60,16 +74,8 @@ h1 {font-size:1rem;}
     border-bottom-left-radius: 0% !important;    
 }
 
-.border-p2 {
-    border-width: 0.7vh !important;
-    border-color: #00B0F0 !important;
-    border-radius: 2vh !important;
-    border-bottom-left-radius: 0% !important;
-    border-bottom-right-radius: 0% !important;
-}
-
 .game-image {
-    height: 25.1vh;
+    height: 29vh;
     width: 16.7vw;
 }
 
