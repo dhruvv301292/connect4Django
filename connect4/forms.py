@@ -82,7 +82,6 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('image', 'primary_color', 'secondary_color')
-
         widgets = {
             'image': forms.FileInput(attrs={'id': 'id_profile_picture'}),
             'primary_color': TextInput(attrs={'type': 'color'}),
@@ -90,8 +89,9 @@ class ProfileForm(forms.ModelForm):
         }
 
     def clean_image(self):
-        image = self.cleaned_data['image']
-        if not image or not hasattr(image, 'content_type'):
+        image = self.cleaned_data['image']        
+        if not image or not hasattr(image, 'content_type'):  
+            print(hasattr(image, 'content_type'))          
             raise forms.ValidationError('You must upload a picture')
         if not image.content_type or not image.content_type.startswith('image'):
             raise forms.ValidationError('File type is not image')

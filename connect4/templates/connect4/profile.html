@@ -14,6 +14,18 @@
 </head>
 
 <body>
+	<ul class=errorlist>
+        {% for field in form.visible_fields %}
+            {% for error in field.errors %}
+                <li class="error">
+                    {{ error }}
+                </li>
+            {% endfor %}
+        {% endfor %}
+        {% if message %}
+            {{message}}
+        {% endif %}
+    </ul>
 	{% csrf_token %}
 	<div class="container-fluid">
 		<div class="row h-100 pad-0" id="main_container_row">
@@ -57,11 +69,11 @@
 									<span class='pad-0 mx-0' style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 6vh; line-height: 6vh;">EDIT</span>
 								</div>
 								<div id="id_edit_profile" class="row h-70 pad-0">
-									<form method="POST" action="#" enctype="multipart/form-data">
+									<form method="POST" action="{% url 'update_profile' %}" enctype="multipart/form-data">
 										<input type="hidden" name="id_profile_user" value="{{profile.user.username}}">
 										<div class="row h-20">
-											<label class="btn color-button" for="id_profile_picture">Select a file</label>
-											<input type="file" id="id_profile_picture" name="profile_pic">
+											<label class="btn color-button" for="id_profile_picture" style="line-height: 6vh;">Select a file</label>
+											<input type="file" id="id_profile_picture" name="image">
 										</div>
 										<div class="row h-20">
 											<button class="btn color-button" id="id_update_color_button" type="button" >Choose Color</button>

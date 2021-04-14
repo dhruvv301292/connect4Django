@@ -4,11 +4,11 @@ from django.contrib.auth.models import User
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT)
-    image = models.FileField(default='connect4/static/connect4/images/profile.jpg',
-                             upload_to="connect4/static/connect4/images")
-    content_type = models.CharField(max_length=50, default='image/jpeg')
-    primary_color = models.CharField(max_length=7)
-    secondary_color = models.CharField(max_length=7)
+    image = models.ImageField(default='connect4/static/connect4/images/profile.jpg',
+                             upload_to="connect4/static/connect4/images", blank=True)
+    content_type = models.CharField(max_length=50, default='image/jpeg', blank=True)
+    primary_color = models.CharField(max_length=7, blank=True)
+    secondary_color = models.CharField(max_length=7, blank=True)
     total_wins = models.IntegerField(default=0)
     total_losses = models.IntegerField(default=0)
     total_ties = models.IntegerField(default=0)
