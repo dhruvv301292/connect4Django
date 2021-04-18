@@ -62,6 +62,18 @@ h1 {font-size:1rem;}
     border-radius: 2vh !important;    
 }
 
+.border-leader {
+    border-width: 0.5vh !important;
+    border-color: black !important;
+    border-radius: 2vh !important;  
+}
+
+.border-leader-self {
+    border-width: 0.5vh !important;
+    border-color: white !important;
+    border-radius: 2vh !important;  
+}
+
 .border-bottom {
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;   
@@ -518,4 +530,9 @@ input {
  .result-modal {
      height: 35vh;
      width: 40vw;
+ }
+
+ .leader-image {
+     height: 10vh;
+     width: 10vh;
  }

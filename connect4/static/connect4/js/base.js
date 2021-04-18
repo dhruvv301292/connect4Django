@@ -9,6 +9,26 @@ function getAllGames() {
     });
 }
 
+function getLeaderboard() {    
+    $.ajax({
+        url: "connect4/get-leaderboard",
+        dataType : "json",
+        success: updateLeaderBoardPage,
+        error: updateError
+    });
+}
+
+function updateLeaderBoardPage(response) {
+    let Players = response['Players']    
+    if (Array.isArray(Players)) {       
+        updateLeaderboard(Players)
+    } else if (Players.hasOwnProperty('error')) {
+        displayError(Players.error)
+    } else {
+        displayError(Players)
+    }
+}
+
 
 function updateArena(response) {
     let Games = response['Games']    
@@ -59,6 +79,31 @@ function updateGamesList(games) {
         inputElem.value = getCSRFToken();
         this.appendChild(inputElem);
      });
+}
+
+function updateLeaderboard(players) {
+    $('#players-list').empty()
+    let count = 1
+    $(players).each(function() {
+        let my_id = "id_player_item_" + this.id  
+        let get_photo = "/connect4/photo/" + this.id 
+        let elem = ""
+        if (document.getElementById(my_id) == null) {
+            if (this.username == myUserName) {
+                elem =  '<li id="id_player_item_' + this.id + '" style="list-style: none"><div id="id_player_bg_'+ this.id +'" class="row rounded mb-2 border" style="background:'+ this.prim_color +'"><div class="col-1 d-flex flex-wrap align-items-center""><span id="id_player_rank_'+ this.id +'" class="pad-0" style="font-family: FuturaBoldItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: white;">'
+                + count + '</span></div><div class="col-3 d-flex flex-wrap align-items-center"><image class="pad-0 leader-image border border-leader-self" src="'+ get_photo + '" id="id_player_' + this.id + '_image"></div><div class="col-7 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_username" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: white">' 
+                + this.username + '</span></div><div class="col-1 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_wins" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: white">' 
+                + this.wins + '</span></div></div></li>'
+            } else {
+                elem =  '<li id="id_player_item_' + this.id + '" style="list-style: none"><div id="id_player_bg_'+ this.id +'" class="row bg-light rounded mb-2 border "><div class="col-1 d-flex flex-wrap align-items-center""><span id="id_player_rank_'+ this.id +'" class="pad-0" style="font-family: FuturaBoldItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: grey;">'
+                + count + '</span></div><div class="col-3 d-flex flex-wrap align-items-center"><image class="pad-0 leader-image border border-leader" src="'+ get_photo + '" id="id_player_' + this.id + '_image"></div><div class="col-7 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_username" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
+                + this.username + '</span></div><div class="col-1 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_wins" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
+                + this.wins + '</span></div></div></li>'
+            }            
+            $("#players-list").append(elem)
+        }
+        count += 1
+    })
 }
 
 function getButton(game) {

@@ -426,3 +426,16 @@ def leave_game(request):
     game.game_over = None
     game.save()
     return get_games(request)
+
+@login_required
+def get_leaderboard(request):
+    Players = []
+    for player in Profile.objects.all().order_by('-total_wins'):
+        player_i = {}
+        player_i['id'] = player.id
+        player_i['username'] = player.user.username
+        player_i['prim_color'] = player.primary_color
+        player_i['wins'] = player.total_wins
+        Players.append(player_i)
+    response_json = {'Players': Players}
+    return HttpResponse(json.dumps(response_json), content_type='application/json')

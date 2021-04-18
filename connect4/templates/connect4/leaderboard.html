@@ -37,8 +37,8 @@
 	</div>
 	<script>         
 		var myUserName = "{{ request.user.username }}"
-		window.onload = getAllGames;
-		window.setInterval(getAllGames, 5000);         
+		window.onload = getLeaderboard;
+		window.setInterval(getLeaderboard, 20000);         
 	</script>
 </body>
 {% endblock %}
