@@ -1,0 +1,47 @@
+{% extends "connect4/base_with_nav.html" %}
+{% block title %} My Profile {% endblock %}
+
+{% block page-name %}
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	{% load static %}
+	<link href="{% static 'connect4/css/custom.css' %}" rel="stylesheet" type="text/css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script src="/static/connect4/js/base.js"></script>
+</head>
+
+<body>
+	{% csrf_token %}
+	<div class="container-fluid">
+		<div class="row h-100 pad-0" id="main_container_row">
+			<div class="col-12 border-top pad-0-col">
+				<div id="id_container_title" class="row h-30 pad-0">	
+					<div class="col-6 pad-0">
+						<span id="id_page_title" class="pad-0 float-left ml-5" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 26vh; line-height: 26vh;">LEADERBOARD</span>
+					</div>
+					<div class="col-6 pad-0">
+					</div>				
+				</div>
+				<div class="row h-70">
+					<div class="col-12">
+						<ol class="pad-0" id="players-list">														
+						</ol>
+					</div>
+				</div>
+			</div>						
+		</div>
+	</div>
+	<script>         
+		var myUserName = "{{ request.user.username }}"
+		window.onload = getAllGames;
+		window.setInterval(getAllGames, 5000);         
+	</script>
+</body>
+{% endblock %}
+
+{% block content %}
+{% endblock %}

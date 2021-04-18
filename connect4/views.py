@@ -31,7 +31,7 @@ def add_game(request):
     board = [[0 for i in range(6)] for j in range(7)]
    
     Player1 = Profile.objects.get(user_id=request.user.id)
-    new_game = GameObject(board=board, player1=Player1, player2=None, player1_color='#FF1E4E',
+    new_game = GameObject(board=board, player1=Player1, player2=None, player1_color=Player1.primary_color,
                           player2_color='#00B0F0', turn=Player1, outcome=None, game_over=None, moves_played=0,
                           created_time=datetime.datetime.now())
     new_game.save()
@@ -39,6 +39,7 @@ def add_game(request):
 
 @login_required
 def profile_action(request):
+    print("PROFILE ACTION")
     context = {}
     profile = Profile.objects.get(user_id=request.user.id)
 
@@ -46,25 +47,32 @@ def profile_action(request):
 
     context['form'] = form
     context['profile'] = profile
+    context['prim_color'] = profile.primary_color
     return render(request, 'connect4/profile.html', context)
+
+@login_required
+def leaderboard_action(request):
+    context = {}    
+    return render(request, 'connect4/leaderboard.html', context)
 
 
 @login_required
 def update_profile(request):
     context = {}
     profile = Profile.objects.get(user_id=request.user.id)
-    form = ProfileForm(request.POST, request.FILES, instance=profile)
+    form = ProfileForm(request.POST, request.FILES, instance=profile)        
     context['profile'] = profile
     if not form.is_valid():
         context['form'] = form
     else:
         profile.content_type = form.cleaned_data['image'].content_type
-        profile.image = form.cleaned_data['image']
-        profile.primary_color = form.cleaned_data['primary_color']
+        profile.image = form.cleaned_data['image']        
+        profile.primary_color = form.cleaned_data['primary_color']        
         profile.secondary_color = form.cleaned_data['secondary_color']
         profile.save()
         context['form'] = ProfileForm(instance=profile)
         context['profile'] = profile
+        context['prim_color'] = profile.primary_color
     return render(request, 'connect4/profile.html', context)
 
 
@@ -169,6 +177,8 @@ def start_enter_game(request, game_id):
         context['opponent'] = game.player1
     context['player1'] = game.player1.user.username
     context['player2'] = game.player2.user.username
+    context['p1_color'] = game.player1_color
+    context['p2_color'] = game.player2_color
     # other game elements are yet to be encoded
     return render(request, 'connect4/game.html', context)
 
@@ -226,8 +236,24 @@ def poll_game(request):
     response_json = _game_to_dict(game_model)
     game: Connect4Game = Connect4Game.from_game_object(game_model)
     if game_over(game, game_model):
-        # TODO: redirect to new page
-        print("Redirecting")
+        print("GAME OVER")
+        p1 = game_model.player1
+        p2 = game_model.player2 
+        if game_model.outcome == game_model.player1:
+            print("OUTCOME IS 1")
+            p1.total_wins = p1.total_wins + 1
+            p2.total_losses = p2.total_losses + 1
+        elif game_model.outcome == game_model.player2:
+            print("OUTCOME IS 2")
+            p2.total_wins += 1
+            p1.total_losses += 1
+        elif game_model.outcome is None:            
+            p2.total_ties += 1
+            p1.total_ties += 1
+        p1.save()
+        p2.save()
+        print("PLAYER1 WINS: ", p1.total_wins)
+        print("Redirecting")        
     print("Board in json: ", response_json)
     return HttpResponse(json.dumps(response_json), content_type='application/json')
 
@@ -295,8 +321,7 @@ def play_turn(request):
 
     # TODO check if someone has won, if so then redirect to game win page
 
-    if game_over(game, updated_game_model):
-        # TODO: redirect to new page
+    if game_over(game, updated_game_model):   
         print("Redirecting")
     # else
     return HttpResponse(json.dumps(game_dict), content_type='application/json')
@@ -343,6 +368,8 @@ def add_player(request):
 
     player2_profile = Profile.objects.get(user__username=request.POST['username'])
     game.player2 = player2_profile
+    if player2_profile.primary_color:
+        game.player2_color = player2_profile.primary_color
     game.save()
     return get_games(request)
 

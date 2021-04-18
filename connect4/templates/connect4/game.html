@@ -141,7 +141,7 @@
                     </div>
                 </div>
 
-                <div class="col-3 card bg-transparent card-body" id="chat_div">
+                <div class="col-3 card bg-dark card-body" id="chat_div">
                     <div class="row"></div>
                 </div>
             </div>
@@ -172,6 +172,9 @@
         let player1 = "{{ player1 }}"
         let player2 = "{{ player2 }}"
         let gameId = "{{ game_id }}";
+        alert("{{p1_color}}")
+        document.documentElement.style.setProperty('--player1-color', "{{p1_color}}");
+        document.documentElement.style.setProperty('--player2-color', "{{p2_color}}");
         function add_disc(col) {
             playTurn(gameId, playerId, col);
         }

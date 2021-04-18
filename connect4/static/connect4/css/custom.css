@@ -24,6 +24,12 @@ h1 {font-size:1rem;}
     h1 {font-size:2.75rem;} 
 }
 
+:root {
+    --profile-border: #000000;
+    --player1-color: #FF1E4E;
+    --player2-color: #00B0F0;
+  }
+
 
 .container-fluid {
     height: 92.6vh;
@@ -46,13 +52,13 @@ h1 {font-size:1rem;}
 
 .border-p1 {
     border-width: 0.7vh !important;
-    border-color: #FF1E4E !important;
+    border-color: var(--player1-color) !important;
     border-radius: 2vh !important;  
 }
 
 .border-p2 {
     border-width: 0.7vh !important;
-    border-color: #00B0F0 !important;
+    border-color: var(--player2-color) !important;
     border-radius: 2vh !important;    
 }
 
@@ -68,7 +74,7 @@ h1 {font-size:1rem;}
 
 .border-profile {
     border-width: 0.5em !important;
-    border-color: #FF1E4E !important;
+    border-color: var(--profile-border) !important;
     border-radius: 2em !important;
     border-top-left-radius: 0% !important;
     border-bottom-left-radius: 0% !important;    
@@ -242,12 +248,11 @@ h1 {font-size:1rem;}
 }
 
 .p1bg {
-    background: #FF1E4E !important;    
-    padding-top: 0 !important;
+    background: var(--player1-color) !important;    
 }
 
 .p2bg {
-    background: #00B0F0 !important;
+    background: var(--player2-color) !important;
 }
 
 .info {
@@ -373,20 +378,20 @@ input {
 
 .filled-red-disc {
     size: calc(100% + 0.8vw + 0.8vh);
-    color: #FF1E4E !important;
+    color: var(--player1-color) !important;
 }
 
 .filled-blue-disc {
     size: calc(100% + 0.8vw + 0.8vh);
-    color: #00B0F0 !important;
+    color: var(--player2-color) !important;
 }
 
 .top-disc-p1:hover {
-    color: #FF1E4E !important;
+    color: var(--player1-color) !important;
 }
 
 .top-disc-p2:hover {
-    color: #00B0F0 !important;
+    color: var(--player2-color) !important;
 }
 
 .board-disc-p1 {
@@ -394,7 +399,7 @@ input {
 }
 
 .board-disc-p1:hover {
-    color: #FF1E4E !important;
+    color: var(--player1-color) !important;
 }
 
 .board-disc-p2 {
@@ -402,7 +407,7 @@ input {
 }
 
 .board-disc-p2:hover {
-    color: #00B0F0 !important;
+    color: var(--player2-color) !important;
 }
 
 .round-top-left {

@@ -30,11 +30,11 @@
 	<div class="container-fluid">
 		<div class="row h-100 pad-0" id="main_container_row">
 			<div class="col-12 border-top pad-0-col">
-				<div id="id_top_pillar" class="row h-10 pad-0-col">
+				<div class="row h-10 pad-0-col">
 					<div class="col-1 pad-0">
 						<div class="row h-100 pad-0-col">
 							<div class="col-5 pad-0">
-								<div class="row h-100 pad-0-col p1bg">-</div>
+								<div id="id_top_pillar" class="row h-100 pad-0-col">-</div>
 							</div>
 						</div>
 					</div>
@@ -56,9 +56,9 @@
 				</div>
 				<div id="id_bottom_pillar_edit_stats" class="row h-60 pad-0-col">
 					<div class="col-1 pad-0">
-						<div id="bottom_pillar" class="row h-100 pad-0-col">
+						<div class="row h-100 pad-0-col">
 							<div class="col-5 pad-0">
-								<div class="row h-100 pad-0-col p1bg">-</div>
+								<div id="id_bottom_pillar" class="row h-100 pad-0-col">-</div>
 							</div>
 						</div>
 					</div>
@@ -76,7 +76,8 @@
 											<input type="file" id="id_profile_picture" name="image">
 										</div>
 										<div class="row h-20">
-											<button class="btn color-button" id="id_update_color_button" type="button" >Choose Color</button>
+											<label class="btn color-button" for="id_profile_color_button" style="line-height: 6vh;">Select a color</label>
+											<input type="color" id="id_profile_color_button" name="primary_color">
 										</div>																														
 										{% csrf_token %}
 										<div class="row h-20">
@@ -99,13 +100,13 @@
 									</div>																
 								</div>
 								<div class="row h-10 pad-0">
-									<span class='pad-0 mx-0' style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh;">PLAYED: <span class='pad-0 mx-0' style="font-family: FuturaExtraBold; text-transform:uppercase; color: crimson; font-size: 4vh; line-height: 6vh;">20</span></span>
+									<span class='pad-0 mx-0' style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh;">PLAYED: <span class='pad-0 mx-0' style="font-family: FuturaExtraBold; text-transform:uppercase; color: crimson; font-size: 4vh; line-height: 6vh;">{{profile.total_wins}} + {{profile.total_losses}} + {{profile.total_ties}}</span></span>
 								</div>
 								<div class="row h-10 pad-0">
-									<span class='pad-0 mx-0' style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh;">WON: <span class='pad-0 mx-0' style="font-family: FuturaExtraBold; text-transform:uppercase; color: crimson; font-size: 4vh; line-height: 6vh;">11</span></span>
+									<span class='pad-0 mx-0' style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh;">WON: <span class='pad-0 mx-0' style="font-family: FuturaExtraBold; text-transform:uppercase; color: crimson; font-size: 4vh; line-height: 6vh;">{{profile.total_wins}}</span></span>
 								</div>
 								<div class="row h-10 pad-0">
-									<span class='pad-0 mx-0' style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh;">LOST: <span class='pad-0 mx-0' style="font-family: FuturaExtraBold; text-transform:uppercase; color: crimson; font-size: 4vh; line-height: 6vh;">7</span></span>
+									<span class='pad-0 mx-0' style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh;">LOST: <span class='pad-0 mx-0' style="font-family: FuturaExtraBold; text-transform:uppercase; color: crimson; font-size: 4vh; line-height: 6vh;">{{profile.total_losses}}</span></span>
 								</div>
 								<div class="row h-10 pad-0">
 									<span class='pad-0 mx-0' style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 4.5vh; line-height: 6vh;">LAST 10 GAMES</span>
@@ -117,31 +118,12 @@
 			</div>			
 			</div>
 		</div>
-<!-- <span class='id_page_name' id="id_page_name" style="font-family: Futura-CondensedExtraBold; text-transform:uppercase; font-size: 10rem;">{{user.first_name}}</span>
-{% load static %}
-{% if profile.image %}
-<img src="{% url 'get_photo' profile.id %}" id="id_user_picture" alt="user profile pic" width="200px">
-<br>
-{% endif %}
-
-<form enctype="multipart/form-data" action="{% url 'update_profile' %}" method="post" class="update_profile">
-	<table>
-		{% for field in form.visible_fields %}
-		<tr>
-			<td>{{field.label_tag}}</td>
-			<td>{{field}}</td>
-			<td class="error">
-				{% for error in field.errors %} {{error}} {% endfor %}
-			</td>
-		</tr>
-		{% endfor %}
-		<tr>
-			<td colspan="3"><input type="submit" id="id_update_profile_button" value="Submit"></td>
-		</tr>
-	</table>
-	{% csrf_token %}
-
-</form> -->
+		<script>
+			let prim = '"{{prim_color}}"';			
+			$('#id_top_pillar').css('background', "{{prim_color}}");
+			$('#id_bottom_pillar').css('background', "{{prim_color}}");
+			document.documentElement.style.setProperty('--profile-border', "{{prim_color}}");
+		</script>
 {% endblock %}
 
 {% block content %}

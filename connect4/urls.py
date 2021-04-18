@@ -22,6 +22,7 @@ urlpatterns = [
     path('logout', views.logout_action, name='logout'),
     path('register', views.register_action, name='register'),
     path('profile', views.profile_action, name='profile'),
+    path('leaderboard', views.leaderboard_action, name='leaderboard'),
     path('photo/<int:id>', views.get_photo, name='get_photo'),
     path('update_profile', views.update_profile, name='update_profile'),
     path('startentergame/<str:game_id>', views.start_enter_game, name='startgame'),    
@@ -39,4 +40,5 @@ urlpatterns = [
     path('connect4/play-turn', views.play_turn, name='play-turn'),
     path('poll-game', views.poll_game, name='poll-game'),
     path('connect4/poll-game', views.poll_game, name='poll-game'),
+
 ]
