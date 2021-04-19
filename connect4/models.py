@@ -13,6 +13,10 @@ class Profile(models.Model):
     total_losses = models.IntegerField(default=0)
     total_ties = models.IntegerField(default=0)
 
+    @property
+    def total_games_played(self):
+        return self.total_wins + self.total_ties + self.total_losses
+
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
 
