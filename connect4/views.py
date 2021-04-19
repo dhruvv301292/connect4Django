@@ -16,6 +16,15 @@ from json import JSONEncoder
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 
+def readonly(func):
+    """Marker decorator for read-only operations
+    
+    Functions/operations decorated with this decorator should NOT update the database. 
+    They should only perform database reads/non-mutating actions.
+    """
+    return func
+
+
 @login_required
 def home(request):
     return render(request, 'connect4/arena.html', {})
@@ -183,6 +192,7 @@ def start_enter_game(request, game_id):
     return render(request, 'connect4/game.html', context)
 
 # for updating arena view using ajax
+@readonly
 @login_required
 def get_games(request):
     Games = []
@@ -219,6 +229,7 @@ def get_outcome(game: GameObject):
 
 
 # TODO: Rename method and/or update comment
+@readonly
 @login_required
 def get_game(request, game_id):
     game = get_object_or_404(GameObject, id=game_id)
@@ -229,6 +240,7 @@ def get_game(request, game_id):
     return HttpResponse(json.dumps(response_json), content_type='application/json')
 
 
+@readonly
 @login_required
 def poll_game(request):
     game_id = request.GET['game_id']
@@ -240,26 +252,25 @@ def poll_game(request):
     # TODO: check if playerId is the logged in user, else throw an error
 
     response_json = _game_to_dict(game_model)
-    game: Connect4Game = Connect4Game.from_game_object(game_model)
-    if game_over(game, game_model):
-        print(f"[poll_game] [{game_id}] GAME OVER")
-        p1 = game_model.player1
-        p2 = game_model.player2 
-        if game_model.outcome == game_model.player1:
-            print(f"[poll_game] [{game_id}] OUTCOME IS 1")
-            p1.total_wins = p1.total_wins + 1
-            p2.total_losses = p2.total_losses + 1
-        elif game_model.outcome == game_model.player2:
-            print(f"[poll_game] [{game_id}] OUTCOME IS 2")
-            p2.total_wins += 1
-            p1.total_losses += 1
-        elif game_model.outcome is None:            
-            p2.total_ties += 1
-            p1.total_ties += 1
-        p1.save()
-        p2.save()
-        print(f"[poll_game] [{game_id}] PLAYER1 WINS: ", p1.total_wins)
+        
     return HttpResponse(json.dumps(response_json), content_type='application/json')
+
+
+def update_player_stats(game: Connect4Game, game_model: GameObject):
+    p1 = game_model.player1
+    p2 = game_model.player2 
+    if game_model.outcome == game_model.player1:
+        print(f"[update_player_stats] [{game_model.id}] OUTCOME IS 1")
+        p1.total_wins = p1.total_wins + 1
+        p2.total_losses = p2.total_losses + 1
+    elif game_model.outcome == game_model.player2:
+        print(f"[update_player_stats] [{game_model.id}] OUTCOME IS 2")
+        p2.total_wins += 1
+        p1.total_losses += 1
+    elif game_model.outcome is None:            
+        p2.total_ties += 1
+        p1.total_ties += 1
+
 
 
 def _game_to_dict(game: GameObject):
@@ -318,42 +329,22 @@ def play_turn(request):
     # get the updated state after a successful disc drop
     updated_game_model: GameObject = game.to_game_object()
 
+    if game.game_over:
+        update_player_stats(game, updated_game_model)
+
+    p1 = game_model.player1
+    p2 = game_model.player2 
+
     # save this updated model to the db
+    # TODO(devika): Save all objects in a single transaction
     updated_game_model.save()
+    p1.save()
+    p2.save()
+
     game_dict = _game_to_dict(updated_game_model)
 
-    # TODO check if someone has won, if so then redirect to game win page
-
-    if game_over(game, updated_game_model):   
-        print("Redirecting")
-    # else
     return HttpResponse(json.dumps(game_dict), content_type='application/json')
 
-def game_over(game: Connect4Game, updated_game_model: GameObject):
-    print(f"[{updated_game_model.id}] end_game_state={game.end_game_state}")
-
-    # player 1 won
-    if game.end_game_state == GameState.PLAYER_1_WON:
-        updated_game_model.outcome = updated_game_model.player1
-        updated_game_model.game_over = True
-        updated_game_model.save()
-        print(f"[{updated_game_model.id}] Player 1 won the game")
-        return True
-    # player 2 won
-    if game.end_game_state == GameState.PLAYER_2_WON:
-        updated_game_model.outcome = updated_game_model.player2
-        updated_game_model.game_over = True
-        updated_game_model.save()
-        print(f"[{updated_game_model.id}] Player 2 won the game")
-        return True
-    # draw
-    if game.end_game_state == GameState.DRAW:
-        updated_game_model.outcome = None
-        updated_game_model.game_over = True
-        updated_game_model.save()
-        print(f"[{updated_game_model.id}] A draw occurred")
-        return True
-    return False
 
 @login_required
 def add_player(request):
@@ -431,15 +422,20 @@ def leave_game(request):
     game.save()
     return get_games(request)
 
+
+@readonly
 @login_required
 def get_leaderboard(request):
-    Players = []
+    players = []
     for player in Profile.objects.all().order_by('-total_wins'):
-        player_i = {}
-        player_i['id'] = player.id
-        player_i['username'] = player.user.username
-        player_i['prim_color'] = player.primary_color
-        player_i['wins'] = player.total_wins
-        Players.append(player_i)
-    response_json = {'Players': Players}
+        player_i = {
+            'id': player.id,
+            'username': player.user.username,
+            'prim_color': player.primary_color,
+            'wins': player.total_wins
+        }
+        players.append(player_i)
+
+    response_json = {'Players': players}
+
     return HttpResponse(json.dumps(response_json), content_type='application/json')

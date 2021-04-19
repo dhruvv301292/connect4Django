@@ -82,9 +82,7 @@ class Connect4Game:
             raise Connect4GameError("Unexpected player {self.whose_turn} for taking turn, must be one of {self.player1} or {self.player2}", show_user_error=False)
 
         game.moves_played = self.moves_played
-        
-        if self.outcome != GameState.NOT_ENDED:
-            game.game_over = True
+        game.game_over = self.game_over
         
         if self.outcome == GameState.PLAYER_1_WON:
             game.outcome = game.player1
@@ -131,6 +129,11 @@ class Connect4Game:
             raise Connect4GameError(f"Column {column} is already full")
 
         self.update_game_on_drop_disc()
+
+
+    @property
+    def game_over(self):
+        return self.outcome != GameState.NOT_ENDED
 
         
     def update_game_on_drop_disc(self):
