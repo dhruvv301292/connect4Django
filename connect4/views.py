@@ -187,29 +187,36 @@ def start_enter_game(request, game_id):
 def get_games(request):
     Games = []
     for game in GameObject.objects.all():
-        game_i = {}
-        game_i['id'] = game.id
-        game_i['p1_username'] = game.player1.user.username
+        game_i = {
+            'id': game.id,
+            'p1_username': game.player1.user.username,
+            'player1_color': game.player1_color,
+            'player2_color': game.player2_color,
+            'turn': game.turn.user.username,
+            'game_over': game.game_over,
+            'moves_played': game.moves_played,
+            'outcome': get_outcome(game)
+        }
         if game.player2:
             game_i['p2_username'] = game.player2.user.username
         else:
             game_i['p2_username'] = None
-        game_i['player1_color'] = game.player1_color
-        game_i['player2_color'] = game.player2_color
-        game_i['turn'] = game.turn.user.username
-        if game.outcome == game.player1:
-            game_i['outcome'] = 1
-        elif game.outcome == game.player2:
-            game_i['outcome'] = 2
-        elif game.game_over and game.outcome is None:
-            game_i['outcome'] = 3
-        else:
-            game_i['outcome'] = 4
-        game_i['game_over'] = game.game_over
-        game_i['moves_played'] = game.moves_played
+        
         Games.append(game_i)
     response_json = {'Games': Games}
     return HttpResponse(json.dumps(response_json), content_type='application/json')
+
+
+def get_outcome(game: GameObject):
+    if game.outcome == game.player1:
+        return 1
+    if game.outcome == game.player2:
+        return 2
+    if game.game_over and game.outcome is None:
+        return 3
+
+    return 4
+
 
 # TODO: Rename method and/or update comment
 @login_required
@@ -227,7 +234,6 @@ def poll_game(request):
     game_id = request.GET['game_id']
 
     game_model: GameObject = get_object_or_404(GameObject, id=game_id)
-    print(f"Got game: {game_model}")
     if not game_model:
         raise Http404
     
@@ -236,15 +242,15 @@ def poll_game(request):
     response_json = _game_to_dict(game_model)
     game: Connect4Game = Connect4Game.from_game_object(game_model)
     if game_over(game, game_model):
-        print("GAME OVER")
+        print(f"[poll_game] [{game_id}] GAME OVER")
         p1 = game_model.player1
         p2 = game_model.player2 
         if game_model.outcome == game_model.player1:
-            print("OUTCOME IS 1")
+            print(f"[poll_game] [{game_id}] OUTCOME IS 1")
             p1.total_wins = p1.total_wins + 1
             p2.total_losses = p2.total_losses + 1
         elif game_model.outcome == game_model.player2:
-            print("OUTCOME IS 2")
+            print(f"[poll_game] [{game_id}] OUTCOME IS 2")
             p2.total_wins += 1
             p1.total_losses += 1
         elif game_model.outcome is None:            
@@ -252,9 +258,7 @@ def poll_game(request):
             p1.total_ties += 1
         p1.save()
         p2.save()
-        print("PLAYER1 WINS: ", p1.total_wins)
-        print("Redirecting")        
-    print("Board in json: ", response_json)
+        print(f"[poll_game] [{game_id}] PLAYER1 WINS: ", p1.total_wins)
     return HttpResponse(json.dumps(response_json), content_type='application/json')
 
 
@@ -285,7 +289,6 @@ def _game_to_dict(game: GameObject):
 
 @login_required
 def play_turn(request):
-    context = {}
     game_id = request.POST['game_id']
     player_id = request.POST['player_id']
     column = request.POST['column']
@@ -304,7 +307,7 @@ def play_turn(request):
     try:
         game.drop_disc(player_id, column)
     except Connect4GameError as e:
-        print(e.message)
+        print(f"[play_turn] [{game_id}] [{player_id}] An error occurred when trying to play turn: {e.message}")
         if e.show_user_error:
             # raise client error to inform the user about why this turn could not be played
             return HttpResponse(reason=e.message, status=406)
@@ -326,28 +329,29 @@ def play_turn(request):
     # else
     return HttpResponse(json.dumps(game_dict), content_type='application/json')
 
-def game_over(game, updated_game_model):
+def game_over(game: Connect4Game, updated_game_model: GameObject):
+    print(f"[{updated_game_model.id}] end_game_state={game.end_game_state}")
+
     # player 1 won
-    print(game.end_game_state)
     if game.end_game_state == GameState.PLAYER_1_WON:
         updated_game_model.outcome = updated_game_model.player1
         updated_game_model.game_over = True
         updated_game_model.save()
-        print("Player 1 won the game")
+        print(f"[{updated_game_model.id}] Player 1 won the game")
         return True
     # player 2 won
-    elif game.end_game_state == GameState.PLAYER_2_WON:
+    if game.end_game_state == GameState.PLAYER_2_WON:
         updated_game_model.outcome = updated_game_model.player2
         updated_game_model.game_over = True
         updated_game_model.save()
-        print("Player 2 won the game")
+        print(f"[{updated_game_model.id}] Player 2 won the game")
         return True
     # draw
-    elif game.end_game_state == GameState.DRAW:
+    if game.end_game_state == GameState.DRAW:
         updated_game_model.outcome = None
         updated_game_model.game_over = True
         updated_game_model.save()
-        print("A draw occurred")
+        print(f"[{updated_game_model.id}] A draw occurred")
         return True
     return False
 
