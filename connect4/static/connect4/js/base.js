@@ -19,13 +19,13 @@ function getLeaderboard() {
 }
 
 function updateLeaderBoardPage(response) {
-    let Players = response['Players']    
-    if (Array.isArray(Players)) {       
-        updateLeaderboard(Players)
-    } else if (Players.hasOwnProperty('error')) {
-        displayError(Players.error)
+    let players = response['Players']    
+    if (Array.isArray(players)) {       
+        updateLeaderboard(players)
+    } else if (players.hasOwnProperty('error')) {
+        displayError(players.error)
     } else {
-        displayError(Players)
+        displayError(players)
     }
 }
 

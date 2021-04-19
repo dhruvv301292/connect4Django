@@ -428,11 +428,17 @@ def leave_game(request):
 def get_leaderboard(request):
     players = []
     for player in Profile.objects.all().order_by('-total_wins'):
+        win_ratio = 0
+        if player.total_games_played > 0:
+            win_ratio = player.total_wins / player.total_games_played
+            win_ratio = float("{:.2f}".format(win_ratio))
         player_i = {
             'id': player.id,
             'username': player.user.username,
             'prim_color': player.primary_color,
-            'wins': player.total_wins
+            'wins': player.total_wins,
+            'total_games_played': player.total_games_played,
+            'win_ratio': win_ratio
         }
         players.append(player_i)
 
