@@ -389,16 +389,7 @@ form {
 
 /* Invisible inputs */
 
-input {
-    display: none;
-    position: absolute;
-    top: -90px;
-    margin: 0;
-    width: 60px;
-    height: 450px;
-    cursor: pointer;
-    opacity: 0;
-}
+
 
 /* Disc */
 
@@ -669,17 +660,17 @@ input {
     color: #4c4c4c;
     font-size: 15px;
     min-height: 48px;
-    width: 100%;
+    width: 90%;
     outline: none;
 }
 
 .type_msg {
     border-top: 1px solid #c4c4c4;
-    border-bottom: 1px solid #c4c4c4;
-    bottom: 0;
+    bottom: 10px;
     right: 0;
     left: 0;
     position: absolute;
+    padding-right:10%;
 
 }
 
@@ -692,7 +683,7 @@ input {
     font-size: 15px;
     height: 33px;
     position: absolute;
-    right: 0;
+    right: 1%;
     top: 11px;
     width: 33px;
 }
