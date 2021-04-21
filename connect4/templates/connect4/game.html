@@ -36,7 +36,7 @@
                     </div>
                     <div class="row h-15 d-flex flex-wrap align-items-center">   
                         <div class="col w-100 pad-0-col">
-                            <div id="id_timer_div" class="bg-timer h-100 w-100 mx-auto d-block rounded text-center timer-text">00:00</div>
+                            <div id="id_timer_div" class="bg-timer h-100 w-100 mx-auto d-block rounded text-center timer-text"></div>
                         </div>                                             
                     </div>
                     <div class="row h-35 align-items-end pad-0" id="player_div">
@@ -172,7 +172,6 @@
         let player1 = "{{ player1 }}"
         let player2 = "{{ player2 }}"
         let gameId = "{{ game_id }}";
-        alert("{{p1_color}}")
         document.documentElement.style.setProperty('--player1-color', "{{p1_color}}");
         document.documentElement.style.setProperty('--player2-color', "{{p2_color}}");
         function add_disc(col) {

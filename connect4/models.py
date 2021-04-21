@@ -12,6 +12,7 @@ class Profile(models.Model):
     total_wins = models.IntegerField(default=0)
     total_losses = models.IntegerField(default=0)
     total_ties = models.IntegerField(default=0)
+    is_online = models.BooleanField(default=False)
 
     @property
     def total_games_played(self):
@@ -36,6 +37,8 @@ class GameObject(models.Model):
     # will need to find if colors are too similar
     player1_color = models.CharField(max_length=7, null=True)
     player2_color = models.CharField(max_length=7, null=True)
+    player1_entered = models.BooleanField(default=False)
+    player2_entered = models.BooleanField(default=False)
     turn = models.ForeignKey(
         Profile, on_delete=models.PROTECT, related_name="turn", null=True)
     outcome = models.ForeignKey(
@@ -43,4 +46,5 @@ class GameObject(models.Model):
     # Null when not started, False when in progress, True when over
     game_over = models.BooleanField(null=True)
     moves_played = models.IntegerField(default=0)
+    timer = models.IntegerField(blank=True, default = 20)
     created_time = models.DateTimeField(auto_now=True)

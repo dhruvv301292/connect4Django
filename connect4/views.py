@@ -41,7 +41,7 @@ def add_game(request):
    
     Player1 = Profile.objects.get(user_id=request.user.id)
     new_game = GameObject(board=board, player1=Player1, player2=None, player1_color=Player1.primary_color,
-                          player2_color='#00B0F0', turn=Player1, outcome=None, game_over=None, moves_played=0,
+                          player2_color='#00B0F0', outcome=None, game_over=None, moves_played=0,
                           created_time=datetime.datetime.now())
     new_game.save()
     return redirect('home')
@@ -127,11 +127,17 @@ def login_action(request):
                             password=form.cleaned_data['password'])
 
     login(request, new_user)
+    profile = Profile.objects.get(user__username=new_user.username)
+    profile.is_online = True
+    profile.save()
     return redirect(reverse('home'))
 
 
-def logout_action(request):
-    logout(request)
+def logout_action(request):   
+    profile = Profile.objects.get(user__username=request.user.username)
+    profile.is_online = False
+    profile.save() 
+    logout(request)    
     return redirect(reverse('login'))
 
 
@@ -174,16 +180,20 @@ def start_enter_game(request, game_id):
     context = {'game_id': game_id}
     game = GameObject.objects.get(id = int(game_id))    
     if not game:
-        return _my_json_error_response("This game does not exist, man!")
-    if game.game_over == None:
-        game.game_over = False
-        game.save()
+        return _my_json_error_response("This game does not exist, man!")          
     if request.user.username == game.player1.user.username:
         context['selfplayer'] = game.player1
         context['opponent'] = game.player2
+        game.player1_entered = True
     elif request.user.username == game.player2.user.username:
         context['selfplayer'] = game.player2
         context['opponent'] = game.player1
+        game.player2_entered = True
+    if game.game_over == None and game.player1_entered == True and game.player2_entered == True: #check if game not started and if both players have entered the game
+        game.game_over = False
+        game.turn = game.player1
+        game.timer = 20
+    game.save()
     context['player1'] = game.player1.user.username
     context['player2'] = game.player2.user.username
     context['p1_color'] = game.player1_color
@@ -202,11 +212,13 @@ def get_games(request):
             'p1_username': game.player1.user.username,
             'player1_color': game.player1_color,
             'player2_color': game.player2_color,
-            'turn': game.turn.user.username,
+            'player1_entered': game.player1_entered,
             'game_over': game.game_over,
             'moves_played': game.moves_played,
             'outcome': get_outcome(game)
         }
+        if game.turn != None:
+            game_i['turn'] = game.turn.user.username
         if game.player2:
             game_i['p2_username'] = game.player2.user.username
         else:
@@ -248,20 +260,36 @@ def poll_game(request):
     game_model: GameObject = get_object_or_404(GameObject, id=game_id)
     if not game_model:
         raise Http404
-    
-    # TODO: check if playerId is the logged in user, else throw an error
+
+    # timer logic
+    if game_model.turn and game_model.game_over == False:
+        if game_model.timer > 0:
+            if request.user.username == game_model.turn.user.username:
+                game_model.timer = game_model.timer - 2                
+        else:
+            print("GAME OVER")
+            game_model.game_over = True
+            if game_model.turn.user.username == game_model.player1.user.username:
+                game_model.outcome = game_model.player2
+            else:
+                game_model.outcome = game_model.player1            
+            update_player_stats(game_model)
+        game_model.save()
 
     response_json = _game_to_dict(game_model)
         
     return HttpResponse(json.dumps(response_json), content_type='application/json')
 
 
-def update_player_stats(game: Connect4Game, game_model: GameObject):
+def update_player_stats(game_model: GameObject):    
     p1 = game_model.player1
+    print(p1)
     p2 = game_model.player2 
+    print(p2)
+    print("P2 wins: {}".format(p2.total_wins))
     if game_model.outcome == game_model.player1:
         print(f"[update_player_stats] [{game_model.id}] OUTCOME IS 1")
-        p1.total_wins = p1.total_wins + 1
+        p1.total_wins = p1.total_wins + 1        
         p2.total_losses = p2.total_losses + 1
     elif game_model.outcome == game_model.player2:
         print(f"[update_player_stats] [{game_model.id}] OUTCOME IS 2")
@@ -270,6 +298,9 @@ def update_player_stats(game: Connect4Game, game_model: GameObject):
     elif game_model.outcome is None:            
         p2.total_ties += 1
         p1.total_ties += 1
+    p1.save()
+    p2.save()
+    print("P2 wins: {}".format(p2.total_wins))
 
 
 
@@ -282,8 +313,9 @@ def _game_to_dict(game: GameObject):
     else:
         game_i['p2_username'] = None
     game_i['player1_color'] = game.player1_color
-    game_i['player2_color'] = game.player2_color
-    game_i['turn'] = game.turn.user.username
+    game_i['player2_color'] = game.player2_color    
+    if game.turn:
+        game_i['turn'] = game.turn.user.username
     if game.outcome == game.player1:
         game_i['outcome'] = 1
     elif game.outcome == game.player2:
@@ -295,6 +327,7 @@ def _game_to_dict(game: GameObject):
     game_i['game_over'] = game.game_over
     game_i['moves_played'] = game.moves_played
     game_i['board'] = game.board
+    game_i['timer'] = game.timer
     return game_i
 
 
@@ -328,18 +361,21 @@ def play_turn(request):
         
     # get the updated state after a successful disc drop
     updated_game_model: GameObject = game.to_game_object()
+    updated_game_model.timer = 20
+    updated_game_model.save()
 
     if game.game_over:
-        update_player_stats(game, updated_game_model)
+        update_player_stats(updated_game_model)
 
-    p1 = game_model.player1
-    p2 = game_model.player2 
+    ## dhruv: doing the saving in update_player_stats instead 
+    # p1 = game_model.player1
+    # p2 = game_model.player2 
 
-    # save this updated model to the db
-    # TODO(devika): Save all objects in a single transaction
-    updated_game_model.save()
-    p1.save()
-    p2.save()
+    # # save this updated model to the db
+    # # TODO(devika): Save all objects in a single transaction
+    # updated_game_model.save()
+    # p1.save()
+    # p2.save()
 
     game_dict = _game_to_dict(updated_game_model)
 
@@ -438,7 +474,8 @@ def get_leaderboard(request):
             'prim_color': player.primary_color,
             'wins': player.total_wins,
             'total_games_played': player.total_games_played,
-            'win_ratio': win_ratio
+            'win_ratio': win_ratio,
+            'is_online': player.is_online
         }
         players.append(player_i)
 
