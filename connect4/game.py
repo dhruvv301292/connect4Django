@@ -155,10 +155,13 @@ class Connect4Game:
     def end_game_state(self) -> GameState:
         # TODO Check if the board has reached an end state with a winner
         if self.four_connected(SlotType.PLAYER1_DISC):
+            print("Player 1 wins")
             return GameState.PLAYER_1_WON
         if self.four_connected(SlotType.PLAYER2_DISC):
+            print("Player 2 wins")
             return GameState.PLAYER_2_WON
         if self.moves_played == Connect4Game.MAX_MOVES:
+            print("Draw")
             return GameState.DRAW
 
         return GameState.NOT_ENDED

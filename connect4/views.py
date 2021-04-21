@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
 from django.utils import timezone
-from connect4.models import GameObject, Profile
+from connect4.models import *
 from connect4.game import Connect4Game, Connect4GameError, GameState
 from connect4.forms import LoginForm, RegisterForm, ProfileForm
 from django.shortcuts import render, get_object_or_404, Http404, HttpResponse
@@ -280,6 +280,31 @@ def poll_game(request):
         
     return HttpResponse(json.dumps(response_json), content_type='application/json')
 
+def get_chat(request):
+    game_id = request.GET['game_id']
+    chatHistory = Chat.objects.get(game_id=game_id).order_by('created_time')
+    messages = []
+    for message in chatHistory:
+        message_i = {
+            'username': message.user.username,
+            'message': message.input_text,
+        }
+        messages.append(message_i)
+    response_json = {'Messages': messages}
+
+    return HttpResponse(json.dumps(response_json), content_type='application/json')
+
+def add_chat(request):
+    game_id = request.POST['game_id']
+    player_id = request.POST['player_id']
+    message = request.POST['message']
+
+    # TODO: check that the player sending the message is actually a participant in the game
+
+    chat = Chat(input_text=message, user=request.user, created_time=datetime.datetime.now())
+    chat.save()
+    return get_chat(request)
+
 
 def update_player_stats(game_model: GameObject):    
     p1 = game_model.player1
@@ -328,6 +353,7 @@ def _game_to_dict(game: GameObject):
     game_i['moves_played'] = game.moves_played
     game_i['board'] = game.board
     game_i['timer'] = game.timer
+
     return game_i
 
 

@@ -18,6 +18,7 @@ function getLeaderboard() {
     });
 }
 
+
 function updateLeaderBoardPage(response) {
     let players = response['Players']    
     if (Array.isArray(players)) {       
@@ -195,6 +196,35 @@ function pollGame(gameId) {
         success: updateGameView,
         error: updateError
     }); 
+}
+
+function getChat(gameId){
+    console.log("Getting chat for "+gameId);
+    $.ajax({
+        url: "/connect4/get-chat",
+        type: "GET",
+        data: "game_id="+gameId+"&csrfmiddlewaretoken="+getCSRFToken(),
+        dataType : "json",
+        success: updateChatView,
+        error: updateError
+    });
+}
+
+function addChat(gameId, playerId, message){
+    console.log("Adding chat to  "+gameId+" for playerId "+playerId);
+    $.ajax({
+        url: "/connect4/add-chat",
+        type: "POST",
+        data: "game_id="+gameId+"&playerId="+playerId+"&message="+message+"&csrfmiddlewaretoken="+getCSRFToken(),
+        dataType : "json",
+        success: updateChatView,
+        error: updateError
+    });
+}
+
+function updateChatView(response){
+    // TODO: implement update to chat view
+
 }
 
 function updateGameView(response) {

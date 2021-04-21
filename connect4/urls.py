@@ -42,5 +42,9 @@ urlpatterns = [
     path('connect4/play-turn', views.play_turn, name='play-turn'),
     path('poll-game', views.poll_game, name='poll-game'),
     path('connect4/poll-game', views.poll_game, name='poll-game'),
+    path('connect4/get-chat', views.get_chat, name='get-chat'),
+    path('get-chat', views.get_chat, name='get-chat'),
+    path('add-chat', views.add_chat, name='add-chat'),
+    path('connect4/add-chat', views.add_chat, name='add-chat'),
 
 ]
