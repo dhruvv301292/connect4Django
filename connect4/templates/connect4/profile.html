@@ -81,12 +81,12 @@
 										<div class="row h-20">
 											<label class="btn color-button" for="id_profile_picture"
 												style="line-height: 6vh;">Select a file</label>
-											<input type="file" id="id_profile_picture" name="image">
+											<input type="file" id="id_profile_picture" name="image" style="display:none">
 										</div>
 										<div class="row h-20">
 											<label class="btn color-button" for="id_profile_color_button"
 												style="line-height: 6vh;">Select a color</label>
-											<input type="color" id="id_profile_color_button" name="primary_color">
+											<input type="color" id="id_profile_color_button" name="primary_color" style="display:none">
 										</div>
 										{% csrf_token %}
 										<div class="row h-20">
