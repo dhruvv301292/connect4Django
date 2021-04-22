@@ -262,11 +262,12 @@ def poll_game(request):
 
     # timer logic
     if game_model.turn and game_model.game_over == False:
-        if game_model.timer > 0:
+        if game_model.timer > 2:
             if request.user.username == game_model.turn.user.username:
-                game_model.timer = game_model.timer - 2                
+                game_model.timer = game_model.timer - 2
         else:
             print("GAME OVER: RAN OUT OF TIME")
+            game_model.timer = 0
             game_model.game_over = True
             if game_model.turn.user.username == game_model.player1.user.username:
                 game_model.outcome = game_model.player2
