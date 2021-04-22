@@ -693,6 +693,13 @@ form {
 }
 
 .msg_history {
-    height: 100%;
-
+	height: 90%;
+    width:90%;
+    position:absolute;
+	overflow-y: scroll;
+}
+.sender_name {
+	color: #eeeeee;
+	font-size: 12px;
+	margin: 8px 0 0;
 }

@@ -255,26 +255,17 @@
 
             <div class="col-3 card bg-dark card-body" id="chat_div">
                 <div class="row-1 g-0 mesgs">
-                    <div class="msg_history">
-                        <div class="incoming_msg">
-                            <div class="received_msg">
-                                <div class="received_withd_msg">
-                                    <p>Test which is a new approach to have all
-                                        solutions</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="outgoing_msg">
-                            <div class="sent_msg">
-                                <p>Test which is a new approach to have all
-                                    solutions</p>
-                            </div>
-                        </div>
-                            <div class="input-group type_msg">
-                                <input type="text" class="form-control" id="message_input" placeholder="Type a message"/>
-                                <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane" aria-hidden="true" onclick=alert("Replace_with_submit")></i></button>
-                            </div>
+                    <div class="msg_history" id="chat_messages">
+                        <span>Hello</span>
                     </div>
+                </div>
+                <div class="input-group type_msg">
+                    <form method="POST" action="{% url 'add-chat' game_id request.user.id%}" style="width:100%">
+                        <input type="text" class="form-control" id="message_input_chat" name="message_input" placeholder="Type a message"/>
+                        <button class="msg_send_btn" type="submit"><i class="fa fa-paper-plane" aria-hidden="true"
+                        ></i></button>
+                        {% csrf_token %}
+                    </form>
                 </div>
             </div>
 
@@ -298,6 +289,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </body>
     <script>
         let myUserName = "{{ request.user.username }}"
