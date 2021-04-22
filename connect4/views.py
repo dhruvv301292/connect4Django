@@ -285,13 +285,13 @@ def add_chat(request, gameid, playerid):
         return _my_json_error_response("You must use a POST request for this operation", status=404)
     message = request.POST['message_input']
     user = get_object_or_404(User, id=playerid)
-    print(message)
+    print("Message is: ",message)
     game = get_object_or_404(GameObject, id=gameid)
     if not game or not user:
         raise Http404
-    chat = Chat(input_text=message, game=game, user=user, created_time=datetime.datetime.now())
-    chat.save()
-    print(request)
+    if len(message)>0:
+        chat = Chat(input_text=message, game=game, user=user, created_time=datetime.datetime.now())
+        chat.save()
     return start_enter_game(request, gameid)
 
 
@@ -344,11 +344,9 @@ def _game_to_dict(game: GameObject):
     game_i['timer'] = game.timer
 
     try:
-        print(game.id)
-        print(Chat.objects.all()[0].game_id)
         chatHistory = Chat.objects.filter(game_id=game.id).order_by('created_time')
     except:
-        print("in except")
+        print("in exception where no chat exists")
         chatHistory = []
     messages = []
     for message in chatHistory:
