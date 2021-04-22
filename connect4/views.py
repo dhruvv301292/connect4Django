@@ -413,6 +413,20 @@ def play_turn(request):
 
     return HttpResponse(json.dumps(game_dict), content_type='application/json')
 
+@login_required
+def reset_stats(request):
+    context = {}
+    profile = Profile.objects.get(user_id=request.user.id)
+    profile.total_wins = 0
+    profile.total_losses = 0
+    profile.total_ties = 0
+    profile.save()
+    form = ProfileForm(instance=profile)
+
+    context['form'] = form
+    context['profile'] = profile
+    context['prim_color'] = profile.primary_color
+    return render(request, 'connect4/profile.html', context)
 
 @login_required
 def add_player(request):

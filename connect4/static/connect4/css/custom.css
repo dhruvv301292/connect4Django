@@ -278,6 +278,27 @@ h1 {
     height: 6vh;
 }
 
+.hidden-input {
+    display: none;
+}
+
+input[type="color"] {
+	-webkit-appearance: none;
+	border: none;
+	width: 4vh;
+	height: 3vh;
+    background-color: white;    
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+    background-color: white;
+    border: none;
+}
+input[type="color"]::-webkit-color-swatch {
+	border-radius: 4vh;
+    border: none;
+}
+
 
 .name {
     font-size: calc(100% + 0.8vw + 0.8vh) !important;
@@ -593,6 +614,8 @@ form {
     height: 10vh;
     width: 10vh;
 }
+
+
 
 /******************Chat box************************/
 

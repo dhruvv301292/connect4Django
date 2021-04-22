@@ -79,14 +79,16 @@
 										enctype="multipart/form-data">
 										<input type="hidden" name="id_profile_user" value="{{profile.user.username}}">
 										<div class="row h-20">
-											<label class="btn color-button" for="id_profile_picture"
-												style="line-height: 6vh;">Select a file</label>
-											<input type="file" id="id_profile_picture" name="image">
+											<label class="btn color-button" for="id_profile_picture" style="line-height: 6vh;">Select a file</label>
+											<input class="hidden-input" type="file" id="id_profile_picture" name="image">
 										</div>
 										<div class="row h-20">
-											<label class="btn color-button" for="id_profile_color_button"
-												style="line-height: 6vh;">Select a color</label>
-											<input type="color" id="id_profile_color_button" name="primary_color">
+											<div class="col-9">
+												<label for="id_profile_color_button" style="font-family: Futura; font-size: 2.8vh;">Select color</label>
+											</div>	
+											<div class="col-3 d-flex flex-wrap align-items-center">
+												<input type="color" class="pad-col-0 mx-auto" id="id_profile_color_button" value="{{profile.primary_color}}" name="primary_color">
+											</div>																					
 										</div>
 										{% csrf_token %}
 										<div class="row h-20">
@@ -107,33 +109,30 @@
 											style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 6vh; line-height: 6vh;">STATS</span>
 									</div>
 									<div class="col-3 pad-0">
-										<button class="btn reset-button" id="id_reset_button"
-											type="button">RESET</button>
+										<form method="POST" action="{% url 'reset-stats' %}">
+											{% csrf_token %}
+											<button class="btn reset-button" id="id_reset_button"
+												type="submit">RESET</button>
+										</form>
 									</div>
 								</div>
-								<div class="row h-10 pad-0">
-									<span class='pad-0 mx-0'
-										style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh;">PLAYED:
-										<span class='pad-0 mx-0'
-											style="font-family: FuturaExtraBold; text-transform:uppercase; color: crimson; font-size: 4vh; line-height: 6vh;">{{profile.total_games_played}}</span></span>
+								<div class="row h-10">
+									<div class="col-3 pt-1 pl-0"><span class='mx-0' style="font-family: FuturaItalic; text-transform:uppercase; font-size: 6vh; line-height: 6vh;">PLAYED:</span></div>									    
+									<div class="col-3 pt-1 pl-0" ><span class='mx-0' style="font-family: FuturaExtraBold; text-transform:uppercase; color: crimson; font-size: 6vh; line-height: 6vh;">{{profile.total_games_played}}</span></div>
 								</div>
-								<div class="row h-10 pad-0">
-									<span class='pad-0 mx-0'
-										style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh;">WON:
-										<span class='pad-0 mx-0'
-											style="font-family: FuturaExtraBold; text-transform:uppercase; color: crimson; font-size: 4vh; line-height: 6vh;">{{profile.total_wins}}</span></span>
+								<div class="row h-10">
+									<div class="col-3 pt-1 pl-0"><span class='mx-0' style="font-family: FuturaItalic; text-transform:uppercase; font-size: 6vh; line-height: 6vh;">WON:</span></div>
+									<div class="col-3 pt-1 pl-0"><span class='mx-0' style="font-family: FuturaExtraBold; text-transform:uppercase; color: crimson; font-size: 6vh; line-height: 6vh;">{{profile.total_wins}}</span></div>
 								</div>
-								<div class="row h-10 pad-0">
-									<span class='pad-0 mx-0'
-										style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh;">LOST:
-										<span class='pad-0 mx-0'
-											style="font-family: FuturaExtraBold; text-transform:uppercase; color: crimson; font-size: 4vh; line-height: 6vh;">{{profile.total_losses}}</span></span>
+								<div class="row h-10">
+									<div class="col-3 pt-1 pl-0"><span class='mx-0' style="font-family: FuturaItalic; text-transform:uppercase; font-size: 6vh; line-height: 6vh;">LOST:</span></div>
+									<div class="col-3 pt-1 pl-0"><span class='mx-0' style="font-family: FuturaExtraBold; text-transform:uppercase; color: crimson; font-size: 6vh; line-height: 6vh;">{{profile.total_losses}}</span></div>
 								</div>
-								<div class="row h-10 pad-0">
+								<!-- <div class="row h-10 pad-0">
 									<span class='pad-0 mx-0'
 										style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 4.5vh; line-height: 6vh;">LAST
 										10 GAMES</span>
-								</div>
+								</div> -->
 							</div>
 						</div>
 					</div>
