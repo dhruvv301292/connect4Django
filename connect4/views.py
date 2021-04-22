@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
 from django.utils import timezone
-from connect4.models import GameObject, Profile
+from connect4.models import *
 from connect4.game import Connect4Game, Connect4GameError, GameState
 from connect4.forms import LoginForm, RegisterForm, ProfileForm
 from django.shortcuts import render, get_object_or_404, Http404, HttpResponse
@@ -36,7 +36,6 @@ def add_game(request):
         return _my_json_error_response("You must be logged in to do this operation", status=403)
     if request.method != 'POST':
         return _my_json_error_response("You must use a POST request for this operation", status=404)
-    context = {'games': GameObject.objects.all()}
     board = [[0 for i in range(6)] for j in range(7)]
    
     Player1 = Profile.objects.get(user_id=request.user.id)
@@ -66,6 +65,7 @@ def leaderboard_action(request):
 
 
 @login_required
+@ensure_csrf_cookie
 def update_profile(request):
     context = {}
     profile = Profile.objects.get(user_id=request.user.id)
@@ -256,7 +256,6 @@ def get_game(request, game_id):
 @login_required
 def poll_game(request):
     game_id = request.GET['game_id']
-
     game_model: GameObject = get_object_or_404(GameObject, id=game_id)
     if not game_model:
         raise Http404
@@ -278,8 +277,22 @@ def poll_game(request):
         game_model.save()
 
     response_json = _game_to_dict(game_model)
-        
     return HttpResponse(json.dumps(response_json), content_type='application/json')
+
+@ensure_csrf_cookie
+def add_chat(request, gameid, playerid):
+    if request.method != 'POST':
+        return _my_json_error_response("You must use a POST request for this operation", status=404)
+    message = request.POST['message_input']
+    user = get_object_or_404(User, id=playerid)
+    print(message)
+    game = get_object_or_404(GameObject, id=gameid)
+    if not game or not user:
+        raise Http404
+    chat = Chat(input_text=message, game=game, user=user, created_time=datetime.datetime.now())
+    chat.save()
+    print(request)
+    return start_enter_game(request, gameid)
 
 
 def update_player_stats(game_model: GameObject):    
@@ -329,6 +342,24 @@ def _game_to_dict(game: GameObject):
     game_i['moves_played'] = game.moves_played
     game_i['board'] = game.board
     game_i['timer'] = game.timer
+
+    try:
+        print(game.id)
+        print(Chat.objects.all()[0].game_id)
+        chatHistory = Chat.objects.filter(game_id=game.id).order_by('created_time')
+    except:
+        print("in except")
+        chatHistory = []
+    messages = []
+    for message in chatHistory:
+        message_i = {
+            'username': message.user.username,
+            'message': message.input_text,
+            'message_id': message.id,
+        }
+        messages.append(message_i)
+    game_i['messages'] = {'Messages': messages}
+
     return game_i
 
 

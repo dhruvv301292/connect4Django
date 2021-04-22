@@ -48,3 +48,9 @@ class GameObject(models.Model):
     moves_played = models.IntegerField(default=0)
     timer = models.IntegerField(blank=True, default = 20)
     created_time = models.DateTimeField(auto_now=True)
+
+class Chat(models.Model):
+    input_text = models.CharField(max_length=200)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    created_time = models.DateTimeField(auto_now=True)
+    game = models.ForeignKey(GameObject, on_delete=models.PROTECT)

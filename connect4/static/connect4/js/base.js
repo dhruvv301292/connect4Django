@@ -18,6 +18,7 @@ function getLeaderboard() {
     });
 }
 
+
 function updateLeaderBoardPage(response) {
     let players = response['Players']    
     if (Array.isArray(players)) {       
@@ -29,6 +30,38 @@ function updateLeaderBoardPage(response) {
     }
 }
 
+function sanitize(s) {
+    // Be sure to replace ampersand first
+    return s.replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+}
+
+/*
+
+<div class="msg_history">
+                        <div class="incoming_msg">
+                            <div class="received_msg">
+                                <div class="received_withd_msg">
+                                    <span class="sender_name"> Dave </span>
+                                    <p>Test which is a new approach to have all
+                                        solutions</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="outgoing_msg">
+                            <div class="sent_msg">
+                                <p>Test which is a new approach to have all
+                                    solutions</p>
+                            </div>
+                        </div>
+                            <div class="input-group type_msg">
+                                <input type="text" class="form-control" id="message_input" placeholder="Type a message"/>
+                                <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane" aria-hidden="true" onclick=alert("Replace_with_submit")></i></button>
+                            </div>
+                    </div>
+ */
 
 function updateArena(response) {
     let Games = response['Games']    
@@ -196,9 +229,41 @@ function pollGame(gameId) {
         error: updateError
     }); 
 }
+function updateChat(items){
+    console.log("Updating chat, " + items)
+    const myNode = document.getElementById("chat_messages");
+    myNode.textContent = '';
+    $(items).each(function(){
+        if (this.username===myUserName){
+                myNode.insertAdjacentHTML('beforeend', '<div class="outgoing_msg" id="outgoing_'+this.message_id+'"> <div class="sent_msg" id="sent_"'+this.message_id+'> <p>'+sanitize(this.message)+'</p> </div> </div>')
+        }
+        else{
+                myNode.insertAdjacentHTML('beforeend','<div class="incoming_msg" id="incoming_'+this.message_id+'"><div class="received_msg" id="received_"'+this.message_id+'"><div class="received_withd_msg" id="received_msg_"'+this.message_id+'"><span class="sender_name" id="sender_name_'+this.message_id+'">'+sanitize(this.username)+'</span><p>'+sanitize(this.message)+'</p></div></div></div>')
+        }
+    })
+}
+
 
 function updateGameView(response) {
-    console.log(response);  
+    console.log(response);
+    /*
+    * UPDATE CHAT VIEW
+    *
+    * */
+    if (Array.isArray(response.messages.Messages)){
+        console.log("Updating chat")
+        updateChat(response.messages.Messages)
+    }
+    else if (response.hasOwnProperty('error')){
+        displayError(response.error)
+    }
+    else{
+        displayError(response)
+    }
+    /*
+     * REST OF GAME LOGIC
+     *
+     **/
     if (response.outcome == 1) {
         let outcome_string = player1 + " wins!";
         $('#id_modal_text').text(outcome_string);
