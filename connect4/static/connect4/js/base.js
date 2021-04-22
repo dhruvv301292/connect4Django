@@ -348,7 +348,7 @@ function leaveGame(gameID) {
     });    
 }
 
-function deleteGame(gameID) {    
+function deleteGame(gameID) {
     displayError('');
     $.ajax({
         url: "connect4/delete-game",
@@ -357,7 +357,7 @@ function deleteGame(gameID) {
         dataType : "json",
         success: updateArena,
         error: updateError
-    });    
+    });
 }
 
 function getCSRFToken() {
