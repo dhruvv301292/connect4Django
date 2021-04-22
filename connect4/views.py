@@ -449,8 +449,8 @@ def del_game(request):
         return _my_json_error_response("This game does not exist, man!")
 
     game = GameObject.objects.get(id=request.POST['game_id'])
-    chat = Chat.objects.filter(game_id=request.POST['game_id'])
-    if not game or not chat:
+    if not game:
+        print("Not chat")
         return _my_json_error_response("This game does not exist, man!")
 
     if request.user.username == game.player1.user.username or request.user.username == game.player2.user.username:
