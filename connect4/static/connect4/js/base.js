@@ -233,6 +233,8 @@ function updateChat(items){
     console.log("Updating chat, " + items)
     const myNode = document.getElementById("chat_messages");
     myNode.textContent = '';
+    const message_input = document.getElementById("message_input_chat")
+    message_input.value = ""
     $(items).each(function(){
         if (this.username===myUserName){
                 myNode.insertAdjacentHTML('beforeend', '<div class="outgoing_msg" id="outgoing_'+this.message_id+'"> <div class="sent_msg" id="sent_"'+this.message_id+'> <p>'+sanitize(this.message)+'</p> </div> </div>')

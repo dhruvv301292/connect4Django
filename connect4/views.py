@@ -292,7 +292,7 @@ def add_chat(request, gameid, playerid):
     chat = Chat(input_text=message, game=game, user=user, created_time=datetime.datetime.now())
     chat.save()
     print(request)
-    return start_enter_game(request, gameid)
+    return redirect(start_enter_game, game_id=gameid)
 
 
 def update_player_stats(game_model: GameObject):    
