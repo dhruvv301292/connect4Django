@@ -19,16 +19,22 @@
 	</head>
 
 	<body>
-
-		<div class="user-info">
-			<div class="dropdown">
-				<span id="id_logged_in_user_name" class="name-top">{{user.get_full_name}}</span>
-				<button id="id_show_nav_button" onclick="myFunction()" class="btn px-0 py-0"><span class="fa fa-arrow-circle-down fa-2x"></span></button>
-				<div id="myDropdown" class="dropdown-content rounded">
-					<a id="id_nav_global_stream" class="rounded-top" href={% url 'home' %}>Arena</a>
-					<a id="id_nav_profile" href={% url 'profile' %}>Profile</a>	
-					<a id="id_nav_leaderboard" href={% url 'leaderboard' %}>Leaderboard</a>					
-					<a id="id_nav_logout" class="rounded-bottom" href={% url 'logout' %}>Logout</a>
+		<div class="container-fluid-header">
+			<div class="row pad-0">
+				<div class="col-8 pad-0">
+					<img id="id-banner" class="banner-image-pages" src="/static/connect4/banner2.png" alt="banner">
+				</div>													
+				<div class="col-4 user-info">
+					<div class="dropdown">
+						<span id="id_logged_in_user_name" class="name-top">{{user.get_full_name}}</span>
+						<button id="id_show_nav_button" onclick="myFunction()" class="btn px-0 py-0"><span class="fa fa-arrow-circle-down fa-2x"></span></button>
+						<div id="myDropdown" class="dropdown-content rounded">
+							<a id="id_nav_global_stream" class="rounded-top" href={% url 'home' %}>Arena</a>
+							<a id="id_nav_profile" href={% url 'profile' %}>Profile</a>	
+							<a id="id_nav_leaderboard" href={% url 'leaderboard' %}>Leaderboard</a>					
+							<a id="id_nav_logout" class="rounded-bottom" href={% url 'logout' %}>Logout</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -54,13 +60,13 @@
 				}
 			}
 		</script>
-		<div class="page-name">
+		<div class="page-name pad-0">
 			{% block page-name %}
 			{% endblock %}
 		</div>
 		<div class="content">
 			{% block content %}
 			{% endblock %}
-		</div>
+		</div>		
 	</body>
 </html>

@@ -60,6 +60,11 @@ h1 {
     overflow: auto;
 }
 
+.container-fluid-header {
+    height: 7vh;
+    overflow: visible;
+}
+
 .rounded {
     border-radius: 0.5rem !important;
 }
@@ -119,6 +124,24 @@ h1 {
 .game-image {
     height: 29vh;
     width: 16.7vw;
+    background-color: white;
+}
+
+.banner-image-login {    
+    width: 65vw !important;  
+    padding-top: 1%; 
+    padding-left: 0%;
+    padding-right: 0%;
+    padding-bottom: 0%;
+}
+
+.banner-image-pages {    
+    width: 20vw !important;  
+    padding-top: 1.1%; 
+    padding-left: 2%;
+    padding-right: 0%;
+    padding-bottom: 0%;
+    overflow:hidden;
 }
 
 .h-8 {
@@ -159,6 +182,10 @@ h1 {
 
 .h-80 {
     height: 80%;
+}
+
+.pt-10 {
+    padding-top: 4%;
 }
 
 .profile-size {
@@ -282,11 +309,17 @@ h1 {
     display: none;
 }
 
+label {
+    font-family: Futura; 
+    font-size: 2.8vh;
+}
+
 input[type="color"] {
 	-webkit-appearance: none;
+    border-radius: 100%;
 	border: none;
 	width: 4vh;
-	height: 3vh;
+	height: 4vh;
     background-color: white;    
 }
 input[type="color"]::-webkit-color-swatch-wrapper {
@@ -295,8 +328,44 @@ input[type="color"]::-webkit-color-swatch-wrapper {
     border: none;
 }
 input[type="color"]::-webkit-color-swatch {
-	border-radius: 4vh;
+	border-radius: 100%;
     border: none;
+}
+
+input[type="text"] {
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    background-color: white;
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    padding: 0.5%;
+    border-width: 2%;    
+    border-color: initial;
+}
+
+input[type="password"] {
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;    
+    background-color: white;
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    padding: 0.5%;
+    border-width: 2%;    
+    border-color: initial;
+}
+
+input[type="email"] {
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;    
+    background-color: white;
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    padding: 0.5%;
+    border-width: 2%;    
+    border-color: initial;
 }
 
 

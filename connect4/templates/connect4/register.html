@@ -1,34 +1,68 @@
 {% extends "connect4/base.html" %}
 {% block title %} Register {% endblock %}
-{% block user-info %}
-<div>
-	<a href="{% url 'login' %}">
-		<button id='id_login_link'>Login</button>
-	</a>
-</div>
-{% endblock %}
-{% block page-name %}
-<span id="id_page_name">Register</span>
-{% endblock %}
-{% block content %}
-	<form method="post" action="{% url 'register' %}">
-		<table>
-			{% for field in form.visible_fields %}
-			<tr>
-				<td>{{field.label_tag}}</td>
-				<td>{{field}}</td>
-				<td class="error">
-					{% for error in field.errors %} {{error}} {% endfor %}
-				</td>
-			</tr>
-			{% endfor %}
-		</table>
-		{% csrf_token %}
-		<button type="submit" id='id_register_button'>Register</button>
-	</form>
-	{% for error in form.non_field_errors %}
-	<p class="errorlist">
-		{{ error }}
-	</p>
-	{% endfor %}
-{% endblock %}
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	{% load static %}
+	<link href="{% static 'connect4/css/custom.css' %}" rel="stylesheet" type="text/css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<div class="container-fluid">
+		{% block user-info %}
+		<div class="row pad-0">
+			<div class="col-2 pad-0">				
+			</div>
+			<div class="col-8 pad-0 text-center mx-auto">
+				<img id="id-banner" class="banner-image-login" src="/static/connect4/banner.png" alt="banner">
+			</div>
+			<div class="col-2 text-center pt-10">
+				<a href="{% url 'login' %}">
+					<button class="start-button-black" id='id_login_link'>Login</button>
+				</a>
+			</div>		
+		</div>
+		{% endblock %}
+		{% block page-name %}
+		<div class="row pad-0">
+			<div class="col-12 text-center pt-5">
+				<span id="id_page_name" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 6vh; line-height: 6vh;">Register</span>
+			</div>
+		</div>		
+		{% endblock %}
+		{% block content %}
+		<div class="row pad-0">
+			<div class="col-12 text-center">				
+				<form method="post" action="{% url 'register' %}">	
+					<div class="row">
+						<table>
+							{% for field in form.visible_fields %}
+							<tr>
+								<td>{{field.label_tag}}</td>
+								<td>{{field}}</td>
+								<td class="error">
+									{% for error in field.errors %} {{error}} {% endfor %}
+								</td>
+							</tr>
+							{% endfor %}
+						</table>
+					</div>	
+					<div class="row pt-3">
+						<button class="start-button-black" type="submit" id='id_login_button'>Register</button>
+					</div>				
+					{% csrf_token %}					
+				</form>	
+			</div>
+		</div>	
+		{% for error in form.non_field_errors %}
+			<p class="errorlist">
+				{{ error }}
+			</p>
+		{% endfor %}
+		{% endblock %}
+	</div>
+</body>

@@ -15,7 +15,7 @@
 </head>
 
 <body>
-	<ul class=errorlist>
+	<ul class="errorlist pad-0">
 		{% for field in form.visible_fields %}
 		{% for error in field.errors %}
 		<li class="error">
@@ -28,10 +28,10 @@
 		{% endif %}
 	</ul>
 	{% csrf_token %}
-	<div class="container-fluid">
+	<div class="container-fluid pad-0">
 		<div class="row h-100 pad-0" id="main_container_row">
-			<div class="col-12 border-top pad-0-col">
-				<div class="row h-10 pad-0-col">
+			<div class="col-12 border-top pad-0">
+				<div class="row h-10 pad-0-col" style="background-color: white;">
 					<div class="col-1 pad-0">
 						<div class="row h-100 pad-0-col">
 							<div class="col-5 pad-0">
@@ -71,8 +71,7 @@
 						<div class="row h-100 pad-0-col">
 							<div class="col-12 pad-0">
 								<div class="row h-30 pt-5">
-									<span class='pad-0 mx-0'
-										style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 6vh; line-height: 6vh;">EDIT</span>
+									<span class='pad-0 mx-0' style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 6vh; line-height: 6vh;">EDIT</span>
 								</div>
 								<div id="id_edit_profile" class="row h-70 pad-0">
 									<form method="POST" action="{% url 'update_profile' %}"
@@ -105,8 +104,7 @@
 							<div class="col-12 pad-0">
 								<div class="row h-30 pt-5">
 									<div class="col-2 pad-0">
-										<span class='pad-0 mx-0'
-											style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 6vh; line-height: 6vh;">STATS</span>
+										<span class='pad-0 mx-0' style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 6vh; line-height: 6vh;">STATS</span>
 									</div>
 									<div class="col-3 pad-0">
 										<form method="POST" action="{% url 'reset-stats' %}">
