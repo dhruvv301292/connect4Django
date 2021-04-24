@@ -50,15 +50,11 @@
             </div>
 
             <div class="col-7 pad-0-col" id="players_board_div">
-                <div class="row h-10 pad-0">
+                <div id="id_opponent_username" class="row h-10 pad-0 p1bg">
                     <div class="col-12 pad-0-col">
-                        <div id="id_opponent_username" class="row name p1bg pad-0-col">
-                            <i>{{ opponent.user.username }}</i></div>
-                        <div id="id_opponent_name"
-                             class="row info p1bg pad-0-col">{{ opponent.user.get_full_name }}</div>
-                        <div class="row"></div>
+                        <div class="row name pad-0-col">{{ opponent.user.username }}</div>
                     </div>
-                </div>
+                </div>                
                 {% load static %}
                 <div class="row h-80 pad-0" id="board_div">
                     <div class="col-1 pad-0-col"></div>
@@ -243,12 +239,16 @@
                         <div class="row h-8 pad-0"></div>
                     </div>
                 </div>
-                <div class="row h-10 align-items-end pad-0">
-                    <div class="col-12 pad-0-col">
-                        <div id="id_player_username" class="row name p2bg pad-0-col">
-                            <i>{{ selfplayer.user.username }}</i></div>
-                        <div id="id_player_name"
-                             class="row p2bg info pad-0-col">{{ selfplayer.user.get_full_name }}</div>
+                <div id="id_player_username" class="row h-10 align-items-end pad-0 p2bg">
+                    <div class="col-11 pad-0-col d-flex flex-wrap align-items-center">
+                        <div class="row h-100 name pad-0-col">{{ selfplayer.user.username }}</div>                        
+                    </div>
+                    <div class="col-1 pad-0 mx-auto"> 
+                        <form method="POST" action="{% url 'forfeit-game' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="game_identity" value="{{game_id}}">
+                            <button type="submit" class="btn text-center d-flex flex-wrap align-items-center"><span class="fa fa-skull fa-2x quit-button mx-auto p-skull"></span></button>
+                        </form>                     
                     </div>
                 </div>
             </div>

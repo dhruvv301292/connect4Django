@@ -188,6 +188,12 @@ h1 {
     padding-top: 4%;
 }
 
+.p-skull {
+    padding-bottom: 2vh;
+    padding-left: 2vh;
+    padding-right: 0;
+}
+
 .profile-size {
     height: 28vh;
     width: 14vw;
@@ -370,10 +376,11 @@ input[type="email"] {
 
 
 .name {
-    font-size: calc(100% + 0.8vw + 0.8vh) !important;
+    font-size: calc(100% + 1.2vw + 1.2vh) !important;
     font-weight: 600;
-    padding-left: 0.5em;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding-left: 1.5vh;
+    padding-bottom: 2.6vh !important;
+    font-family: FuturaItalic;
     color: white !important;
 }
 
@@ -603,6 +610,14 @@ form {
 
 .cross-button-black:hover {
     color: #FF1E4E;
+}
+
+.quit-button {
+    color: white;
+}
+
+.quit-button:hover {
+    color: black;
 }
 
 .turn-text {

@@ -128,10 +128,11 @@ function updateLeaderboard(players) {
                 + this.username + '</span></div><div class="col-2 d-flex flex-wrap align-items-center"><span class="pad-0"></span></div><div class="col-1 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_wins" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: white">' 
                 + this.wins + '</span></div></div></li>'
             } else {
-                if (this.is_online) {                    
+                if (this.is_online) {  
+                    let challengeGame = '/connect4/challenge';                  
                     elem =  '<li id="id_player_item_' + this.id + '" style="list-style: none"><div id="id_player_bg_'+ this.id +'" class="row bg-light rounded mb-2 border "><div class="col-1 d-flex flex-wrap align-items-center""><span id="id_player_rank_'+ this.id +'" class="pad-0" style="font-family: FuturaBoldItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: grey;">'
                     + count + '</span></div><div class="col-3 d-flex flex-wrap align-items-center"><image class="pad-0 leader-image border border-leader" src="'+ get_photo + '" id="id_player_' + this.id + '_image"></div><div class="col-5 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_username" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
-                    + this.username + '</span></div><div class="col-2 d-flex flex-wrap align-items-center"><button class="start-button-black" id="id_challenge_button_'+ this.id + '" onClick="challengePlayer(' + this.username + ')">Challenge</button></div><div class="col-1 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_wins" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
+                    + this.username + '</span></div><div class="col-2 d-flex flex-wrap align-items-center"><form id="id_'+this.id+'_challenge_form" method="POST" action="'+challengeGame+'"><input type="hidden" name="player_2_username" value="'+this.username+'"><button type="submit" class="start-button-black" id="id_challenge_button_'+ this.id + '">Challenge</button></div><div class="col-1 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_wins" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
                     + this.wins + '</span></div></div></li>'
                 } else {
                     elem =  '<li id="id_player_item_' + this.id + '" style="list-style: none"><div id="id_player_bg_'+ this.id +'" class="row bg-light rounded mb-2 border "><div class="col-1 d-flex flex-wrap align-items-center""><span id="id_player_rank_'+ this.id +'" class="pad-0" style="font-family: FuturaBoldItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: grey;">'
@@ -144,6 +145,13 @@ function updateLeaderboard(players) {
         }
         count += 1
     })
+    $("form").each(function() {        
+        let inputElem = document.createElement('input');
+        inputElem.type = 'hidden';
+        inputElem.name = 'csrfmiddlewaretoken';
+        inputElem.value = getCSRFToken();
+        this.appendChild(inputElem);
+     });
 }
 
 function getButton(game) {
@@ -163,7 +171,7 @@ function getButton(game) {
             } else if (game.outcome == 2) {
                 result = game.p2_username + " won!";
             }
-            return '<div class="col-3 d-flex flex-wrap align-items-center text-center" id="id_game_'+ game.id +'_start"><span class="pad-0 mx-auto" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh; color:#F9C10B">' + result + '</span></div><div class="col-1 d-flex flex-wrap align-items-center" id="id_game_'
+            return '<div class="col-3 d-flex flex-wrap align-items-center" id="id_game_'+ game.id +'_start"><span class="pad-0 mx-auto" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh; color:#F9C10B">' + result + '</span></div><div class="col-1 d-flex flex-wrap align-items-center" id="id_game_'
             + game.id +'_delete"><button onclick="deleteGame('+game.id+')" class="btn px-0 py-0 float-right"><span class="fa fa-times-circle fa-3x cross-button"></span></button></div></div></li>'            
         }       
     } else if (game.p2_username == null && myUserName == game.p1_username) {
@@ -177,8 +185,7 @@ function getButton(game) {
             + game.id +'_leave"><button onclick="leaveGame('+game.id+')" class="btn px-0 py-0 float-right"><span class="fa fa-sign-out-alt fa-flip-horizontal fa-3x cross-button"></span></button></div></div></li>'
         } else if (game.player1_entered == true && game.game_over != true) {
             let entergame = '/connect4/startentergame/' + game.id;
-            return '<div class="col-3 d-flex flex-wrap align-items-center text-center" id="id_game_'+ game.id +'_start"><form class="pad-0" id="id_game_'+game.id+'_enter_form" method="POST" action="'+entergame+'"><button class="start-button mx-auto" id="id_game_' + game.id + '_start_button" type="submit">Enter</button></form></div><div class="col-1 d-flex flex-wrap align-items-center" id="id_game_'
-            + game.id +'_leave"><button onclick="leaveGame('+game.id+')" class="btn px-0 py-0 float-right"><span class="fa fa-sign-out-alt fa-flip-horizontal fa-3x cross-button"></span></button></div></div></li>'
+            return '<div class="col-3 d-flex flex-wrap align-items-center text-center" id="id_game_'+ game.id +'_start"><form class="pad-0" id="id_game_'+game.id+'_enter_form" method="POST" action="'+entergame+'"><button class="start-button mx-auto" id="id_game_' + game.id + '_start_button" type="submit">Enter</button></form></div></div></li>'
         } else if (game.game_over == true) {
             let result = "No Result";
             if (game.outcome == 1) {
