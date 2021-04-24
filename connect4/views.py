@@ -46,6 +46,22 @@ def add_game(request):
     return redirect('home')
 
 @login_required
+def challenge_opponent(request):
+    if not request.user.id:
+        return _my_json_error_response("You must be logged in to do this operation", status=403)
+    if request.method != 'POST':
+        return _my_json_error_response("You must use a POST request for this operation", status=404)
+    board = [[0 for i in range(6)] for j in range(7)]
+   
+    Player1 = Profile.objects.get(user_id=request.user.id)
+    Player2 = Profile.objects.get(user__username=request.POST["player_2_username"])
+    new_game = GameObject(board=board, player1=Player1, player2=Player2, player1_color=Player1.primary_color,
+                          player2_color=Player2.primary_color, outcome=None, game_over=None, moves_played=0,
+                          created_time=datetime.datetime.now())
+    new_game.save()
+    return redirect('home')
+
+@login_required
 def profile_action(request):
     print("PROFILE ACTION")
     context = {}
@@ -298,9 +314,7 @@ def add_chat(request, gameid, playerid):
 def update_player_stats(game_model: GameObject):    
     p1 = game_model.player1
     print(p1)
-    p2 = game_model.player2 
-    print(p2)
-    print("P2 wins: {}".format(p2.total_wins))
+    p2 = game_model.player2
     if game_model.outcome == game_model.player1:
         print(f"[update_player_stats] [{game_model.id}] OUTCOME IS 1")
         p1.total_wins = p1.total_wins + 1        
@@ -311,7 +325,7 @@ def update_player_stats(game_model: GameObject):
         p1.total_losses += 1
     elif game_model.outcome is None:            
         p2.total_ties += 1
-        p1.total_ties += 1
+        p1.total_ties += 1    
     p1.save()
     p2.save()
     print("P2 wins: {}".format(p2.total_wins))
@@ -427,6 +441,24 @@ def reset_stats(request):
     context['profile'] = profile
     context['prim_color'] = profile.primary_color
     return render(request, 'connect4/profile.html', context)
+
+@login_required
+def forfeit_game(request):
+    if request.method == 'POST':
+        if 'game_identity' in request.POST:
+            game = GameObject.objects.get(id=request.POST['game_identity'])
+            if request.user.username == game.player1.user.username:
+                game.game_over = True
+                game.outcome = game.player2  
+                update_player_stats(game) 
+                game.save()             
+                return redirect('home')
+            elif request.user.username == game.player2.user.username:
+                game.game_over = True
+                game.outcome = game.player1
+                update_player_stats(game)
+                game.save()
+                return redirect('home')
 
 @login_required
 def add_player(request):

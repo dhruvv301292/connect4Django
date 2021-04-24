@@ -45,5 +45,7 @@ urlpatterns = [
     path('add-chat/<int:gameid>/<int:playerid>', views.add_chat, name='add-chat'),
     path('connect4/add-chat/<int:gameid>/<int:playerid>', views.add_chat, name='add-chat'),
     path('reset-stats', views.reset_stats, name='reset-stats'),
+    path('forfeit-game', views.forfeit_game, name='forfeit-game'),
+    path('challenge', views.challenge_opponent, name='challenge'),
 
 ]
