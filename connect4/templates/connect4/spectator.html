@@ -26,7 +26,7 @@
             <div class="col-2 pad-0" id="players_div">
                 <div class="row h-35 pad-0" id="opponent_div">
                     <div class="col-12 pad-0-col">
-                        <img src="{% url 'get_photo' opponent.id %}" id="id_opponent_image"
+                        <img src="{% url 'get_photo' player1.id %}" id="id_opponent_image"
                              class="game-image border border-p1 border-top" alt="opponent">
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                 </div>
                 <div class="row h-35 align-items-end pad-0" id="player_div">
                     <div class="col-12 pad-0-col">
-                        <img src="{% url 'get_photo' selfplayer.id %}" id="id_player_image"
+                        <img src="{% url 'get_photo' player2.id %}" id="id_player_image"
                              class="game-image border border-p2 border-bottom" alt="player">
                     </div>
                 </div>
@@ -52,7 +52,7 @@
             <div class="col-7 pad-0-col" id="players_board_div">
                 <div id="id_opponent_username" class="row h-10 pad-0 p1bg">
                     <div class="col-12 pad-0-col">
-                        <div class="row name pad-0-col">{{ opponent.user.username }}</div>
+                        <div class="row name pad-0-col">{{ player1.user.username }}</div>
                     </div>
                 </div>                
                 {% load static %}
@@ -241,7 +241,7 @@
                 </div>
                 <div id="id_player_username" class="row h-10 align-items-end pad-0 p2bg">
                     <div class="col-11 pad-0-col d-flex flex-wrap align-items-center">
-                        <div class="row h-100 name pad-0-col">{{ selfplayer.user.username }}</div>                        
+                        <div class="row h-100 name pad-0-col">{{ player2.user.username }}</div>                        
                     </div>
                     <div class="col-1 pad-0 mx-auto"> 
                         <form method="POST" action="{% url 'forfeit-game' %}">
@@ -291,17 +291,12 @@
     </div>
     </body>
     <script>
-        let myUserName = "{{ request.user.username }}"
-        let playerId = "{{ request.user.id }}"
+        let myUserName = "{{ request.user.username }}"        
         let player1 = "{{ player1.user.username }}"
         let player2 = "{{ player2.user.username }}"
         let gameId = "{{ game_id }}";
         document.documentElement.style.setProperty('--player1-color', "{{p1_color}}");
         document.documentElement.style.setProperty('--player2-color', "{{p2_color}}");
-
-        function add_disc(col) {
-            playTurn(gameId, playerId, col);
-        }
 
         window.onload = () => pollGame(gameId)
         window.setInterval(pollGame, 2000, gameId);

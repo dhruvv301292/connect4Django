@@ -201,21 +201,26 @@ def start_enter_game(request, game_id):
         context['selfplayer'] = game.player1
         context['opponent'] = game.player2
         game.player1_entered = True
+        game.save()
     elif request.user.username == game.player2.user.username:
         context['selfplayer'] = game.player2
         context['opponent'] = game.player1
         game.player2_entered = True
+        game.save()
     if game.game_over == None and game.player1_entered == True and game.player2_entered == True: #check if game not started and if both players have entered the game
         game.game_over = False
         game.turn = game.player1
         game.timer = 20
-    game.save()
-    context['player1'] = game.player1.user.username
-    context['player2'] = game.player2.user.username
+        game.save()
+    context['player1'] = game.player1
+    context['player2'] = game.player2
     context['p1_color'] = game.player1_color
     context['p2_color'] = game.player2_color
-    # other game elements are yet to be encoded
-    return render(request, 'connect4/game.html', context)
+    if request.user.username in [game.player1.user.username, game.player2.user.username]:
+        return render(request, 'connect4/game.html', context)
+    else:
+        print("TRYING THIS")
+        return render(request, 'connect4/spectator.html', context)
 
 # for updating arena view using ajax
 @readonly
@@ -237,6 +242,7 @@ def get_games(request):
             game_i['turn'] = game.turn.user.username
         if game.player2:
             game_i['p2_username'] = game.player2.user.username
+            game_i['player2_entered'] = game.player2_entered
         else:
             game_i['p2_username'] = None
         
@@ -278,7 +284,7 @@ def poll_game(request):
 
     # timer logic
     if game_model.turn and game_model.game_over == False:
-        if game_model.timer > 2:
+        if game_model.timer >= 2:
             if request.user.username == game_model.turn.user.username:
                 game_model.timer = game_model.timer - 2
         else:
@@ -301,19 +307,18 @@ def add_chat(request, gameid, playerid):
         return _my_json_error_response("You must use a POST request for this operation", status=404)
     message = request.POST['message_input']
     user = get_object_or_404(User, id=playerid)
-    print(message)
+    print("MESSAGE:", message)
     game = get_object_or_404(GameObject, id=gameid)
     if not game or not user:
         raise Http404
     chat = Chat(input_text=message, game=game, user=user, created_time=datetime.datetime.now())
     chat.save()
-    print(request)
+    print("REQUEST", request)
     return redirect(start_enter_game, game_id=gameid)
 
 
 def update_player_stats(game_model: GameObject):    
     p1 = game_model.player1
-    print(p1)
     p2 = game_model.player2
     if game_model.outcome == game_model.player1:
         print(f"[update_player_stats] [{game_model.id}] OUTCOME IS 1")
@@ -327,8 +332,7 @@ def update_player_stats(game_model: GameObject):
         p2.total_ties += 1
         p1.total_ties += 1    
     p1.save()
-    p2.save()
-    print("P2 wins: {}".format(p2.total_wins))
+    p2.save()    
 
 
 
