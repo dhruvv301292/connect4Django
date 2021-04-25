@@ -24,39 +24,38 @@
     <div class="container-fluid">
         <div class="row h-100 pad-0" id="main_container_row">
             <div class="col-2 pad-0" id="players_div">
-                <div class="row h-35 pad-0" id="opponent_div">
-                    <div class="col-12 pad-0-col">
-                        <img src="{% url 'get_photo' player1.id %}" id="id_opponent_image"
-                             class="game-image border border-p1 border-top" alt="opponent">
-                    </div>
-                </div>
-                <div class="row h-15 d-flex flex-wrap align-items-center">
-                    <div class="col w-100 pad-0-col">
-                        <div id="id_turn_div" class="h-100 w-100 mx-auto d-block rounded text-center turn-text"></div>
-                    </div>
-                </div>
-                <div class="row h-15 d-flex flex-wrap align-items-center">
-                    <div class="col w-100 pad-0-col">
-                        <div id="id_timer_div"
-                             class="bg-timer h-100 w-100 mx-auto d-block rounded text-center timer-text"></div>
-                    </div>
-                </div>
-                <div class="row h-35 align-items-end pad-0" id="player_div">
-                    <div class="col-12 pad-0-col">
-                        <img src="{% url 'get_photo' player2.id %}" id="id_player_image"
-                             class="game-image border border-p2 border-bottom" alt="player">
-                    </div>
-                </div>
+                <div class="row h-50 pad-0 align-items-start" id="opponent_div">
+                    <div class="col-12 pad-0">
+                        <div class="row h-60 pad-0">
+                            <img src="{% url 'get_photo' player1.id %}" id="id_player1_image"
+                             class="img-fluid game-image-spectator border border-p1 mx-auto" alt="player1">
+                        </div>
+                        <div class="row h-40">                            
+                            <span id="id_spectator_p1" class="name-spectator-player1 mx-auto">{{ player1.user.username }}</span>                            
+                        </div>                     
+                    </div>                    
+                </div>                                               
+                <div class="row h-50 pad-0 align-items-end" id="opponent_div">
+                    <div class="col-12 pad-0">
+                        <div class="row h-40 pb-0 align-text-bottom">                            
+                            <div id="id_spectator_p2" class="name-spectator-player2 mx-auto">{{ player2.user.username }}</div>                            
+                        </div>  
+                        <div class="row h-60 pad-0">
+                            <img src="{% url 'get_photo' player2.id %}" id="id_player2_image"
+                             class="img-fluid game-image-spectator border border-p2 mx-auto" alt="player2">
+                        </div>                                            
+                    </div>                    
+                </div>  
             </div>
 
-            <div class="col-7 pad-0-col" id="players_board_div">
-                <div id="id_opponent_username" class="row h-10 pad-0 p1bg">
-                    <div class="col-12 pad-0-col">
-                        <div class="row name pad-0-col">{{ player1.user.username }}</div>
-                    </div>
-                </div>                
+            <div class="col-7 pad-0-col" id="players_board_div">                
                 {% load static %}
-                <div class="row h-80 pad-0" id="board_div">
+                <div class="row h-10 pad-0 mx-auto">
+                    <div class="col pad-0 mx-auto">
+                        <div id="id_timer_div" class="bg-timer h-100 w-50 mx-auto d-block rounded text-center timer-text"></div>
+                    </div>
+                </div> 
+                <div class="row h-90 pad-0" id="board_div">
                     <div class="col-1 pad-0-col"></div>
                     <div class="col-11 pad-0-col">
                         <div class="row h-8 pad-0"></div>
@@ -236,24 +235,12 @@
                                  onclick="add_disc(6)"><i id="disc_06"
                                                           class="fas fa-circle fa-4x mx-auto board-disc"></i></div>
                         </div>
-                        <div class="row h-8 pad-0"></div>
-                    </div>
-                </div>
-                <div id="id_player_username" class="row h-10 align-items-end pad-0 p2bg">
-                    <div class="col-11 pad-0-col d-flex flex-wrap align-items-center">
-                        <div class="row h-100 name pad-0-col">{{ player2.user.username }}</div>                        
-                    </div>
-                    <div class="col-1 pad-0 mx-auto"> 
-                        <form method="POST" action="{% url 'forfeit-game' %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="game_identity" value="{{game_id}}">
-                            <button type="submit" class="btn text-center d-flex flex-wrap align-items-center"><span class="fa fa-skull fa-2x quit-button mx-auto p-skull"></span></button>
-                        </form>                     
+                        
                     </div>
                 </div>
             </div>
 
-            <div class="col-3 card bg-dark card-body" id="chat_div">
+            <div class="col-3 bg-dark" id="chat_div">
                 <div class="row-1 g-0 mesgs">
                     <div class="msg_history" id="chat_messages">
                         <span>Hello</span>

@@ -254,7 +254,7 @@ function updateChat(items){
     const myNode = document.getElementById("chat_messages");
     myNode.textContent = '';
     const message_input = document.getElementById("message_input_chat")
-    message_input.value = ""
+    message_input.value = "";
     $(items).each(function(){
         if (this.username===myUserName){
                 myNode.insertAdjacentHTML('beforeend', '<div class="outgoing_msg" id="outgoing_'+this.message_id+'"> <div class="sent_msg" id="sent_"'+this.message_id+'> <p>'+sanitize(this.message)+'</p> </div> </div>')
@@ -319,7 +319,7 @@ function updateGameView(response) {
             let turn_string = (response.turn + "'S TURN").toUpperCase();
             $('#id_turn_div').empty().text(turn_string).css("color", "black").css("font-size", "3.0vh").css("text-transform", "uppercase").removeClass(['bg-success', 'bg-timer', 'bg-danger', 'animated', 'tada']).addClass('bg-timer');            
         }       
-    } else {
+    } else if (myUserName === player2) {
         $('#id_player_image').removeClass(['border-p2', 'border-p1']).addClass('border-p2')
         $('#id_opponent_image').removeClass(['border-p2', 'border-p1']).addClass('border-p1')
         $('#id_player_username').removeClass(['p1bg', 'p2bg']).addClass('p2bg')
@@ -333,6 +333,14 @@ function updateGameView(response) {
             $( "i[id^='topdisc']" ).removeClass(['top-disc-p2', 'top-disc-p1', 'disc-disabled']).addClass('disc-disabled');
             let turn_string = (response.turn + "'S TURN").toUpperCase();
             $('#id_turn_div').empty().text(turn_string).css("color", "black").css("font-size", "3.0vh").removeClass(['bg-success', 'bg-timer', 'bg-danger', 'animated', 'tada']).addClass('bg-timer');                        
+        }
+    } else {
+        if (player1 === response.turn) {
+            $("#id_spectator_p1").removeClass(['name-spectator-player1', 'name-spectator-player1-turn']).addClass('name-spectator-player1-turn');
+            $("#id_spectator_p2").removeClass(['name-spectator-player2', 'name-spectator-player2-turn']).addClass('name-spectator-player2');
+        } else if (player2 === response.turn) {
+            $("#id_spectator_p1").removeClass(['name-spectator-player1', 'name-spectator-player1-turn']).addClass('name-spectator-player1');
+            $("#id_spectator_p2").removeClass(['name-spectator-player2', 'name-spectator-player2-turn']).addClass('name-spectator-player2-turn');
         }
     }
     for (let col = 0; col < 7; col++) {

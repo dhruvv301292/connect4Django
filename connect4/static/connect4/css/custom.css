@@ -127,6 +127,13 @@ h1 {
     background-color: white;
 }
 
+.game-image-spectator {
+    height: 29vh;
+    width: 16.7vw;
+    background-color: white;
+    overflow:hidden;
+}
+
 .banner-image-login {    
     width: 65vw !important;  
     padding-top: 1%; 
@@ -160,6 +167,10 @@ h1 {
     height: 15%;
 }
 
+.h-20 {
+    height: 20%;
+}
+
 .h-35 {
     height: 35%;
 }
@@ -172,6 +183,10 @@ h1 {
     height: 40%;
 }
 
+.h-45 {
+    height: 45%;
+}
+
 .h-60 {
     height: 60%;
 }
@@ -182,6 +197,10 @@ h1 {
 
 .h-80 {
     height: 80%;
+}
+
+.h-90 {
+    height: 90%;
 }
 
 .pt-10 {
@@ -382,6 +401,42 @@ input[type="email"] {
     padding-bottom: 2.6vh !important;
     font-family: FuturaItalic;
     color: white !important;
+}
+
+.name-spectator-player2 {
+    font-size: calc(100% + 1.3vw + 1.3vh) !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;    
+    font-family: FuturaExtraBold;
+    color: black !important;
+    text-transform: uppercase;
+}
+
+.name-spectator-player2-turn {
+    font-size: calc(100% + 2vw + 2vh) !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;    
+    font-family: FuturaExtraBold;
+    color: var(--player2-color) !important;
+    text-transform: uppercase;
+}
+
+.name-spectator-player1 {
+    font-size: calc(100% + 1.3vw + 1.3vh) !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;    
+    font-family: FuturaExtraBold;
+    color: black !important;
+    text-transform: uppercase;
+}
+
+.name-spectator-player1-turn {
+    font-size: calc(100% + 2vw + 2vh) !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;    
+    font-family: FuturaExtraBold;
+    color: var(--player1-color) !important;
+    text-transform: uppercase;
 }
 
 .name-top {
