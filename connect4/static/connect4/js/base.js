@@ -250,11 +250,11 @@ function pollGame(gameId) {
     }); 
 }
 function updateChat(items){
-    console.log("Updating chat, " + items)
+    console.log("Current value:"+ $("#message_input_chat").val())
     const myNode = document.getElementById("chat_messages");
     myNode.textContent = '';
-    const message_input = document.getElementById("message_input_chat")
-    message_input.value = "";
+    const message_input = $("#message_input_chat").val();
+
     $(items).each(function(){
         if (this.username===myUserName){
                 myNode.insertAdjacentHTML('beforeend', '<div class="outgoing_msg" id="outgoing_'+this.message_id+'"> <div class="sent_msg" id="sent_"'+this.message_id+'> <p>'+sanitize(this.message)+'</p> </div> </div>')
@@ -263,6 +263,7 @@ function updateChat(items){
                 myNode.insertAdjacentHTML('beforeend','<div class="incoming_msg" id="incoming_'+this.message_id+'"><div class="received_msg" id="received_"'+this.message_id+'"><div class="received_withd_msg" id="received_msg_"'+this.message_id+'"><span class="sender_name" id="sender_name_'+this.message_id+'">'+sanitize(this.username)+'</span><p>'+sanitize(this.message)+'</p></div></div></div>')
         }
     })
+    $("#message_input_chat").val(message_input)
 }
 
 
@@ -274,7 +275,8 @@ function updateGameView(response) {
     * */
     if (Array.isArray(response.messages.Messages)){
         console.log("Updating chat")
-        updateChat(response.messages.Messages)
+        const message_input = document.getElementById("message_input_chat")
+        updateChat(response.messages.Messages, message_input.value)
     }
     else if (response.hasOwnProperty('error')){
         displayError(response.error)
