@@ -1,43 +1,80 @@
+import logging
+logging.basicConfig(format="[%(asctime)s] [%(levelname)s] [%(funcName)s] %(message)s", level=logging.DEBUG)
+
+import json
+import datetime
+from timeit import default_timer as timer
+
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.http.request import HttpRequest
 
 from django.utils import timezone
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.shortcuts import render, get_object_or_404, Http404, HttpResponse
+
 from connect4.models import *
 from connect4.game import Connect4Game, Connect4GameError, GameState
 from connect4.forms import LoginForm, RegisterForm, ProfileForm
-from django.shortcuts import render, get_object_or_404, Http404, HttpResponse
-import datetime
-import json
-from json import JSONEncoder
-from django.views.decorators.csrf import ensure_csrf_cookie
 
 
-def readonly(func):
-    """Marker decorator for read-only operations
+def update_last_seen(func):
+    """Decorator for updating the last seen of a player
     
-    Functions/operations decorated with this decorator should NOT update the database. 
-    They should only perform database reads/non-mutating actions.
+        Decorate view functions that are also annotated with @login_required to update a profile's last seen value.
     """
-    return func
+    def wrapped(*args, **kwargs):
+        overhead_start = timer()
+        # Find an HttpRequest like object
+        http_request = None
+        for arg in args:
+            if isinstance(arg, HttpRequest):
+                http_request = arg
+                break
+
+        if http_request is None:
+            for _, kwarg in kwargs.items():
+                if isinstance(kwarg, HttpRequest):
+                    http_request = kwarg
+                    break
+
+        if http_request and http_request.user.is_authenticated:
+            last_seen = datetime.datetime.now(datetime.timezone.utc)
+            logging.info(f"User '{http_request.user}' last seen at {last_seen}")
+            user_id = http_request.user.id
+            profile = Profile.objects.get(user_id=user_id)
+            profile.last_seen = last_seen
+            profile.save()
+        
+        overhead_end = timer()
+        logging.debug(f"Overhead time for update_last_seen={overhead_end - overhead_start}s")
+
+        # call the original function and return
+        return func(*args, **kwargs)
+
+    return wrapped
+
 
 
 @login_required
+@update_last_seen
 def home(request):
     return render(request, 'connect4/arena.html', {})
 
 # create new game in arena
 @login_required
+@update_last_seen
 def add_game(request):
     if not request.user.id:
         return _my_json_error_response("You must be logged in to do this operation", status=403)
     if request.method != 'POST':
         return _my_json_error_response("You must use a POST request for this operation", status=404)
     board = [[0 for i in range(6)] for j in range(7)]
-   
+
     Player1 = Profile.objects.get(user_id=request.user.id)
     new_game = GameObject(board=board, player1=Player1, player2=None, player1_color=Player1.primary_color,
                           player2_color='#00B0F0', outcome=None, game_over=None, moves_played=0,
@@ -45,7 +82,9 @@ def add_game(request):
     new_game.save()
     return redirect('home')
 
+
 @login_required
+@update_last_seen
 def challenge_opponent(request):
     if not request.user.id:
         return _my_json_error_response("You must be logged in to do this operation", status=403)
@@ -61,9 +100,11 @@ def challenge_opponent(request):
     new_game.save()
     return redirect('home')
 
+
 @login_required
+@update_last_seen
 def profile_action(request):
-    print("PROFILE ACTION")
+    logging.debug("PROFILE ACTION")
     context = {}
     profile = Profile.objects.get(user_id=request.user.id)
 
@@ -74,7 +115,9 @@ def profile_action(request):
     context['prim_color'] = profile.primary_color
     return render(request, 'connect4/profile.html', context)
 
+
 @login_required
+@update_last_seen
 def leaderboard_action(request):
     context = {}    
     return render(request, 'connect4/leaderboard.html', context)
@@ -104,8 +147,7 @@ def update_profile(request):
 @login_required
 def get_photo(request, id):
     item = get_object_or_404(Profile, id=id)
-    print("Fetched item")
-    print('Picture #{} fetched from db: {} (type={})'.format(
+    logging.info('Picture #{} fetched from db: {} (type={})'.format(
         id, item.image, type(item.image)))
 
     # Maybe we don't need this check as form validation requires a picture be uploaded.
@@ -219,12 +261,13 @@ def start_enter_game(request, game_id):
     if request.user.username in [game.player1.user.username, game.player2.user.username]:
         return render(request, 'connect4/game.html', context)
     else:
-        print("TRYING THIS")
+        logging.info("Returning spectator view")
         return render(request, 'connect4/spectator.html', context)
 
+
 # for updating arena view using ajax
-@readonly
 @login_required
+@update_last_seen
 def get_games(request):
     Games = []
     for game in GameObject.objects.all():
@@ -263,8 +306,8 @@ def get_outcome(game: GameObject):
 
 
 # TODO: Rename method and/or update comment
-@readonly
 @login_required
+@update_last_seen
 def get_game(request, game_id):
     game = get_object_or_404(GameObject, id=game_id)
     if not game:
@@ -274,8 +317,8 @@ def get_game(request, game_id):
     return HttpResponse(json.dumps(response_json), content_type='application/json')
 
 
-@readonly
 @login_required
+@update_last_seen
 def poll_game(request):
     game_id = request.GET['game_id']
     game_model: GameObject = get_object_or_404(GameObject, id=game_id)
@@ -288,7 +331,7 @@ def poll_game(request):
             if request.user.username == game_model.turn.user.username:
                 game_model.timer = game_model.timer - 2
         else:
-            print("GAME OVER: RAN OUT OF TIME")
+            logging.info(f"GAME OVER for {game_id}: RAN OUT OF TIME")
             game_model.timer = 0
             game_model.game_over = True
             if game_model.turn.user.username == game_model.player1.user.username:
@@ -307,13 +350,13 @@ def add_chat(request, gameid, playerid):
         return _my_json_error_response("You must use a POST request for this operation", status=404)
     message = request.POST['message_input']
     user = get_object_or_404(User, id=playerid)
-    print("MESSAGE:", message)
+    logging.debug("MESSAGE:", message)
     game = get_object_or_404(GameObject, id=gameid)
     if not game or not user:
         raise Http404
     chat = Chat(input_text=message, game=game, user=user, created_time=datetime.datetime.now())
     chat.save()
-    print("REQUEST", request)
+    logging.debug(f"REQUEST: {request}")
     return redirect(start_enter_game, game_id=gameid)
 
 
@@ -321,11 +364,11 @@ def update_player_stats(game_model: GameObject):
     p1 = game_model.player1
     p2 = game_model.player2
     if game_model.outcome == game_model.player1:
-        print(f"[update_player_stats] [{game_model.id}] OUTCOME IS 1")
+        logging.info(f"[update_player_stats] [{game_model.id}] OUTCOME IS 1")
         p1.total_wins = p1.total_wins + 1        
         p2.total_losses = p2.total_losses + 1
     elif game_model.outcome == game_model.player2:
-        print(f"[update_player_stats] [{game_model.id}] OUTCOME IS 2")
+        logging.info(f"[update_player_stats] [{game_model.id}] OUTCOME IS 2")
         p2.total_wins += 1
         p1.total_losses += 1
     elif game_model.outcome is None:            
@@ -362,8 +405,8 @@ def _game_to_dict(game: GameObject):
     game_i['timer'] = game.timer
 
     try:
-        print(game.id)
-        print(Chat.objects.all()[0].game_id)
+        logging.debug(f"game.id={game.id}")
+        logging.debug(f"Chat.objects.all()[0].game_id={Chat.objects.all()[0].game_id}")
         chatHistory = Chat.objects.filter(game_id=game.id).order_by('created_time')
     except:
         print("in except")
@@ -382,12 +425,14 @@ def _game_to_dict(game: GameObject):
 
 
 @login_required
+@update_last_seen
 def play_turn(request):
+    play_turn_start = timer()
     game_id = request.POST['game_id']
     player_id = request.POST['player_id']
     column = request.POST['column']
 
-    print(f"[play_turn] Playing turn for game_id={game_id}, player_id={player_id} in column={column}")
+    logging.info(f"[play_turn] Playing turn for game_id={game_id}, player_id={player_id} in column={column}")
     
     # get the GameObject for gameId
     game_model: GameObject = get_object_or_404(GameObject, id=game_id)
@@ -401,7 +446,7 @@ def play_turn(request):
     try:
         game.drop_disc(player_id, column)
     except Connect4GameError as e:
-        print(f"[play_turn] [{game_id}] [{player_id}] An error occurred when trying to play turn: {e.message}")
+        logging.error(f"[play_turn] [{game_id}] [{player_id}] An error occurred when trying to play turn: {e.message}")
         if e.show_user_error:
             # raise client error to inform the user about why this turn could not be played
             return HttpResponse(reason=e.message, status=406)
@@ -429,7 +474,11 @@ def play_turn(request):
 
     game_dict = _game_to_dict(updated_game_model)
 
+    play_turn_end = timer()
+    logging.debug(f"play_turn took {play_turn_end - play_turn_start}s")
+
     return HttpResponse(json.dumps(game_dict), content_type='application/json')
+
 
 @login_required
 def reset_stats(request):
@@ -445,6 +494,7 @@ def reset_stats(request):
     context['profile'] = profile
     context['prim_color'] = profile.primary_color
     return render(request, 'connect4/profile.html', context)
+
 
 @login_required
 def forfeit_game(request):
@@ -485,6 +535,7 @@ def add_player(request):
         game.player2_color = player2_profile.primary_color
     game.save()
     return get_games(request)
+
 
 # delete game that you created
 @login_required
@@ -543,8 +594,8 @@ def leave_game(request):
     return get_games(request)
 
 
-@readonly
 @login_required
+@update_last_seen
 def get_leaderboard(request):
     players = []
     for player in Profile.objects.all().order_by('-total_wins'):
@@ -566,3 +617,4 @@ def get_leaderboard(request):
     response_json = {'Players': players}
 
     return HttpResponse(json.dumps(response_json), content_type='application/json')
+    

@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -12,11 +14,20 @@ class Profile(models.Model):
     total_wins = models.IntegerField(default=0)
     total_losses = models.IntegerField(default=0)
     total_ties = models.IntegerField(default=0)
-    is_online = models.BooleanField(default=False)
+    last_seen = models.DateTimeField(default="2020-01-01 00:00")
 
     @property
     def total_games_played(self):
         return self.total_wins + self.total_ties + self.total_losses
+
+    @property
+    def is_online(self):
+        now = datetime.datetime.now(datetime.timezone.utc)
+        time_since_last_seen = now - self.last_seen
+        
+        # This threshold can be tuned
+        threshold = datetime.timedelta(seconds=30)
+        return time_since_last_seen <= threshold
 
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
