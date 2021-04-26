@@ -865,3 +865,10 @@ form {
 	font-size: 12px;
 	margin: 8px 0 0;
 }
+
+.bootstrap-growl {
+    font-family: Futura;
+    font-size: calc(100% + 0.1vw + 0.1vh) !important;
+    color: white;
+    background-color: #FF1E4E;
+}

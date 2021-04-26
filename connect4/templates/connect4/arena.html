@@ -12,6 +12,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script src="/static/connect4/js/base.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.min.js"></script>
 </head>
 
 <body>
@@ -42,11 +43,11 @@
 				</div>
 			</div>						
 		</div>
-	</div>
-	<script>         
+	</div>	
+	<script>    
 		var myUserName = "{{ request.user.username }}"
 		window.onload = getAllGames;
-		window.setInterval(getAllGames, 5000);         
+		window.setInterval(getAllGames, 5000);
 	</script>
 </body>
 {% endblock %}
