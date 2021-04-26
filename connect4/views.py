@@ -320,7 +320,10 @@ def get_game(request, game_id):
 @login_required
 @update_last_seen
 def poll_game(request):
-    game_id = request.GET['game_id']
+    if request.method == 'POST':
+        game_id = request.POST['game_id']
+    else:
+        game_id = request.GET['game_id']
     game_model: GameObject = get_object_or_404(GameObject, id=game_id)
     if not game_model:
         raise Http404
@@ -343,21 +346,25 @@ def poll_game(request):
 
     response_json = _game_to_dict(game_model)
     return HttpResponse(json.dumps(response_json), content_type='application/json')
-
+@login_required
 @ensure_csrf_cookie
-def add_chat(request, gameid, playerid):
+def add_chat(request):
     if request.method != 'POST':
         return _my_json_error_response("You must use a POST request for this operation", status=404)
-    message = request.POST['message_input']
+    message = request.POST['message']
+    playerid = request.POST['player_id']
+    gameid = request.POST['game_id']
+
     user = get_object_or_404(User, id=playerid)
-    logging.debug("MESSAGE:", message)
+    print(message)
     game = get_object_or_404(GameObject, id=gameid)
     if not game or not user:
         raise Http404
     chat = Chat(input_text=message, game=game, user=user, created_time=datetime.datetime.now())
     chat.save()
     logging.debug(f"REQUEST: {request}")
-    return redirect(start_enter_game, game_id=gameid)
+    #return redirect(start_enter_game, game_id=gameid)
+    return poll_game(request)
 
 
 def update_player_stats(game_model: GameObject):    

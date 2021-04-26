@@ -249,6 +249,20 @@ function pollGame(gameId) {
         error: updateError
     }); 
 }
+function addChat(gameId, playerId){
+
+    console.log("Adding chat: "+ $("#message_input_chat").val())
+    var message = $("#message_input_chat").val()
+    $("#message_input_chat").val("")
+    $.ajax({
+        url:"/connect4/add-chat",
+        type:"POST",
+        data:"&game_id="+gameId+"&player_id="+playerId+"&message="+message+"&csrfmiddlewaretoken="+getCSRFToken(),
+        dataType:"json",
+        success:updateGameView,
+        error:updateError
+    });
+}
 function updateChat(items){
     console.log("Current value:"+ $("#message_input_chat").val())
     const myNode = document.getElementById("chat_messages");
