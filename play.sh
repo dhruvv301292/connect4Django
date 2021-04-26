@@ -1,0 +1,18 @@
+curl 'http://127.0.0.1:8000/connect4/play-turn' \
+  -H 'Connection: keep-alive' \
+  -H 'sec-ch-ua: "Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99"' \
+  -H 'Accept: application/json, text/javascript, */*; q=0.01' \
+  -H 'X-Requested-With: XMLHttpRequest' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36' \
+  -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' \
+  -H 'Origin: http://127.0.0.1:8000' \
+  -H 'Sec-Fetch-Site: same-origin' \
+  -H 'Sec-Fetch-Mode: cors' \
+  -H 'Sec-Fetch-Dest: empty' \
+  -H 'Referer: http://127.0.0.1:8000/connect4/startentergame/30' \
+  -H 'Accept-Language: en-US,en;q=0.9' \
+  -H 'Cookie: csrftoken=Fm8ylBbuvjrgRZqlxBzgX6Op0tJrpa3v5FsIFc5uY1LiMe1cH3Fr6LyiKziZaw0x; sessionid=ppy5urbjpa808xzmxsog6ygtu0wfzief' \
+  --data-raw 'player_id=6&game_id=30&column=1&csrfmiddlewaretoken=Fm8ylBbuvjrgRZqlxBzgX6Op0tJrpa3v5FsIFc5uY1LiMe1cH3Fr6LyiKziZaw0x' \
+  --compressed \
+  -L
