@@ -185,16 +185,10 @@ def login_action(request):
                             password=form.cleaned_data['password'])
 
     login(request, new_user)
-    profile = Profile.objects.get(user__username=new_user.username)
-    profile.is_online = True
-    profile.save()
     return redirect(reverse('home'))
 
 
 def logout_action(request):   
-    profile = Profile.objects.get(user__username=request.user.username)
-    profile.is_online = False
-    profile.save() 
     logout(request)    
     return redirect(reverse('login'))
 
