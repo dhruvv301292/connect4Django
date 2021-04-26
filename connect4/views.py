@@ -173,6 +173,7 @@ def login_action(request):
         return render(request, 'connect4/login.html', context)
 
     # Creates a bound form from the request POST parameters and makes the
+    # Creates a bound form from the request POST parameters and makes the
     # form available in the request context dictionary.
     form = LoginForm(request.POST)
     context['form'] = form

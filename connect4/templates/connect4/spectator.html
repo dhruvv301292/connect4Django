@@ -247,10 +247,10 @@
                         <span>Hello</span>
                     </div>
                 </div>
-                <div class="input-group type_msg">
-                    <form method="POST" action="{% url 'add-chat' game_id request.user.id%}" style="width:100%">
+                 <div class="input-group type_msg">
+                    <form  style="width:100%">
                         <input type="text" class="form-control pl-3" id="message_input_chat" name="message_input" placeholder="Type a message"/>
-                        <button class="msg_send_btn p1bg" type="submit"><i class="fas fa-arrow-circle-up" aria-hidden="true"></i></button>
+                        <button class="msg_send_btn p1bg" type="button" onclick=addChat(gameId,playerId)><i class="fas fa-arrow-circle-up" aria-hidden="true"></i></button>
                         {% csrf_token %}
                     </form>
                 </div>
@@ -279,7 +279,8 @@
     </div>
     </body>
     <script>
-        let myUserName = "{{ request.user.username }}"        
+        let myUserName = "{{ request.user.username }}"
+        let playerId = "{{ request.user.id }}"
         let player1 = "{{ player1.user.username }}"
         let player2 = "{{ player2.user.username }}"
         let gameId = "{{ game_id }}";
