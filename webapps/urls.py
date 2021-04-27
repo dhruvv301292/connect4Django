@@ -16,8 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from connect4 import views
+from django.contrib.auth import views as auth_views
+
 urlpatterns = [
     path('', views.home),
     path('connect4/', include('connect4.urls')),
+    path('oauth/', include('social_django.urls', namespace='social')),
 
 ]

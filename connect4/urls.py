@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.urls import path
 from connect4 import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -49,5 +50,5 @@ urlpatterns = [
     path('reset-stats', views.reset_stats, name='reset-stats'),
     path('forfeit-game', views.forfeit_game, name='forfeit-game'),
     path('challenge', views.challenge_opponent, name='challenge'),
-
+    path('oauth-register', views.oauth_register, name='oauth-register')
 ]

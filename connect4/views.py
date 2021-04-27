@@ -195,6 +195,33 @@ def logout_action(request):
     logout(request)    
     return redirect(reverse('login'))
 
+def oauth_register(request):
+    userid = request.user.id
+    user_object = get_object_or_404(User, id=userid)
+    try:
+        profile_object = Profile.objects.get(user_id=userid)
+    except:
+        profile_object = None
+    # test if user profile exists already:
+    if user_object and profile_object:
+        return redirect(reverse('home'))
+
+    elif user_object:
+        print(type(user_object))
+
+        profile = Profile(user=user_object, content_type='image/jpeg')
+        profile.save()
+        return redirect(reverse('home'))
+    # At this point, the form data is valid.  Register and login the user.
+    new_user = User.objects.create_user(username=request.user.username,
+                                        email=request.user.email,
+                                        first_name=request.user.first_name,
+                                        last_name=request.user.last_name)
+    new_user.save()
+
+    profile = Profile(user=new_user, content_type='image/jpeg')
+    profile.save()
+    return redirect(reverse('home'))
 
 def register_action(request):
     context = {}

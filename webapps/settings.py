@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import os
+from configparser import ConfigParser
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -18,6 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
+CONFIG = ConfigParser()
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'y6e%*&%h-6@f9u)o9ej+@211%cw0ks#ye5#=k$n3l5v50@(eop'
@@ -38,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'connect4',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -52,14 +55,28 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'webapps.urls'
 
+AUTHENTICATION_BACKENDS=(
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+#SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = CONFIG.get("GoogleOAuth2", "Key")
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY='102482773844-1emiiv9eg78la0a8924ecvs3u8ossbq9.apps.googleusercontent.com'
+#SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = CONFIG.get("GoogleOAuth2", "Secret")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'zTySiEFS7pJxcMlQRtXI00Ni'
+SOCIAL_AUTH_GOOGLE_OAUTH2_AUTH_EXTRA_ARGUMENTS = {'prompt': 'select_account'}
+
+
 # Used by the @login_required decorator to redirect to the login action
 LOGIN_URL = '/connect4/login'
-
+# put in href inside login.
+#login = '/oauth/login/google-oauth2/'
 # Default URL to redirect to after a user logs in.
 # Some authentication packages will use this.  Today's example does not.
 # Django offers a build-in login function which would use this
 # The OAuth example will use this
-LOGIN_REDIRECT_URL = '/connnect4/'
+LOGIN_REDIRECT_URL = 'oauth-register'
+LOGOUT_REDIRECT_URL = '/connect4/'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
