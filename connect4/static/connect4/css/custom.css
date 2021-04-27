@@ -872,3 +872,16 @@ form {
     color: white;
     background-color: #FF1E4E;
 }
+
+.popover-body {
+    background-color: white;
+    font-size: 16px;
+    font-weight: bolder;    
+}
+
+.popover-header {
+    font-family: Futura;
+    font-size: 20px;    
+    color: white;    
+    background-color: #FF1E4E;
+}

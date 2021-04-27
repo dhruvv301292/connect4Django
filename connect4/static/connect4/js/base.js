@@ -108,13 +108,14 @@ function updateGamesList(games) {
             //     borderString = "border-p1"
             // }
             let elem =  '<li id="id_game_item_' + this.id + '" style="list-style: none"><div class="row bg-dark rounded mb-2 border "><div class="col-1 d-flex flex-wrap align-items-center""><span class="pad-0" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: white;">'
-            + count + '</span></div><div class="col-3 d-flex flex-wrap align-items-center"" id="id_game_' + this.id + '_player1"><span class="pad-0" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: white">' 
+            + count + '</span></div><div class="col-3 d-flex flex-wrap align-items-center"" id="id_game_' + this.id + '_player1"><span tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="'+ this.p1_username +'" data-content="'+ this.player1_stats+ '"  class="pad-0" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: white">' 
             + this.p1_username + '</span></div><div class="col-1 d-flex flex-wrap align-items-center""><span class="pad-0" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color:#FF1E4E">VS</span></div><div class="col-3 d-flex flex-wrap align-items-center"" id="id_game_' + this.id + 
-            '_player2"><span class="pad-0" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: white">'+ ((this.p2_username == null) ? "" : this.p2_username) + '</span></div>' + getButton(this)   
+            '_player2"><span tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="'+ this.p2_username +'" data-content="'+ this.player2_stats+ '" class="pad-0" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: white">'+ ((this.p2_username == null) ? "" : this.p2_username) + '</span></div>' + getButton(this)   
             $("#games-list").append(elem)
         }
         count += 1
     })
+
     $("form").each(function() {        
         let inputElem = document.createElement('input');
         inputElem.type = 'hidden';
@@ -122,6 +123,25 @@ function updateGamesList(games) {
         inputElem.value = getCSRFToken();
         this.appendChild(inputElem);
      });
+    
+    // function to show popover stats for user.
+    $(function () {
+        $('[data-toggle="popover"]').popover({
+            placement: 'bottom',
+            delay: {
+                "show": 100,
+                "hide": 100
+            }
+        });
+    
+        $('[data-toggle="popover"]').click(function () {
+    
+            setTimeout(function () {
+                $('.popover').fadeOut('slow');
+            }, 4000);
+    
+        });    
+    })
 }
 
 function updateLeaderboard(players) {

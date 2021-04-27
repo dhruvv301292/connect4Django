@@ -273,6 +273,7 @@ def get_games(request):
             'p1_username': game.player1.user.username,
             'player1_color': game.player1_color,
             'player2_color': game.player2_color,
+            'player1_stats': "WINS: {} | LOSSES: {}".format(game.player1.total_wins, game.player1.total_losses),
             'player1_entered': game.player1_entered,
             'game_over': game.game_over,
             'moves_played': game.moves_played,
@@ -283,6 +284,7 @@ def get_games(request):
         if game.player2:
             game_i['p2_username'] = game.player2.user.username
             game_i['player2_entered'] = game.player2_entered
+            game_i['player2_stats'] = "WINS: {} | LOSSES: {}".format(game.player2.total_wins, game.player2.total_losses)
         else:
             game_i['p2_username'] = None
         
