@@ -24,7 +24,7 @@ function checkChallenge() {
         url: "connect4/check-challenge",        
         dataType : "json",
         success: enablePopup,
-        error: updateError
+        error: null
     });  
 }
 
