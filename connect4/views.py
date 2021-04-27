@@ -62,8 +62,8 @@ def update_last_seen(func):
 
 @login_required
 @update_last_seen
-def home(request):
-    return render(request, 'connect4/arena.html', {})
+def home(request):      
+    return render(request, 'connect4/arena.html', {'prim_color': Profile.objects.get(user_id=request.user.id).primary_color})
 
 # create new game in arena
 @login_required
@@ -212,6 +212,7 @@ def oauth_register(request):
         profile = Profile(user=user_object, content_type='image/jpeg')
         profile.save()
         return redirect(reverse('home'))
+            
     # At this point, the form data is valid.  Register and login the user.
     new_user = User.objects.create_user(username=request.user.username,
                                         email=request.user.email,
@@ -298,6 +299,7 @@ def get_games(request):
         game_i = {
             'id': game.id,
             'p1_username': game.player1.user.username,
+            'p1_fullname': game.player1.user.get_full_name(),
             'player1_color': game.player1_color,
             'player2_color': game.player2_color,
             'player1_stats': "WINS: {} | LOSSES: {}".format(game.player1.total_wins, game.player1.total_losses),
@@ -310,6 +312,7 @@ def get_games(request):
             game_i['turn'] = game.turn.user.username
         if game.player2:
             game_i['p2_username'] = game.player2.user.username
+            game_i['p2_fullname'] = game.player2.user.get_full_name()
             game_i['player2_entered'] = game.player2_entered
             game_i['player2_stats'] = "WINS: {} | LOSSES: {}".format(game.player2.total_wins, game.player2.total_losses)
         else:
@@ -635,7 +638,7 @@ def get_leaderboard(request):
             win_ratio = float("{:.2f}".format(win_ratio))
         player_i = {
             'id': player.id,
-            'username': player.user.username,
+            'username': player.user.username[:10],
             'prim_color': player.primary_color,
             'wins': player.total_wins,
             'total_games_played': player.total_games_played,

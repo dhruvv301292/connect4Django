@@ -103,14 +103,14 @@ function updateGamesList(games) {
     $(games).each(function() {
         let my_id = "id_game_item_" + this.id   
         if (document.getElementById(my_id) == null) {   
-            // let borderString = ""
-            // if (this.p1_username == myUserName) {
-            //     borderString = "border-p1"
-            // }
-            let elem =  '<li id="id_game_item_' + this.id + '" style="list-style: none"><div class="row bg-dark rounded mb-2 border "><div class="col-1 d-flex flex-wrap align-items-center""><span class="pad-0" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: white;">'
-            + count + '</span></div><div class="col-3 d-flex flex-wrap align-items-center"" id="id_game_' + this.id + '_player1"><span tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="'+ this.p1_username +'" data-content="'+ this.player1_stats+ '"  class="pad-0" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: white">' 
-            + this.p1_username + '</span></div><div class="col-1 d-flex flex-wrap align-items-center""><span class="pad-0" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color:#FF1E4E">VS</span></div><div class="col-3 d-flex flex-wrap align-items-center"" id="id_game_' + this.id + 
-            '_player2"><span tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="'+ this.p2_username +'" data-content="'+ this.player2_stats+ '" class="pad-0" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: white">'+ ((this.p2_username == null) ? "" : this.p2_username) + '</span></div>' + getButton(this)   
+            let borderString = ""
+            if (this.p1_username == myUserName || this.p2_username == myUserName) {
+                borderString = "border-my-color"
+            }
+            let elem =  '<li id="id_game_item_' + this.id + '" style="list-style: none"><div class="row bg-dark rounded mb-2 border '+borderString+'"><div class="col-1 d-flex flex-wrap align-items-center""><span class="pad-0 arena-name-span">'
+            + count + '</span></div><div class="col-3 d-flex flex-wrap align-items-center"" id="id_game_' + this.id + '_player1"><span tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="'+ this.p1_fullname +'" data-content="'+ this.player1_stats+ '"  class="pad-0 arena-name-span">' 
+            + this.p1_username.substring(0,10) + '</span></div><div class="col-1 d-flex flex-wrap align-items-center""><span class="pad-0 arena-vs">VS</span></div><div class="col-3 d-flex flex-wrap align-items-center"" id="id_game_' + this.id + 
+            '_player2"><span tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="'+ this.p2_fullname +'" data-content="'+ this.player2_stats+ '" class="pad-0 arena-name-span">'+ ((this.p2_username == null) ? "" : this.p2_username.substring(0,10)) + '</span></div>' + getButton(this)   
             $("#games-list").append(elem)
         }
         count += 1
@@ -155,19 +155,19 @@ function updateLeaderboard(players) {
             if (this.username == myUserName) {
                 elem =  '<li id="id_player_item_' + this.id + '" style="list-style: none"><div id="id_player_bg_'+ this.id +'" class="row rounded mb-2 border" style="background:'+ this.prim_color +'"><div class="col-1 d-flex flex-wrap align-items-center""><span id="id_player_rank_'+ this.id +'" class="pad-0" style="font-family: FuturaBoldItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: white;">'
                 + count + '</span></div><div class="col-3 d-flex flex-wrap align-items-center"><image class="pad-0 leader-image border border-leader-self" src="'+ get_photo + '" id="id_player_' + this.id + '_image"></div><div class="col-5 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_username" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: white">' 
-                + this.username + '</span></div><div class="col-2 d-flex flex-wrap align-items-center"><span class="pad-0"></span></div><div class="col-1 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_wins" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: white">' 
+                + this.username.substring(0,10) + '</span></div><div class="col-2 d-flex flex-wrap align-items-center"><span class="pad-0"></span></div><div class="col-1 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_wins" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: white">' 
                 + this.wins + '</span></div></div></li>'
             } else {
                 if (this.is_online) {  
                     let challengeGame = '/connect4/challenge';                                   
                     elem =  '<li id="id_player_item_' + this.id + '" style="list-style: none"><div id="id_player_bg_'+ this.id +'" class="row bg-light rounded mb-2 border "><div class="col-1 d-flex flex-wrap align-items-center""><span id="id_player_rank_'+ this.id +'" class="pad-0" style="font-family: FuturaBoldItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: grey;">'
                     + count + '</span></div><div class="col-3 d-flex flex-wrap align-items-center"><image class="pad-0 leader-image border border-leader" src="'+ get_photo + '" id="id_player_' + this.id + '_image"></div><div class="col-5 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_username" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
-                    + this.username + '</span></div><div class="col-2 d-flex flex-wrap align-items-center"><form id="id_'+this.id+'_challenge_form" method="POST" action="'+challengeGame+'"><input type="hidden" name="player_2_username" value="'+this.username+'"><button type="submit" class="start-button-black" id="id_challenge_button_'+ this.id + '">Challenge</button></div><div class="col-1 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_wins" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
+                    + this.username.substring(0,10) + '</span></div><div class="col-2 d-flex flex-wrap align-items-center"><form id="id_'+this.id+'_challenge_form" method="POST" action="'+challengeGame+'"><input type="hidden" name="player_2_username" value="'+this.username+'"><button type="submit" class="start-button-black" id="id_challenge_button_'+ this.id + '">Challenge</button></div><div class="col-1 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_wins" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
                     + this.wins + '</span></div></div></li>'
                 } else {
                     elem =  '<li id="id_player_item_' + this.id + '" style="list-style: none"><div id="id_player_bg_'+ this.id +'" class="row bg-light rounded mb-2 border "><div class="col-1 d-flex flex-wrap align-items-center""><span id="id_player_rank_'+ this.id +'" class="pad-0" style="font-family: FuturaBoldItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: grey;">'
                     + count + '</span></div><div class="col-3 d-flex flex-wrap align-items-center"><image class="pad-0 leader-image border border-leader" src="'+ get_photo + '" id="id_player_' + this.id + '_image"></div><div class="col-5 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_username" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
-                    + this.username + '</span></div><div class="col-2 d-flex flex-wrap align-items-center"><span class="pad-0"></span></div><div class="col-1 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_wins" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
+                    + this.username.substring(0,10) + '</span></div><div class="col-2 d-flex flex-wrap align-items-center"><span class="pad-0"></span></div><div class="col-1 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_wins" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
                     + this.wins + '</span></div></div></li>'
                 }
             }            

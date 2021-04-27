@@ -44,9 +44,9 @@ class RegisterForm(forms.Form):
                             widget=forms.EmailInput())
     first_name = forms.CharField(max_length=20, label='First Name')
     last_name = forms.CharField(max_length=20, label='Last Name')
-    primary_color = forms.CharField(label='primary_hex_color', max_length=7,
+    primary_color = forms.CharField(label='Primary Color', max_length=7,
                                     widget=forms.TextInput(attrs={'type': 'color'}))
-    secondary_color = forms.CharField(label='secondary_hex_color', max_length=7,
+    secondary_color = forms.CharField(label='Secondary Color', max_length=7,
                                       widget=forms.TextInput(attrs={'type': 'color'}))
     # Customizes form validation for properties that apply to more
     # than one field.  Overrides the forms.Form.clean function.

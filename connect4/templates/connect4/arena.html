@@ -44,7 +44,8 @@
 			</div>						
 		</div>
 	</div>	
-	<script>		 
+	<script>	
+		document.documentElement.style.setProperty('--profile-border', "{{prim_color}}");	 
 		var myUserName = "{{ request.user.username }}"
 		window.onload = getAllGames;
 		window.setInterval(getAllGames, 5000);		

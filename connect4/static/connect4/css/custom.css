@@ -85,6 +85,12 @@ h1 {
     border-radius: 2vh !important;
 }
 
+.border-my-color {
+    border-width: 0.6vh !important;
+    border-color: var(--profile-border) !important;
+    border-radius: 1.5vh !important;
+}
+
 .border-p2 {
     border-width: 0.7vh !important;
     border-color: var(--player2-color) !important;
@@ -401,6 +407,23 @@ input[type="email"] {
     padding-bottom: 2.6vh !important;
     font-family: FuturaItalic;
     color: white !important;
+}
+
+.arena-name-span {
+    font-family: FuturaExtraBold; 
+    text-transform:uppercase; 
+    font-size: 7vh; 
+    line-height: 7vh; 
+    color: white;
+    overflow: hidden;
+}
+
+.arena-vs {
+    font-family: FuturaExtraBold; 
+    text-transform: uppercase; 
+    font-size: calc(50% + 2vh + 1vw); 
+    line-height: 7vh;
+    color: #FF1E4E;
 }
 
 .name-spectator-player2 {

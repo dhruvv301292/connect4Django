@@ -9,7 +9,7 @@ class Profile(models.Model):
     image = models.ImageField(default='connect4/static/connect4/images/profile.jpg',
                              upload_to="connect4/static/connect4/images", blank=True)
     content_type = models.CharField(max_length=50, default='image/jpeg', blank=True)
-    primary_color = models.CharField(max_length=7, blank=True)
+    primary_color = models.CharField(max_length=7, default='#F53E37')
     secondary_color = models.CharField(max_length=7, blank=True)
     total_wins = models.IntegerField(default=0)
     total_losses = models.IntegerField(default=0)
