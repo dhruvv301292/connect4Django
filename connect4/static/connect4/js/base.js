@@ -2,7 +2,7 @@
 
 function getAllGames() {    
     $.ajax({
-        url: "connect4/get-games",
+        url: "connect4/get-games",        
         dataType : "json",
         success: updateArena,
         error: updateError
@@ -11,11 +11,21 @@ function getAllGames() {
 
 function getLeaderboard() {    
     $.ajax({
-        url: "connect4/get-leaderboard",
+        url: "connect4/get-leaderboard",        
         dataType : "json",
         success: updateLeaderBoardPage,
         error: updateError
     });
+}
+
+function checkChallenge() {   
+    console.log("CHECKING!") 
+    $.ajax({
+        url: "connect4/check-challenge",        
+        dataType : "json",
+        success: enablePopup,
+        error: updateError
+    });  
 }
 
 
@@ -132,7 +142,7 @@ function updateLeaderboard(players) {
                     let challengeGame = '/connect4/challenge';                                   
                     elem =  '<li id="id_player_item_' + this.id + '" style="list-style: none"><div id="id_player_bg_'+ this.id +'" class="row bg-light rounded mb-2 border "><div class="col-1 d-flex flex-wrap align-items-center""><span id="id_player_rank_'+ this.id +'" class="pad-0" style="font-family: FuturaBoldItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: grey;">'
                     + count + '</span></div><div class="col-3 d-flex flex-wrap align-items-center"><image class="pad-0 leader-image border border-leader" src="'+ get_photo + '" id="id_player_' + this.id + '_image"></div><div class="col-5 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_username" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
-                    + this.username + '</span></div><div class="col-2 d-flex flex-wrap align-items-center"><form id="id_'+this.id+'_challenge_form" method="POST" action="'+challengeGame+'"><input type="hidden" name="player_2_username" value="'+this.username+'"><button type="submit" class="start-button-black" onclick="sendChallengeNotif()" id="id_challenge_button_'+ this.id + '">Challenge</button></div><div class="col-1 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_wins" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
+                    + this.username + '</span></div><div class="col-2 d-flex flex-wrap align-items-center"><form id="id_'+this.id+'_challenge_form" method="POST" action="'+challengeGame+'"><input type="hidden" name="player_2_username" value="'+this.username+'"><button type="submit" class="start-button-black" id="id_challenge_button_'+ this.id + '">Challenge</button></div><div class="col-1 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_wins" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
                     + this.wins + '</span></div></div></li>'
                 } else {
                     elem =  '<li id="id_player_item_' + this.id + '" style="list-style: none"><div id="id_player_bg_'+ this.id +'" class="row bg-light rounded mb-2 border "><div class="col-1 d-flex flex-wrap align-items-center""><span id="id_player_rank_'+ this.id +'" class="pad-0" style="font-family: FuturaBoldItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: grey;">'
@@ -242,7 +252,7 @@ function pollGame(gameId) {
     console.log("Polling game for " + gameId);
     $.ajax({
         url: "/connect4/poll-game",
-        type: "GET",
+        type: "POST",
         data: "username="+myUserName+"&game_id="+gameId+"&csrfmiddlewaretoken="+getCSRFToken(),
         dataType : "json",
         success: updateGameView,
@@ -403,12 +413,14 @@ function getCSRFToken() {
     return "unknown";
 }
 
-function sendChallengeNotif() {             
-    $.bootstrapGrowl("Get Schwifty!", {            
-        offset: {from: "bottom", amount: 50}, 
-        delay: 5000,
-        allow_dismiss: true,
-        stackup_spacing: 10				
-    });    
+function enablePopup(response) {  
+    if (response['challenger'] != null) {
+        $.bootstrapGrowl("You've been challenged by " + response['challenger'], {            
+            offset: {from: "bottom", amount: 50}, 
+            delay: 7500,
+            allow_dismiss: true,
+            stackup_spacing: 10				
+        });
+    }     
 }
 

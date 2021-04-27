@@ -97,6 +97,8 @@ def challenge_opponent(request):
     new_game = GameObject(board=board, player1=Player1, player2=Player2, player1_color=Player1.primary_color,
                           player2_color=Player2.primary_color, outcome=None, game_over=None, moves_played=0,
                           created_time=datetime.datetime.now())
+    Player2.hasChallenge = Player1.user.username
+    Player2.save()
     new_game.save()
     return redirect('home')
 
@@ -314,7 +316,7 @@ def get_game(request, game_id):
 @login_required
 @update_last_seen
 def poll_game(request):
-    game_id = request.GET['game_id']
+    game_id = request.POST['game_id']
     game_model: GameObject = get_object_or_404(GameObject, id=game_id)
     if not game_model:
         raise Http404
@@ -611,4 +613,17 @@ def get_leaderboard(request):
     response_json = {'Players': players}
 
     return HttpResponse(json.dumps(response_json), content_type='application/json')
+
+@login_required
+def check_challenge(request):
+    player = Profile.objects.get(user__username=request.user.username)    
+    if player.hasChallenge == None:        
+        response_json = {'challenger': None}
+    else:                
+        challenger = player.hasChallenge        
+        response_json = {'challenger': challenger}
+        player.hasChallenge = None
+        player.save()
+    return HttpResponse(json.dumps(response_json), content_type='application/json')
+
     

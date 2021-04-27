@@ -15,6 +15,7 @@ class Profile(models.Model):
     total_losses = models.IntegerField(default=0)
     total_ties = models.IntegerField(default=0)
     last_seen = models.DateTimeField(default="2020-01-01 00:00")
+    hasChallenge = models.CharField(max_length=200, null = True)
 
     @property
     def total_games_played(self):
