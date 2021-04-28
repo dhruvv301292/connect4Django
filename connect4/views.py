@@ -638,7 +638,7 @@ def get_leaderboard(request):
             win_ratio = float("{:.2f}".format(win_ratio))
         player_i = {
             'id': player.id,
-            'username': player.user.username[:10],
+            'username': player.user.username,
             'prim_color': player.primary_color,
             'wins': player.total_wins,
             'total_games_played': player.total_games_played,
