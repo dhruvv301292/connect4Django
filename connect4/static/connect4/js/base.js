@@ -108,7 +108,7 @@ function updateGamesList(games) {
                 borderString = "border-my-color"
             }
             let elem =  '<li id="id_game_item_' + this.id + '" style="list-style: none"><div class="row bg-dark rounded mb-2 border '+borderString+'"><div class="col-1 d-flex flex-wrap align-items-center""><span class="pad-0 arena-name-span">'
-            + count + '</span></div><div class="col-3 d-flex flex-wrap align-items-center"" id="id_game_' + this.id + '_player1"><span tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="'+ this.p1_fullname +'" data-content="'+ this.player1_stats+ '"  class="pad-0 arena-name-span">' 
+            + count + '</span></div><div class="col-3 d-flex flex-wrap align-items-center"" id="id_game_' + this.id + '_player1"><span tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="'+ this.p1_fullname +'" data-content="'+ this.player1_stats+ '" class="pad-0 arena-name-span">' 
             + this.p1_username.substring(0,10) + '</span></div><div class="col-1 d-flex flex-wrap align-items-center""><span class="pad-0 arena-vs">VS</span></div><div class="col-3 d-flex flex-wrap align-items-center"" id="id_game_' + this.id + 
             '_player2"><span tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="'+ this.p2_fullname +'" data-content="'+ this.player2_stats+ '" class="pad-0 arena-name-span">'+ ((this.p2_username == null) ? "" : this.p2_username.substring(0,10)) + '</span></div>' + getButton(this)   
             $("#games-list").append(elem)
@@ -161,12 +161,12 @@ function updateLeaderboard(players) {
                 if (this.is_online) {  
                     let challengeGame = '/connect4/challenge';                                   
                     elem =  '<li id="id_player_item_' + this.id + '" style="list-style: none"><div id="id_player_bg_'+ this.id +'" class="row bg-light rounded mb-2 border "><div class="col-1 d-flex flex-wrap align-items-center""><span id="id_player_rank_'+ this.id +'" class="pad-0" style="font-family: FuturaBoldItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: grey;">'
-                    + count + '</span></div><div class="col-3 d-flex flex-wrap align-items-center"><image class="pad-0 leader-image border border-leader" src="'+ get_photo + '" id="id_player_' + this.id + '_image"></div><div class="col-5 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_username" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
+                    + count + '</span></div><div class="col-3 d-flex flex-wrap align-items-center"><image class="pad-0 leader-image border border-leader" src="'+ get_photo + '" id="id_player_' + this.id + '_image"></div><div class="col-5 d-flex flex-wrap align-items-center"><span tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="'+ this.fullname +'" data-content="'+ this.stats+ '" class="pad-0" id="id_player_' + this.id + '_username" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
                     + this.username.substring(0,10) + '</span></div><div class="col-2 d-flex flex-wrap align-items-center"><form id="id_'+this.id+'_challenge_form" method="POST" action="'+challengeGame+'"><input type="hidden" name="player_2_username" value="'+this.username+'"><button type="submit" class="start-button-black" id="id_challenge_button_'+ this.id + '">Challenge</button></div><div class="col-1 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_wins" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
                     + this.wins + '</span></div></div></li>'
                 } else {
                     elem =  '<li id="id_player_item_' + this.id + '" style="list-style: none"><div id="id_player_bg_'+ this.id +'" class="row bg-light rounded mb-2 border "><div class="col-1 d-flex flex-wrap align-items-center""><span id="id_player_rank_'+ this.id +'" class="pad-0" style="font-family: FuturaBoldItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: grey;">'
-                    + count + '</span></div><div class="col-3 d-flex flex-wrap align-items-center"><image class="pad-0 leader-image border border-leader" src="'+ get_photo + '" id="id_player_' + this.id + '_image"></div><div class="col-5 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_username" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
+                    + count + '</span></div><div class="col-3 d-flex flex-wrap align-items-center"><image class="pad-0 leader-image border border-leader" src="'+ get_photo + '" id="id_player_' + this.id + '_image"></div><div class="col-5 d-flex flex-wrap align-items-center"><span tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="'+ this.fullname +'" data-content="'+ this.stats+ '" class="pad-0" id="id_player_' + this.id + '_username" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
                     + this.username.substring(0,10) + '</span></div><div class="col-2 d-flex flex-wrap align-items-center"><span class="pad-0"></span></div><div class="col-1 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_wins" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
                     + this.wins + '</span></div></div></li>'
                 }
@@ -182,6 +182,25 @@ function updateLeaderboard(players) {
         inputElem.value = getCSRFToken();
         this.appendChild(inputElem);
      });
+
+    // function to show popover stats for user.
+    $(function () {
+        $('[data-toggle="popover"]').popover({
+            placement: 'bottom',
+            delay: {
+                "show": 100,
+                "hide": 100
+            }
+        });
+    
+        $('[data-toggle="popover"]').click(function () {
+    
+            setTimeout(function () {
+                $('.popover').fadeOut('slow');
+            }, 4000);
+    
+        });    
+    })
 }
 
 function getButton(game) {

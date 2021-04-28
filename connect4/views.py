@@ -639,7 +639,9 @@ def get_leaderboard(request):
         player_i = {
             'id': player.id,
             'username': player.user.username,
+            'fullname': player.user.get_full_name(),
             'prim_color': player.primary_color,
+            'stats': "WINS: {} | LOSSES: {}".format(player.total_wins, player.total_losses),
             'wins': player.total_wins,
             'total_games_played': player.total_games_played,
             'win_ratio': win_ratio,
