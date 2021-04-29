@@ -74,9 +74,10 @@ function sanitize(s) {
  */
 
 function updateArena(response) {
-    let Games = response['Games']    
+    let Games = response['Games'] 
+    let Players = response['Players']   
     if (Array.isArray(Games)) {       
-        updateGamesList(Games)
+        updateGamesList(Games, Players)
     } else if (Games.hasOwnProperty('error')) {
         displayError(Games.error)
     } else {
@@ -97,11 +98,12 @@ function displayError(message) {
     }    
 }
 
-function updateGamesList(games) {
+function updateGamesList(games, players) {
     $('#games-list').empty()
+    $('#online-list').empty()
     let count = 1
     $(games).each(function() {
-        let my_id = "id_game_item_" + this.id   
+        let my_id = "id_game_item_" + this.id
         if (document.getElementById(my_id) == null) {   
             let borderString = ""
             if (this.p1_username == myUserName || this.p2_username == myUserName) {
@@ -114,6 +116,16 @@ function updateGamesList(games) {
             $("#games-list").append(elem)
         }
         count += 1
+    })
+
+    $(players).each(function() {
+        let my_id = "id_online_player_item_" + this.id;  
+        if (this.username != myUserName && document.getElementById(my_id) == null) {
+            let challengeGame = '/connect4/challenge';
+            let get_photo = "/connect4/photo/" + this.id;
+            let elem = '<li style="list-style: none"><form id="id_'+this.id+'_online_challenge_form" method="POST" action="'+challengeGame+'"><input type="hidden" name="player_2_username" value="'+this.username+'"><button type="submit" title="'+ this.username.substring(0,10) + ' | '+ this.stats +'" class="btn pl-2" id="id_online_challenge_button_'+ this.id + '"><img class="rounded-circle online-button mx-auto" src="'+ get_photo + '" height="70vh" width="70vh"></button></form></li>';
+            $("#online-list").append(elem)
+        }
     })
 
     $("form").each(function() {        
@@ -162,7 +174,7 @@ function updateLeaderboard(players) {
                     let challengeGame = '/connect4/challenge';                                   
                     elem =  '<li id="id_player_item_' + this.id + '" style="list-style: none"><div id="id_player_bg_'+ this.id +'" class="row bg-light rounded mb-2 border "><div class="col-1 d-flex flex-wrap align-items-center""><span id="id_player_rank_'+ this.id +'" class="pad-0" style="font-family: FuturaBoldItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: grey;">'
                     + count + '</span></div><div class="col-3 d-flex flex-wrap align-items-center"><image class="pad-0 leader-image border border-leader" src="'+ get_photo + '" id="id_player_' + this.id + '_image"></div><div class="col-5 d-flex flex-wrap align-items-center"><span tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="'+ this.fullname +'" data-content="'+ this.stats+ '" class="pad-0" id="id_player_' + this.id + '_username" style="font-family: FuturaExtraBold; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
-                    + this.username.substring(0,10) + '</span></div><div class="col-2 d-flex flex-wrap align-items-center"><form id="id_'+this.id+'_challenge_form" method="POST" action="'+challengeGame+'"><input type="hidden" name="player_2_username" value="'+this.username+'"><button type="submit" class="start-button-black" id="id_challenge_button_'+ this.id + '">Challenge</button></div><div class="col-1 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_wins" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
+                    + this.username.substring(0,10) + '</span></div><div class="col-2 d-flex flex-wrap align-items-center"><form id="id_'+this.id+'_challenge_form" method="POST" action="'+challengeGame+'"><input type="hidden" name="player_2_username" value="'+this.username+'"><button type="submit" class="start-button-black" id="id_challenge_button_'+ this.id + '">Challenge</button></form></div><div class="col-1 d-flex flex-wrap align-items-center"><span class="pad-0" id="id_player_' + this.id + '_wins" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: black">' 
                     + this.wins + '</span></div></div></li>'
                 } else {
                     elem =  '<li id="id_player_item_' + this.id + '" style="list-style: none"><div id="id_player_bg_'+ this.id +'" class="row bg-light rounded mb-2 border "><div class="col-1 d-flex flex-wrap align-items-center""><span id="id_player_rank_'+ this.id +'" class="pad-0" style="font-family: FuturaBoldItalic; text-transform:uppercase; font-size: 7vh; line-height: 7vh; color: grey;">'

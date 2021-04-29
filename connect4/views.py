@@ -295,6 +295,7 @@ def start_enter_game(request, game_id):
 @update_last_seen
 def get_games(request):
     Games = []
+    Players = []
     for game in GameObject.objects.all():
         game_i = {
             'id': game.id,
@@ -319,7 +320,18 @@ def get_games(request):
             game_i['p2_username'] = None
         
         Games.append(game_i)
-    response_json = {'Games': Games}
+    
+    players = Profile.objects.all()
+    for player in players:
+        if player.is_online:
+            player_i = {
+                'id': player.id,
+                'username': player.user.username,
+                'fullname':player.user.get_full_name(),
+                'stats': "WINS: {} | LOSSES: {}".format(player.total_wins, player.total_losses),
+            }
+            Players.append(player_i)
+    response_json = {'Games': Games, 'Players':Players}
     return HttpResponse(json.dumps(response_json), content_type='application/json')
 
 

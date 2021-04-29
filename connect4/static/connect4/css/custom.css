@@ -399,7 +399,6 @@ input[type="email"] {
     border-color: initial;
 }
 
-
 .name {
     font-size: calc(100% + 1.2vw + 1.2vh) !important;
     font-weight: 600;
@@ -407,6 +406,19 @@ input[type="email"] {
     padding-bottom: 2.6vh !important;
     font-family: FuturaItalic;
     color: white !important;
+}
+
+.online-button {    
+    border: 1px solid black !important;
+    height: 7vh;
+    width: 7vh;
+    border-radius: 35px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.online-button :hover {    
+    border: 4px solid black !important;
 }
 
 .arena-name-span {
