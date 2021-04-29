@@ -27,7 +27,8 @@ SECRET_KEY = 'y6e%*&%h-6@f9u)o9ej+@211%cw0ks#ye5#=k$n3l5v50@(eop'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['3.95.186.205']
+MEDIA_ROOT = os.path.join(BASE_DIR, 'images/')
 
 
 # Application definition
@@ -101,8 +102,10 @@ WSGI_APPLICATION = 'webapps.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'django',
+        'USER': 'admin',
+        'PASSWORD':'password',
     }
 }
 
@@ -144,3 +147,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')

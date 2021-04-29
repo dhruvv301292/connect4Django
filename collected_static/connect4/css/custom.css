@@ -1,0 +1,922 @@
+h1 {
+    font-size: 1rem;
+}
+
+@media (min-width: 544px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    /*1rem = 16px*/
+}
+
+@media (min-width: 544px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    /*1rem = 16px*/
+}
+
+@media (min-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    /*1rem = 16px*/
+}
+
+@media (min-width: 992px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    /*1rem = 16px*/
+}
+
+@media (min-width: 1200px) {
+    h1 {
+        font-size: 3rem;
+    }
+
+    /*1rem = 16px*/
+}
+
+@media (min-width: 950px) and (max-width: 1100px) {
+    h1 {
+        font-size: 2.75rem;
+    }
+}
+
+:root {
+    --profile-border: #000000;
+    --player1-color: #FF1E4E;
+    --player2-color: #00B0F0;
+}
+
+
+.container-fluid {
+    height: 92.6vh;
+    overflow: auto;
+}
+
+.container-fluid-header {
+    height: 7vh;
+    overflow: visible;
+}
+
+.rounded {
+    border-radius: 0.5rem !important;
+}
+
+.rounded-top {
+    border-top-left-radius: 0.25rem !important;
+    border-top-right-radius: 0.25rem !important;
+}
+
+.rounded-bottom {
+    border-bottom-left-radius: 0.25rem !important;
+    border-bottom-right-radius: 0.25rem !important;
+}
+
+.border-p1 {
+    border-width: 0.7vh !important;
+    border-color: var(--player1-color) !important;
+    border-radius: 2vh !important;
+}
+
+.border-my-color {
+    border-width: 0.6vh !important;
+    border-color: var(--profile-border) !important;
+    border-radius: 1.5vh !important;
+}
+
+.border-p2 {
+    border-width: 0.7vh !important;
+    border-color: var(--player2-color) !important;
+    border-radius: 2vh !important;
+}
+
+.border-leader {
+    border-width: 0.5vh !important;
+    border-color: black !important;
+    border-radius: 2vh !important;
+}
+
+.border-leader-self {
+    border-width: 0.5vh !important;
+    border-color: white !important;
+    border-radius: 2vh !important;
+}
+
+.border-bottom {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.border-top {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+.border-profile {
+    border-width: 0.5em !important;
+    border-color: var(--profile-border) !important;
+    border-radius: 2em !important;
+    border-top-left-radius: 0% !important;
+    border-bottom-left-radius: 0% !important;
+}
+
+.game-image {
+    height: 29vh;
+    width: 16.7vw;
+    background-color: white;
+}
+
+.game-image-spectator {
+    height: 29vh;
+    width: 16.7vw;
+    background-color: white;
+    overflow:hidden;
+}
+
+.banner-image-login {    
+    width: 65vw !important;  
+    padding-top: 1%; 
+    padding-left: 0%;
+    padding-right: 0%;
+    padding-bottom: 0%;
+}
+
+.banner-image-pages {    
+    width: 20vw !important;  
+    padding-top: 1.1%; 
+    padding-left: 2%;
+    padding-right: 0%;
+    padding-bottom: 0%;
+    overflow:hidden;
+}
+
+.h-8 {
+    height: 11.5%;
+}
+
+.h-10 {
+    height: 10%;
+}
+
+.h-12 {
+    height: 11%;
+}
+
+.h-15 {
+    height: 15%;
+}
+
+.h-20 {
+    height: 20%;
+}
+
+.h-35 {
+    height: 35%;
+}
+
+.h-30 {
+    height: 30%;
+}
+
+.h-40 {
+    height: 40%;
+}
+
+.h-45 {
+    height: 45%;
+}
+
+.h-60 {
+    height: 60%;
+}
+
+.h-70 {
+    height: 70%;
+}
+
+.h-80 {
+    height: 80%;
+}
+
+.h-90 {
+    height: 90%;
+}
+
+.pt-10 {
+    padding-top: 4%;
+}
+
+.p-skull {
+    padding-bottom: 2vh;
+    padding-left: 2vh;
+    padding-right: 0;
+}
+
+.profile-size {
+    height: 28vh;
+    width: 14vw;
+    overflow: hidden;
+}
+
+.color-button {
+    font-family: Futura;
+    border-width: 0.4vh;
+    border-color: black;
+    font-size: 2.8vh;
+    border-radius: 4vh;
+    width: 14vw;
+    height: 8vh;
+    background: white;
+}
+
+.color-button:hover {
+    font-family: Futura;
+    border: none;
+    font-size: 3.2vh;
+    color: white;
+    border-radius: 4vh;
+    width: 14vw;
+    height: 8vh;
+    background: #FF1E4E;
+}
+
+.red-color-button {
+    font-family: Futura;
+    border: none;
+    font-size: 3vh;
+    border-radius: 4vh;
+    width: 14vw;
+    height: 8vh;
+    background: #FF1E4E;
+    color: white;
+}
+
+.red-color-button:hover {
+    font-family: Futura;
+    border: none;
+    font-size: 3.4vh;
+    color: white;
+    border-radius: 4vh;
+    width: 14vw;
+    height: 8vh;
+    background: black;
+}
+
+.start-button {
+    font-family: Futura;
+    border: none;
+    font-size: 2.5vh;
+    border-radius: 4vh;
+    width: 8vw;
+    height: 6vh;
+    background: white;
+}
+
+.start-button:hover {
+    font-family: Futura;
+    border: none;
+    font-size: 2.8vh;
+    color: white;
+    border-radius: 4vh;
+    width: 8vw;
+    height: 6vh;
+    background: #FF1E4E;
+}
+
+.start-button-black {
+    font-family: Futura;
+    border: none;
+    font-size: 2.5vh;
+    border-radius: 4vh;
+    width: 8vw;
+    height: 6vh;
+    background: black;
+    color: white;
+}
+
+.start-button-black:hover {
+    font-family: Futura;
+    border: none;
+    font-size: 2.8vh;
+    color: white;
+    border-radius: 4vh;
+    width: 8vw;
+    height: 6vh;
+    background: #FF1E4E;
+}
+
+.reset-button {
+    font-family: Futura;
+    border-width: 0.4vh;
+    border-color: black;
+    font-size: 2.2vh;
+    color: white;
+    background: #C00000;
+    border-radius: 4vh;
+    width: 6vw;
+    height: 6vh;
+}
+
+.reset-button:hover {
+    font-family: Futura;
+    border-width: 0.6vh;
+    border-color: black;
+    font-size: 2.3vh;
+    color: black;
+    background: #C00000;
+    border-radius: 4vh;
+    width: 6vw;
+    height: 6vh;
+}
+
+.hidden-input {
+    display: none;
+}
+
+label {
+    font-family: Futura; 
+    font-size: 2.8vh;
+}
+
+input[type="color"] {
+	-webkit-appearance: none;
+    border-radius: 100%;
+	border: none;
+	width: 4vh;
+	height: 4vh;
+    background-color: white;    
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+    background-color: white;
+    border: none;
+}
+input[type="color"]::-webkit-color-swatch {
+	border-radius: 100%;
+    border: none;
+}
+
+input[type="text"] {
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    background-color: white;
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    padding: 0.5%;
+    border-width: 2%;    
+    border-color: initial;
+}
+
+input[type="password"] {
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;    
+    background-color: white;
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    padding: 0.5%;
+    border-width: 2%;    
+    border-color: initial;
+}
+
+input[type="email"] {
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;    
+    background-color: white;
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    padding: 0.5%;
+    border-width: 2%;    
+    border-color: initial;
+}
+
+.name {
+    font-size: calc(100% + 1.2vw + 1.2vh) !important;
+    font-weight: 600;
+    padding-left: 1.5vh;
+    padding-bottom: 2.6vh !important;
+    font-family: FuturaItalic;
+    color: white !important;
+}
+
+.online-button {    
+    border: 1px solid black !important;
+    height: 7vh;
+    width: 7vh;
+    border-radius: 35px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.online-button :hover {    
+    border: 4px solid black !important;
+}
+
+.arena-name-span {
+    font-family: FuturaExtraBold; 
+    text-transform:uppercase; 
+    font-size: 7vh; 
+    line-height: 7vh; 
+    color: white;
+    overflow: hidden;
+}
+
+.arena-vs {
+    font-family: FuturaExtraBold; 
+    text-transform: uppercase; 
+    font-size: calc(50% + 2vh + 1vw); 
+    line-height: 7vh;
+    color: #FF1E4E;
+}
+
+.name-spectator-player2 {
+    font-size: calc(100% + 1.3vw + 1.3vh) !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;    
+    font-family: FuturaExtraBold;
+    color: black !important;
+    text-transform: uppercase;
+}
+
+.name-spectator-player2-turn {
+    font-size: calc(100% + 2vw + 2vh) !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;    
+    font-family: FuturaExtraBold;
+    color: var(--player2-color) !important;
+    text-transform: uppercase;
+}
+
+.name-spectator-player1 {
+    font-size: calc(100% + 1.3vw + 1.3vh) !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;    
+    font-family: FuturaExtraBold;
+    color: black !important;
+    text-transform: uppercase;
+}
+
+.name-spectator-player1-turn {
+    font-size: calc(100% + 2vw + 2vh) !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;    
+    font-family: FuturaExtraBold;
+    color: var(--player1-color) !important;
+    text-transform: uppercase;
+}
+
+.name-top {
+    font-size: calc(100% + 0.1vw + 0.1vh) !important;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: black !important;
+}
+
+.pad-0 {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.pad-0-col {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.p1bg {
+    background: var(--player1-color) !important;
+}
+
+.p2bg {
+    background: var(--player2-color) !important;
+}
+
+.info {
+    font-size: calc(100% + 0.1vw + 0.1vh) !important;
+    padding-left: 1.0em !important;;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: white !important;
+}
+
+/* Board CSS */
+
+body {
+    margin: 0;
+    font-family: "Helvetica", "Verdana", "Roboto", sans-serif;
+}
+
+h1 {
+    margin: 0 0 15px;
+    padding: 15px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: normal;
+    text-align: center;
+    background-color: #1f90ff;
+}
+
+form {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.board {
+    position: relative;
+    width: 550px;
+    height: 550px;
+}
+
+.field {
+    position: absolute;
+    top: 0;
+    left: 15px;
+    box-sizing: border-box;
+    width: 520px;
+    height: 535px;
+    overflow: hidden;
+    cursor: not-allowed;
+}
+
+.grid {
+    display: inline-flex;
+    flex-flow: column wrap;
+    position: relative;
+    min-width: 520px;
+    height: 460px;
+    counter-reset: player 1;
+}
+
+.column {
+    display: inline-flex;
+    flex-flow: column wrap;
+    height: 460px;
+}
+
+.front {
+    position: absolute;
+    top: 20px;
+    border: 10px solid #007fff;
+    border-radius: 4px;
+    box-sizing: border-box;
+    width: 450px;
+    height: 390px;
+    pointer-events: none;
+    background: radial-gradient(circle, transparent, transparent 18px, #007221 20px, #e100ff 23px, #ff1f7c 23px, #ff1f1f 36px, #ffee00) center top/60px 60px;
+}
+
+/* Invisible inputs */
+
+
+
+/* Disc */
+
+.disc {
+    position: relative;
+    top: 0;
+    width: 60px;
+    height: 60px;
+    color: #fff;
+    background: radial-gradient(circle, currentcolor 12px, #666 13px, currentcolor 14px, currentcolor 21px, #666 22px, transparent 23px, transparent) center/60px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s, top 0s 0.2s, color 0s 0.2s;
+}
+
+.top-disc-p1 {
+    size: calc(100% + 30vw + 30vh);
+    color: white !important;
+}
+
+.disc-disabled {
+    size: calc(100% + 30vw + 30vh);
+    color: white !important;
+}
+
+.top-disc-p2 {
+    size: calc(100% + 30vw + 30vh);
+    color: white !important;
+}
+
+.filled-disc {
+    size: calc(100% + 0.8vw + 0.8vh);
+    color: #FF1E4E !important;
+}
+
+.filled-red-disc {
+    size: calc(100% + 0.8vw + 0.8vh);
+    color: var(--player1-color) !important;
+}
+
+.filled-blue-disc {
+    size: calc(100% + 0.8vw + 0.8vh);
+    color: var(--player2-color) !important;
+}
+
+.top-disc-p1:hover {
+    color: var(--player1-color) !important;
+}
+
+.top-disc-p2:hover {
+    color: var(--player2-color) !important;
+}
+
+.board-disc-p1 {
+    color: white !important;
+}
+
+.board-disc-p1:hover {
+    color: var(--player1-color) !important;
+}
+
+.board-disc-p2 {
+    color: white !important;
+}
+
+.board-disc-p2:hover {
+    color: var(--player2-color) !important;
+}
+
+.round-top-left {
+    border-top-left-radius: 1.5rem;
+}
+
+.round-top-right {
+    border-top-right-radius: 1.5rem;
+}
+
+.round-bottom-right {
+    border-bottom-right-radius: 1.5rem;
+}
+
+.round-bottom-left {
+    border-bottom-left-radius: 1.5rem;
+}
+
+@font-face {
+    font-family: 'FuturaExtraBold';
+    src: local('FuturaExtraBold'),
+    url('../fonts/Futura-CondensedExtraBold-05.ttf') format("truetype");
+}
+
+@font-face {
+    font-family: 'FuturaItalic';
+    src: local('FuturaItalic'),
+    url('../fonts/Futura-MediumItalic-02.ttf') format("truetype");
+}
+
+@font-face {
+    font-family: 'Futura';
+    src: local('Futura'),
+    url('../fonts/Futura-Medium-01.ttf') format("truetype");
+}
+
+@font-face {
+    font-family: 'FuturaBoldItalic';
+    src: local('FuturaBoldItalic'),
+    url('../fonts/Futura Bold Italic.otf') format("truetype");
+}
+
+.cross-button {
+    color: white;
+}
+
+.cross-button-black {
+    color: black;
+}
+
+.cross-button:hover {
+    color: #FF1E4E;
+}
+
+.cross-button-black:hover {
+    color: #FF1E4E;
+}
+
+.quit-button {
+    color: white;
+}
+
+.quit-button:hover {
+    color: black;
+}
+
+.turn-text {
+    font-size: 3.3vh;
+    line-height: 10vh;
+    font-family: 'Futura';
+}
+
+.modal-result-text {
+    font-size: 8vh;
+    font-family: 'Futura';
+}
+
+.timer-text {
+    font-size: 7vh;
+    line-height: 10vh;
+    font-family: 'FuturaItalic';
+}
+
+.bg-timer {
+    background: #F2F2F2;
+}
+
+@keyframes tada {
+    0% {
+        transform: scale(1);
+    }
+    10%, 20% {
+        transform: scale(0.9) rotate(-3deg);
+    }
+    30%, 50%, 70%, 90% {
+        transform: scale(1.1) rotate(3deg);
+    }
+    40%, 60%, 80% {
+        transform: scale(1.1) rotate(-3deg);
+    }
+    100% {
+        transform: scale(1) rotate(0);
+    }
+}
+
+@-webkit-keyframes tada {
+    0% {
+        -webkit-transform: scale(1);
+    }
+    10%, 20% {
+        -webkit-transform: scale(0.9) rotate(-3deg);
+    }
+    30%, 50%, 70%, 90% {
+        -webkit-transform: scale(1.1) rotate(3deg);
+    }
+    40%, 60%, 80% {
+        -webkit-transform: scale(1.1) rotate(-3deg);
+    }
+    100% {
+        -webkit-transform: scale(1) rotate(0);
+    }
+}
+
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.tada {
+    -webkit-animation-name: tada;
+    animation-name: tada;
+}
+
+.result-modal {
+    height: 35vh;
+    width: 40vw;
+}
+
+.leader-image {
+    height: 10vh;
+    width: 10vh;
+}
+
+
+
+/******************Chat box************************/
+
+.incoming_msg_img {
+    display: inline-block;
+    width: 6%;
+}
+
+.incoming_msg_img img {
+    width: 100%;
+}
+
+.received_msg {
+    display: inline-block;
+    padding: 0 0 0 10px;
+    vertical-align: top;
+    width: 92%;
+}
+
+.received_withd_msg p {
+    background: #ebebeb none repeat scroll 0 0;
+    border-radius: 0 15px 15px 15px;
+    color: #646464;
+    font-size: 14px;
+    margin: 0;
+    padding: 5px 10px 5px 12px;
+    width: 100%;
+}
+
+
+.received_withd_msg {
+    width: 57%;
+}
+
+.mesgs {
+    float: left;
+    padding: 30px 15px 0 25px;
+    width: 95%;
+    height: 100%
+}
+
+.sent_msg p {
+    background: #0465ac;
+    border-radius: 12px 15px 15px 0;
+    font-size: 14px;
+    margin: 0;
+    color: #fff;
+    padding: 5px 10px 5px 12px;
+    width: 100%;
+}
+
+.outgoing_msg {
+    overflow: hidden;
+    margin: 26px 0 26px;
+}
+
+.sent_msg {
+    float: right;
+    width: 46%;
+}
+
+.input_msg_write input {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: medium none;
+    color: #4c4c4c;
+    font-size: 15px;
+    min-height: 48px;
+    width: 90%;
+    outline: none;
+}
+
+.type_msg {
+    border-top: 1px solid #c4c4c4;
+    bottom: 10px;
+    right: 0;
+    left: 0;
+    position: absolute;
+    padding-right:10%;
+
+}
+
+.msg_send_btn {
+    background: #05728f none repeat scroll 0 0;
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    font-size: 15px;
+    height: 33px;
+    position: absolute;
+    right: 1%;
+    top: 11px;
+    width: 33px;
+}
+
+.messaging {
+    padding: 0 0 50px 0;
+}
+
+.msg_history {
+	height: 90%;
+    width:90%;
+    position:absolute;
+	overflow-y: scroll;
+}
+.sender_name {
+	color: #eeeeee;
+	font-size: 12px;
+	margin: 8px 0 0;
+}
+
+.bootstrap-growl {
+    font-family: Futura;
+    font-size: calc(100% + 0.1vw + 0.1vh) !important;
+    color: white;
+    background-color: #FF1E4E;
+}
+
+.popover-body {
+    background-color: white;
+    font-size: 16px;
+    font-weight: bolder;    
+}
+
+.popover-header {
+    font-family: Futura;
+    font-size: 20px;    
+    color: white;    
+    background-color: #FF1E4E;
+}

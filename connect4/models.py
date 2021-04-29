@@ -6,8 +6,7 @@ from django.contrib.auth.models import User
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT)
-    image = models.ImageField(default='connect4/static/connect4/images/profile.jpg',
-                             upload_to="connect4/static/connect4/images", blank=True)
+    image = models.ImageField(default='profile.jpg', blank=True)
     content_type = models.CharField(max_length=50, default='image/jpeg', blank=True)
     primary_color = models.CharField(max_length=7, default='#F53E37')
     secondary_color = models.CharField(max_length=7, blank=True)
