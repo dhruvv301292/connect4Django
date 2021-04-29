@@ -9,3 +9,4 @@ migrations
 .vscode
 images
 logs
+config.ini
