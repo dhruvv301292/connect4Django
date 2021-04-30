@@ -21,6 +21,8 @@ from connect4.models import *
 from connect4.game import Connect4Game, Connect4GameError, GameState
 from connect4.forms import LoginForm, RegisterForm, ProfileForm
 
+import random
+
 
 def update_last_seen(func):
     """Decorator for updating the last seen of a player
@@ -94,9 +96,17 @@ def challenge_opponent(request):
    
     Player1 = Profile.objects.get(user_id=request.user.id)
     Player2 = Profile.objects.get(user__username=request.POST["player_2_username"])
-    new_game = GameObject(board=board, player1=Player1, player2=Player2, player1_color=Player1.primary_color,
-                          player2_color=Player2.primary_color, outcome=None, game_over=None, moves_played=0,
-                          created_time=datetime.datetime.now())
+    if Player1.primary_color != Player2.primary_color:
+        new_game = GameObject(board=board, player1=Player1, player2=Player2, player1_color=Player1.primary_color,
+                            player2_color=Player2.primary_color, outcome=None, game_over=None, moves_played=0,
+                            created_time=datetime.datetime.now())
+    else:
+        random_number = random.randint(0,16777215)
+        hex_number = str(hex(random_number))
+        hex_color ='#'+ hex_number[2:]
+        new_game = GameObject(board=board, player1=Player1, player2=Player2, player1_color=Player1.primary_color,
+                            player2_color=hex_color, outcome=None, game_over=None, moves_played=0,
+                            created_time=datetime.datetime.now())
     Player2.hasChallenge = Player1.user.username
     Player2.save()
     new_game.save()
@@ -578,8 +588,13 @@ def add_player(request):
 
     player2_profile = Profile.objects.get(user__username=request.POST['username'])
     game.player2 = player2_profile
-    if player2_profile.primary_color:
+    if player2_profile.primary_color != game.player1_color:
         game.player2_color = player2_profile.primary_color
+    else:
+        random_number = random.randint(0,16777215)
+        hex_number = str(hex(random_number))
+        hex_color ='#'+ hex_number[2:]
+        game.player2_color = hex_color
     game.save()
     return get_games(request)
 
