@@ -286,6 +286,8 @@ def start_enter_game(request, game_id):
     if request.user.username in [game.player1.user.username, game.player2.user.username]:
         return render(request, 'connect4/game.html', context)
     else:
+        context['p1_displayname'] = game.player1.user.username[:10]
+        context['p2_displayname'] = game.player2.user.username[:10]
         logging.info("Returning spectator view")
         return render(request, 'connect4/spectator.html', context)
 

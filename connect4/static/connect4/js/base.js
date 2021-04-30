@@ -228,9 +228,9 @@ function getButton(game) {
         } else {
             let result = "No Result";
             if (game.outcome == 1) {
-                result = game.p1_username + " won!";
+                result = game.p1_username.substring(0,10) + " won!";
             } else if (game.outcome == 2) {
-                result = game.p2_username + " won!";
+                result = game.p2_username.substring(0,10) + " won!";
             }
             return '<div class="col-3 d-flex flex-wrap align-items-center" id="id_game_'+ game.id +'_start"><span class="pad-0" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh; color:#F9C10B">' + result + '</span></div><div class="col-1 d-flex flex-wrap align-items-center" id="id_game_'
             + game.id +'_delete"><button onclick="deleteGame('+game.id+')" class="btn px-0 py-0 float-right"><span class="fa fa-times-circle fa-3x cross-button"></span></button></div></div></li>'            
@@ -250,9 +250,9 @@ function getButton(game) {
         } else if (game.game_over == true) {
             let result = "No Result";
             if (game.outcome == 1) {
-                result = game.p1_username + " won!";
+                result = game.p1_username.substring(0,10) + " won!";
             } else if (game.outcome == 2) {
-                result = game.p2_username + " won!";
+                result = game.p2_username.substring(0,10) + " won!";
             }
             return '<div class="col-3 d-flex flex-wrap align-items-center" id="id_game_'+ game.id +'_start"><span class="pad-0" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh; color:#F9C10B">' + result + '</span></div><div class="col-1 d-flex flex-wrap align-items-center" id="id_game_'
             + game.id +'_delete"><button onclick="deleteGame('+game.id+')" class="btn px-0 py-0 float-right"><span class="fa fa-times-circle fa-3x cross-button"></span></button></div></div></li>'
@@ -266,9 +266,9 @@ function getButton(game) {
         } else {
             let result = "No Result";
             if (game.outcome == 1) {
-                result = game.p1_username + " won!";
+                result = game.p1_username.substring(0,10) + " won!";
             } else if (game.outcome == 2) {
-                result = game.p2_username + " won!";
+                result = game.p2_username.substring(0,10) + " won!";
             }
             return '<div class="col-3 d-flex flex-wrap align-items-center" id="id_game_'+ game.id +'_start"><span class="pad-0" style="font-family: FuturaItalic; text-transform:uppercase; font-size: 4vh; line-height: 4vh; color:#F9C10B">' + result + '</span></div></div></li>'            
         }            
@@ -364,11 +364,11 @@ function updateGameView(response) {
      *
      **/
     if (response.outcome == 1) {
-        let outcome_string = player1 + " wins!";
+        let outcome_string = player1.substring(0,10) + " wins!";
         $('#id_modal_text').text(outcome_string);
         $("#id_result_modal").modal();
     } else if (response.outcome == 2) {
-        let outcome_string = player2 + " wins!";
+        let outcome_string = player2.substring(0,10) + " wins!";
         $('#id_modal_text').text(outcome_string);
         $("#id_result_modal").modal();
     } else if (response.outcome == 3) {
@@ -393,7 +393,7 @@ function updateGameView(response) {
             $('#id_turn_div').empty().text("Your turn").css("color", "white").css("font-size", "3.3vh").css("text-transform", "uppercase").removeClass(['bg-success', 'bg-timer', 'bg-danger', 'animated', 'tada']).addClass('bg-success');
         } else {
             $( "i[id^='topdisc']" ).removeClass(['top-disc-p2', 'top-disc-p1', 'disc-disabled']).addClass('disc-disabled');
-            let turn_string = (response.turn + "'S TURN").toUpperCase();
+            let turn_string = (response.turn.substring(0,10) + "'S TURN").toUpperCase();
             $('#id_turn_div').empty().text(turn_string).css("color", "black").css("font-size", "3.0vh").css("text-transform", "uppercase").removeClass(['bg-success', 'bg-timer', 'bg-danger', 'animated', 'tada']).addClass('bg-timer');            
         }       
     } else if (myUserName === player2) {
@@ -408,7 +408,7 @@ function updateGameView(response) {
             $('#id_turn_div').empty().text("Your turn").css("color", "white").css("font-size", "3.3vh").css("text-transform", "uppercase").removeClass(['bg-success', 'bg-timer', 'bg-danger', 'animated', 'tada']).addClass('bg-success');            
         } else {
             $( "i[id^='topdisc']" ).removeClass(['top-disc-p2', 'top-disc-p1', 'disc-disabled']).addClass('disc-disabled');
-            let turn_string = (response.turn + "'S TURN").toUpperCase();
+            let turn_string = (response.turn.substring(0,10) + "'S TURN").toUpperCase();
             $('#id_turn_div').empty().text(turn_string).css("color", "black").css("font-size", "3.0vh").removeClass(['bg-success', 'bg-timer', 'bg-danger', 'animated', 'tada']).addClass('bg-timer');                        
         }
     } else {
@@ -480,7 +480,7 @@ function getCSRFToken() {
 
 function enablePopup(response) {  
     if (response['challenger'] != null) {
-        $.bootstrapGrowl("You've been challenged by " + response['challenger'], {            
+        $.bootstrapGrowl("You've been challenged by " + response['challenger'].substring(0,10), {            
             offset: {from: "bottom", amount: 50}, 
             delay: 7500,
             allow_dismiss: true,

@@ -32,14 +32,14 @@
                              class="img-fluid game-image-spectator border border-p1 mx-auto" alt="player1">
                         </div>
                         <div class="row h-40">                            
-                            <span id="id_spectator_p1" class="name-spectator-player1 mx-auto">{{ player1.user.username }}</span>                            
+                            <span id="id_spectator_p1" class="name-spectator-player1 mx-auto">{{ p1_displayname }}</span>                            
                         </div>                     
                     </div>                    
                 </div>                                               
                 <div class="row h-50 pad-0 align-items-end" id="opponent_div">
                     <div class="col-12 pad-0">
                         <div class="row h-40 pb-0 align-text-bottom">                            
-                            <div id="id_spectator_p2" class="name-spectator-player2 mx-auto">{{ player2.user.username }}</div>                            
+                            <div id="id_spectator_p2" class="name-spectator-player2 mx-auto">{{ p2_displayname }}</div>                            
                         </div>  
                         <div class="row h-60 pad-0">
                             <img src="{% url 'get_photo' player2.id %}" id="id_player2_image"
@@ -60,7 +60,7 @@
                     <div class="col-1 pad-0-col"></div>
                     <div class="col-11 pad-0-col">
                         <div class="row h-8 pad-0"></div>
-                        <div class="row h-12 pad-0">
+                        <!-- <div class="row h-12 pad-0">
                             <div class="col-2 pad-0"></div>
                             <div class="col-1 pad-0 d-flex flex-wrap align-items-center" onclick="add_disc(0)"><i
                                     id="topdisc_0" class="fas fa-circle fa-4x mx-auto top-disc-p1 pad-0"></i></div>
@@ -76,7 +76,7 @@
                                     id="topdisc_5" class="fas fa-circle fa-4x mx-auto top-disc-p1 pad-0"></i></div>
                             <div class="col-1 pad-0 d-flex flex-wrap align-items-center" onclick="add_disc(6)"><i
                                     id="topdisc_6" class="fas fa-circle fa-4x mx-auto top-disc-p1 pad-0"></i></div>
-                        </div>
+                        </div> -->
                         <div class="row h-12 pad-0">
                             <div class="col-2 pad-0"></div>
                             <div class="col-1 pad-0 d-flex bg-warning flex-wrap align-items-center h-100 round-top-left"
