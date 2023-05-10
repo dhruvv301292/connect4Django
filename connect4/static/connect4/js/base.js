@@ -394,7 +394,7 @@ function updateGameView(response) {
         } else {
             $( "i[id^='topdisc']" ).removeClass(['top-disc-p2', 'top-disc-p1', 'disc-disabled']).addClass('disc-disabled');
             let turn_string = (response.turn.substring(0,10) + "'S TURN").toUpperCase();
-            $('#id_turn_div').empty().text(turn_string).css("color", "black").css("font-size", "3.0vh").css("text-transform", "uppercase").removeClass(['bg-success', 'bg-timer', 'bg-danger', 'animated', 'tada']).addClass('bg-timer');            
+            $('#id_turn_div').empty().text(turn_string).css("color", "black").css("font-size", "2.5vh").css("text-transform", "uppercase").removeClass(['bg-success', 'bg-timer', 'bg-danger', 'animated', 'tada']).addClass('bg-timer');            
         }       
     } else if (myUserName === player2) {
         $('#id_player_image').removeClass(['border-p2', 'border-p1']).addClass('border-p2')
@@ -409,7 +409,7 @@ function updateGameView(response) {
         } else {
             $( "i[id^='topdisc']" ).removeClass(['top-disc-p2', 'top-disc-p1', 'disc-disabled']).addClass('disc-disabled');
             let turn_string = (response.turn.substring(0,10) + "'S TURN").toUpperCase();
-            $('#id_turn_div').empty().text(turn_string).css("color", "black").css("font-size", "3.0vh").removeClass(['bg-success', 'bg-timer', 'bg-danger', 'animated', 'tada']).addClass('bg-timer');                        
+            $('#id_turn_div').empty().text(turn_string).css("color", "black").css("font-size", "2.5vh").removeClass(['bg-success', 'bg-timer', 'bg-danger', 'animated', 'tada']).addClass('bg-timer');                        
         }
     } else {
         if (player1 === response.turn) {

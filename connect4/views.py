@@ -558,17 +558,21 @@ def forfeit_game(request):
     if request.method == 'POST':
         if 'game_identity' in request.POST:
             game = GameObject.objects.get(id=request.POST['game_identity'])
-            if request.user.username == game.player1.user.username:
+            if not game:
+                return redirect('home')
+            if request.user.username == game.player1.user.username and not game.game_over:
                 game.game_over = True
                 game.outcome = game.player2  
                 update_player_stats(game) 
                 game.save()             
                 return redirect('home')
-            elif request.user.username == game.player2.user.username:
+            elif request.user.username == game.player2.user.username and not game.game_over:
                 game.game_over = True
                 game.outcome = game.player1
                 update_player_stats(game)
                 game.save()
+                return redirect('home')
+            else:
                 return redirect('home')
 
 @login_required
